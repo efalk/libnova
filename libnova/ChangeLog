@@ -1,5 +1,11 @@
 ChangeLog
 
+20120428
+	julian_day.c
+		Removed not-needed BSD_SOURCE define
+	
+	Petr Kubanek
+
 20120111
 	utility.c:
 	utility.h:

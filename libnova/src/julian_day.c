@@ -277,16 +277,14 @@ double ln_get_julian_local_date(struct ln_zonedate* zonedate)
 * \param JD Julian day
 * \param zonedate Pointer to new calendar date.
 *
-* Calculate the zone date from the Julian day (UT). Get zone info from 
+* Calculate the zone date from the Julian day (UT). Gets zone info from 
 * system using either _timezone or tm_gmtoff fields.
 */
 void ln_get_local_date (double JD, struct ln_zonedate * zonedate)
 {
 	struct ln_date date;
-#ifdef _BSD_SOURCE
 	time_t curtime;
 	struct tm *loctime;
-#endif
 	long gmtoff;
 
 	ln_get_date (JD, &date);
@@ -298,13 +296,11 @@ void ln_get_local_date (double JD, struct ln_zonedate * zonedate)
  	if (_daylight)
  		gmtoff += 3600;
 #else
-#ifdef _BSD_SOURCE
  	curtime = time (NULL);
  	loctime = localtime(&curtime);
  	gmtoff = loctime->tm_gmtoff;
 	// otherwise there is no reasonable way how to get that:(
 	// tm_gmtoff already included DST
-#endif
 #endif
 	ln_date_to_zonedate (&date, zonedate, gmtoff);
 }
