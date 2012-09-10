@@ -1,5 +1,12 @@
 ChangeLog
 
+20120910
+	rise_set.c
+	rise_set.h
+		Added _offset functions, probably fixed #2616747.
+
+	Petr Kubanek
+
 20120428
 	julian_day.c
 		Removed not-needed BSD_SOURCE define

@@ -224,12 +224,11 @@ int heliocentric_test (void)
 
 int nutation_test (void)
 {
-	double JDE, JD;
+	double JD;
 	struct ln_nutation nutation;
 	int failed = 0;
 		
 	JD = 2446895.5;
-	JDE = ln_get_jde (JD);
 
 	ln_get_nutation (JD, &nutation);
 	failed += test_result ("(Nutation) longitude (deg) for JD 2446895.5", nutation.longitude, -0.00100561, 0.00000001);
@@ -1178,7 +1177,7 @@ int rst_test ()
 		failed += test_result ("Arcturus set bellow 20 deg minute on 2006/01/17 at (15 E,51 N)", date.minutes, 52, 0);
 	}
 
-	JD_next = rst.rise - 0.001;
+	JD_next = rst.rise - 0.002;
 	ret = ln_get_object_next_rst_horizon (JD_next, &observer, &object, 20, &rst);
 	failed += test_result ("Arcturus sometimes rise above 20 deg at 15 E, 51 N", ret, 0, 0);
 
@@ -1600,7 +1599,7 @@ int body_future_rst_test ()
 		failed += test_result ("Solar next set months at 0, 85 N", date.months, 3, 0);
 		failed += test_result ("Solar next set days at 0, 85 N", date.days, 7, 0);
 		failed += test_result ("Solar next set hour at 0 E, 85 N", date.hours, 14, 0);
-		failed += test_result ("Solar next set minute at 0, 85 N", date.minutes, 7, 0);
+		failed += test_result ("Solar next set minute at 0, 85 N", date.minutes, 8, 0);
 	}
 
 	ret = ln_get_body_next_rst_horizon_future (JD, &observer, ln_get_solar_equ_coords, 0, 300, &rst);
@@ -1611,23 +1610,23 @@ int body_future_rst_test ()
 		ln_get_date (rst.rise, &date);
 		failed += test_result ("Solar next rise years at 0, 85 N with 0 horizon", date.years, 2006, 0);
 		failed += test_result ("Solar next rise months at 0, 85 N with 0 horizon", date.months, 3, 0);
-		failed += test_result ("Solar next rise days at 0, 85 N with 0 horizon", date.days, 6, 0);
+		failed += test_result ("Solar next rise days at 0, 85 N with 0 horizon", date.days, 9, 0);
 		failed += test_result ("Solar next rise hour at 0, 85 N with 0 horizon", date.hours, 10, 0);
-		failed += test_result ("Solar next rise minute at 0, 85 N with 0 horizon", date.minutes, 19, 0);
+		failed += test_result ("Solar next rise minute at 0, 85 N with 0 horizon", date.minutes, 23, 0);
 
 		ln_get_date (rst.transit, &date);
 		failed += test_result ("Solar next transit years at 0, 85 N with 0 horizon", date.years, 2006, 0);
 		failed += test_result ("Solar next transit months at 0, 85 N with 0 horizon", date.months, 3, 0);
-		failed += test_result ("Solar next transit days at 0, 85 N with 0 horizon", date.days, 6, 0);
+		failed += test_result ("Solar next transit days at 0, 85 N with 0 horizon", date.days, 9, 0);
 		failed += test_result ("Solar next transit hour at 0 E, 85 N with 0 horizon", date.hours, 12, 0);
 		failed += test_result ("Solar next transit minute at 0 E, 85 N with 0 horizon", date.minutes, 10, 0);
 
 		ln_get_date (rst.set, &date);
 		failed += test_result ("Solar next set years at 0, 85 N with 0 horizon", date.years, 2006, 0);
 		failed += test_result ("Solar next set months at 0, 85 N with 0 horizon", date.months, 3, 0);
-		failed += test_result ("Solar next set days at 0, 85 N with 0 horizon", date.days, 6, 0);
+		failed += test_result ("Solar next set days at 0, 85 N with 0 horizon", date.days, 9, 0);
 		failed += test_result ("Solar next set hour at 0 E, 85 N with 0 horizon", date.hours, 14, 0);
-		failed += test_result ("Solar next set minute at 0, 85 N with 0 horizon", date.minutes, 7, 0);
+		failed += test_result ("Solar next set minute at 0, 85 N with 0 horizon", date.minutes, 2, 0);
 	}
 
 	return failed;
