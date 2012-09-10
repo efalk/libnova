@@ -35,6 +35,7 @@ set(LIBRARY_PUBLIC_HEADERS
 	${HEADER_PATH}/hyperbolic_motion.h
 	${HEADER_PATH}/parallax.h
 	${HEADER_PATH}/airmass.h
+	${HEADER_PATH}/heliocentric_time.h
 )
 
 add_library(${LIBRARY_NAME} 
@@ -71,6 +72,7 @@ add_library(${LIBRARY_NAME}
 	hyperbolic_motion.c
 	parallax.c
 	airmass.c
+	heliocentric_time.c
 )
 
 if(MSVC)

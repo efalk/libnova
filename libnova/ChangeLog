@@ -1,6 +1,12 @@
 ChangeLog
 
 20120910
+	CMakeLists.txt
+	src/CMakeLists.txt
+	lntest/CMakeLists.txt
+	examples/CMakeLists.txt
+		Fixed cmake build.
+
 	rise_set.c
 	rise_set.h
 		Added _offset functions, probably fixed #2616747.
