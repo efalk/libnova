@@ -16,12 +16,12 @@
  *  Copyright (C) 2009 Petr Kubanek
  */
 
+#include <math.h>
+
 #include <libnova/heliocentric_time.h>
 #include <libnova/nutation.h>
 #include <libnova/earth.h>
 #include <libnova/utility.h>
-
-#include <math.h>
 
 /*! \fn double ln_get_heliocentric_time_diff (double JD, struct ln_equ_posn * object)
 * \param JD Julian day

@@ -19,6 +19,16 @@
 #ifndef _LN_TYPES_H
 #define _LN_TYPES_H
 
+#if !defined(__WIN32__) && (defined(__WIN32) || defined(WIN32))
+#define __WIN32__
+#endif
+
+// add a specifiq macro for mingw
+#if defined(__MINGW32__) || defined(__MINGW64__)
+#define __MINGW__
+#endif
+//*/
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -336,8 +346,7 @@ struct ln_nutation
 	double ecliptic;	/*!< Mean obliquity of the ecliptic, in degrees */
 };
 
-/* Definitions of POSIX structures for Win32. */
-#ifdef __WIN32__
+#if defined(__WIN32__) && !defined(__MINGW__)
 
 #include <time.h>
 

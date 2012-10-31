@@ -23,8 +23,7 @@
 #include <libnova/julian_day.h>
 #include <libnova/utility.h>
 
-/* Standard Win32 apps do not have POSIX support. */
-#ifndef __WIN32__
+#if !defined(__WIN32__) || defined(__MINGW__)
 #include <sys/time.h>
 #endif
 
@@ -283,24 +282,24 @@ double ln_get_julian_local_date(struct ln_zonedate* zonedate)
 void ln_get_local_date (double JD, struct ln_zonedate * zonedate)
 {
 	struct ln_date date;
+#ifndef __WIN32__	
 	time_t curtime;
 	struct tm *loctime;
+#endif	
 	long gmtoff;
 
 	ln_get_date (JD, &date);
 
-	/* add day light savings time and hour angle */
+    /* add day light savings time and hour angle */
 #ifdef __WIN32__
- 	_tzset();
- 	gmtoff = _timezone;
- 	if (_daylight)
- 		gmtoff += 3600;
+	_tzset();
+	gmtoff = _timezone;
+	if (_daylight)
+		gmtoff += 3600;
 #else
  	curtime = time (NULL);
  	loctime = localtime(&curtime);
  	gmtoff = loctime->tm_gmtoff;
-	// otherwise there is no reasonable way how to get that:(
-	// tm_gmtoff already included DST
 #endif
 	ln_date_to_zonedate (&date, zonedate, gmtoff);
 }

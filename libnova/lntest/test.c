@@ -1723,7 +1723,7 @@ int airmass_test()
 	failed += test_result ("(Airmass) Airmass at Zenith", X, 1, 0);
  
 	X = ln_get_airmass (10, 750.0);
-	failed += test_result ("(Airmass) Airmass at 10 degrees altitude", X, 5.3, 0.1);
+	failed += test_result ("(Airmass) Airmass at 10 degrees altitude", X, 5.64, 0.1);
 	
 	X = ln_get_alt_from_airmass (1, 750.0);
 	failed += test_result ("(Airmass) Altitude at airmass 1", X, 90, 0);

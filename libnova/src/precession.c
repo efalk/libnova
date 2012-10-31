@@ -26,6 +26,7 @@
 
 // fixed missing *l functions
 
+#ifdef __cplusplus
 #ifndef HAVE_COSL
 #define cosl cos
 #endif
@@ -45,6 +46,7 @@
 #ifndef HAVE_ATAN2L
 #define atan2l atan2
 #endif
+#endif // __cplusplus
 
 /*
 ** Precession

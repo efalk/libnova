@@ -5432,7 +5432,8 @@ void ln_get_uranus_equ_coords (double JD, struct ln_equ_posn * position)
 */
 void ln_get_uranus_helio_coords (double JD, struct ln_helio_posn * position)
 {
-	double t, t2, t3, t4, t5;
+	double t, t2, t3, t4;
+
 	double L0, L1, L2, L3, L4;
 	double B0, B1, B2, B3;
 	double R0, R1, R2, R3, R4;
@@ -5451,7 +5452,6 @@ void ln_get_uranus_helio_coords (double JD, struct ln_helio_posn * position)
 	t2 = t * t;
 	t3 = t2 * t;
 	t4 = t3 * t;
-	t5 = t4 * t;
 	
 	/* calc L series */
 	L0 = ln_calc_series (uranus_longitude_l0, LONG_L0, t);

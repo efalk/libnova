@@ -25,7 +25,7 @@
 #include <time.h>
 // cbrt replacement
 #define cbrt(x)   pow (x,1.0/3.0)
-#endif
+#endif //! __WIN32__
 
 #ifdef __cplusplus
 extern "C" {
@@ -221,8 +221,10 @@ double LIBNOVA_EXPORT ln_interpolate5 (double n, double y1, double y2, double y3
 /* Catches calls to the POSIX gmtime_r and converts them to a related WIN32 version. */
 struct tm *gmtime_r (time_t *t, struct tm *gmt);
 
+#ifndef __MINGW__
 /* Catches calls to the POSIX gettimeofday and converts them to a related WIN32 version. */
 int gettimeofday(struct timeval *tp, struct timezone *tzp);
+#endif // !__MINGW__
 
 /* Catches calls to the POSIX strtok_r and converts them to a related WIN32 version. */
 char *strtok_r(char *str, const char *sep, char **last);

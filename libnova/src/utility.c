@@ -676,7 +676,7 @@ double ln_interpolate5 (double n, double y1, double y2, double y3, double y4, do
 
 /* This section is for Win32 substitutions. */
 #ifdef __WIN32__
-
+#ifndef __MINGW__
 /* Catches calls to the POSIX gettimeofday and converts them to a related WIN32 version. */
 int gettimeofday(struct timeval *tv, struct timezone *tz)
 {
@@ -692,11 +692,20 @@ int gettimeofday(struct timeval *tv, struct timezone *tz)
 
 	return 0;
 }
+#endif // !__MINGW__
 
 /* Catches calls to the POSIX gmtime_r and converts them to a related WIN32 version. */
 struct tm *gmtime_r (time_t *t, struct tm *gmt)
 {
-	gmtime_s (gmt, t);
+    #ifndef __MINGW__
+    gmtime_s (gmt, t);
+    #else
+    struct tm *local_gmt;
+    local_gmt = gmtime(t);
+
+    if (local_gmt != 0)
+        memcpy(gmt, local_gmt, sizeof (gmt));
+    #endif // !__MINGW__
 
 	return gmt;
 }
@@ -704,7 +713,11 @@ struct tm *gmtime_r (time_t *t, struct tm *gmt)
 /* Catches calls to the POSIX strtok_r and converts them to a related WIN32 version. */
 char *strtok_r(char *str, const char *sep, char **last)
 {
-	return strtok_s(str, sep, last);
+    #ifndef __MINGW__
+    return strtok_s(str, sep, last);
+    #else
+    return strtok(str, sep);
+    #endif // !__MINGW__
 }
 
 #endif /* __WIN32__ */

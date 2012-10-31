@@ -307,14 +307,25 @@ void ln_get_ell_body_equ_coords (double JD, struct ln_ell_orbit * orbit, struct 
 */
 double ln_get_ell_orbit_len (struct ln_ell_orbit * orbit)
 {
+    // PB_MODIF unused variable
+    // H is unused
+    /*
 	double A,G,H;
+    //*/
+    //*
+    double A,G;
+    //*/
 	double b;
 	
 	b = ln_get_ell_sminor_diam (orbit->e, orbit->a);
 	
 	A = (orbit->a + b) / 2.0;
 	G = sqrt (orbit->a * b);
-	H = (2.0 * orbit->a * b) / (orbit->a + b);
+    // PB_MODIF unused variable
+    // H is unused
+    /*
+    H = (2.0 * orbit->a * b) / (orbit->a + b);
+    //*/
 	
 	return M_PI * (( 21.0 * A - 2.0 * G - 3.0 * G) / 8.0);
 }
