@@ -1,5 +1,14 @@
 ChangeLog
 
+20121031
+	src/elliptic_motion.c
+		Fixed algorithm, use H instead of G
+	src/julian_day.c
+	lntest/test.c
+		Fixes MINGW compilation
+
+	Pascal Boye, Liam Girdwood, Petr Kubanek
+
 20120910
 	CMakeLists.txt
 	src/CMakeLists.txt

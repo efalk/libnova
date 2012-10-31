@@ -822,7 +822,7 @@ int elliptic_motion_test ()
 	failed += test_result ("(Dec) for comet Enckle   ", equ_posn.dec, 19.13924815, 0.00000001);
 	
 	l = ln_get_ell_orbit_len (&orbit);
-	failed += test_result ("(Orbit Length) for comet Enckle in AU   ", l, 10.75710334, 0.00000001);
+	failed += test_result ("(Orbit Length) for comet Enckle in AU   ", l, 10.85028112, 0.00000001);
 	
 	V = ln_get_ell_orbit_pvel (&orbit);
 	failed += test_result ("(Orbit Perihelion Vel) for comet Enckle in kms   ", V, 70.43130198, 0.00000001);
