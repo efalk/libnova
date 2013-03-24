@@ -1,5 +1,10 @@
 ChangeLog
 
+20130324
+	Fixed configure.in for automake-1.13
+
+	Asterios Dramis, Petr Kubanek
+
 20121031
 	src/elliptic_motion.c
 		Fixed algorithm, use H instead of G
