@@ -76,7 +76,7 @@
 * - Algorithms and Solutions.
 *
 * \section authors Authors
-* libnova is maintained by <A href="mailto:liam@gnova.org">Liam Girdwood</A> and <A href="mailto:petr@kubanek.net">Petr Kubanek</A>.
+* libnova is maintained by <A href="mailto:lgirdwood@gmail.com">Liam Girdwood</A> and <A href="mailto:petr@kubanek.net">Petr Kubanek</A>.
 *
 * \section thanks Thanks
 * Thanks to Jean Meeus for most of the algorithms used in this library.

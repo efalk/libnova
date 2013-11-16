@@ -1,7 +1,7 @@
 /* $Id: utility.c,v 1.18 2009-04-20 07:17:00 pkubanek Exp $
  **
  * Copyright (C) 1999, 2000 Juan Carlos Remis
- * Copyright (C) 2002 Liam Girdwood
+ * Copyright (C) 2002 Liam Girdwood <lgirdwood@gmail.com>
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Lesser General Public
