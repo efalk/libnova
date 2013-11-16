@@ -1,10 +1,10 @@
 doc: doxyfile
 	-doxygen doxyfile
 
-clean:
+clean-local:
 	rm -fr html man
 
-maintainer-clean: clean
+maintainer-clean-local: clean
 	rm -fr Makefile
 	
 EXTRA_DIST = doxyfile.in libnova-logo.jpg

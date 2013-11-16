@@ -13,7 +13,7 @@ libnovaconfig_SOURCES = \
 	libnova_config.c 
 	
 		
-INCLUDES = \
+AM_CPPFLAGS = \
 	 -Wall -I$(top_srcdir)/src
 
 lntest_LDADD = \

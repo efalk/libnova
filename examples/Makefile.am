@@ -26,7 +26,7 @@ asteroid_SOURCES = \
 transforms_SOURCES = \
 	transforms.c
 	
-INCLUDES = \
+AM_CPPFLAGS = \
 	 -Wall -I$(top_srcdir)/src
 
 lunar_LDADD = \

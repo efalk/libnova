@@ -1,5 +1,6 @@
 #!/bin/bash
-libtoolize --force
-aclocal
-automake --add-missing
-autoconf
+libtoolize -c --force
+aclocal -I m4
+autoconf -Wall
+autoheader
+automake --copy --foreign --add-missing

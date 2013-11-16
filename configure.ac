@@ -1,5 +1,8 @@
-# init autoconf (and check for presence of libnova.h)
-AC_INIT(src/libnova/libnova.h)
+AC_PREREQ(2.63)
+
+AC_INIT([libsombrero],[m4_esyscmd(./git-version-gen .tarball-version)],[lgirdwood (at) gmail (dot) com])
+
+AC_CONFIG_MACRO_DIR([m4])
 
 # Save this value here, since automake will set cflags later
 cflags_set=${CFLAGS+set}
@@ -22,16 +25,17 @@ AC_SUBST(LT_RELEASE)
 VERSION=$LIBNOVA_VERSION
 PACKAGE=libnova
 
-AM_INIT_AUTOMAKE($PACKAGE, $VERSION)
+AM_INIT_AUTOMAKE([foreign 1.11 -Wall -Wno-portability silent-rules tar-pax])
 
 # Specify a configuration file
-AC_CONFIG_HEADERS(config.h)
+AC_CONFIG_HEADERS([config.h])
 
 dnl Initialize libtool
-AM_PROG_LIBTOOL
+LT_PREREQ(2.2)
+LT_INIT
 
 dnl Initialize maintainer mode
-AM_MAINTAINER_MODE
+AM_MAINTAINER_MODE([enable])
 
 # Checks for programs.
 AC_PROG_CC
@@ -76,7 +80,7 @@ else
   AC_SUBST(LIBNOVA_MACRO_DIR)
 fi
 
-AC_OUTPUT([
+AC_CONFIG_FILES([
 Makefile
 src/Makefile
 src/libnova/Makefile
@@ -85,3 +89,5 @@ doc/Makefile
 doc/doxyfile
 examples/Makefile
 ])
+
+AC_OUTPUT
