@@ -27,19 +27,19 @@ struct year_TD
 };
 
 /* Stephenson and Houlden  for years prior to 948 A.D.*/
-static double get_dynamical_diff_sh1 (double JD);
+static double get_dynamical_diff_sh1(double JD);
 
 /* Stephenson and Houlden  for years between 948 A.D. and 1600 A.D.*/
-static double get_dynamical_diff_sh2 (double JD);
+static double get_dynamical_diff_sh2(double JD);
 
 /* Table 9.a pg 72 for years 1620..1992.*/
-static double get_dynamical_diff_table (double JD);
+static double get_dynamical_diff_table(double JD);
 
 /* get the dynamical time diff in the near past / future 1992 .. 2010 */
-static double get_dynamical_diff_near (double JD);
+static double get_dynamical_diff_near(double JD);
 
 /* uses equation 9.1 pg 73 to calc JDE for othe JD values */          
-static double get_dynamical_diff_other (double JD);
+static double get_dynamical_diff_other(double JD);
 
 
 /* dynamical time in seconds for every second year from 1620 to 1992 */
@@ -86,24 +86,24 @@ const static double delta_t[TERMS] =
  					
 
 /* Stephenson and Houlden  for years prior to 948 A.D.*/
-static double get_dynamical_diff_sh1 (double JD)
+static double get_dynamical_diff_sh1(double JD)
 {
     double TD,E;
     
     /* number of centuries from 948 */
-    E = (JD - 2067314.5) / 36525.0;
+    E =(JD - 2067314.5) / 36525.0;
     
     TD = 1830.0 - 405.0 * E + 46.5 * E * E;
-    return (TD);
+    return TD;
 }
 
 /* Stephenson and Houlden for years between 948 A.D. and 1600 A.D.*/
-static double get_dynamical_diff_sh2 (double JD)
+static double get_dynamical_diff_sh2(double JD)
 {
     double TD,t;
     
     /* number of centuries from 1850 */
-    t = (JD - 2396758.5) / 36525.0;
+    t =(JD - 2396758.5) / 36525.0;
     
     TD = 22.5 * t * t;
     return TD;
@@ -111,7 +111,7 @@ static double get_dynamical_diff_sh2 (double JD)
 
 /* Table 9.a pg 72 for years 1600..1992.*/
 /* uses interpolation formula 3.3 on pg 25 */
-static double get_dynamical_diff_table (double JD)
+static double get_dynamical_diff_table(double JD)
 {
     double TD = 0;
     double a,b,c,n;
@@ -130,14 +130,14 @@ static double get_dynamical_diff_table (double JD)
 	c = a - b;
 	n = ((JD - (2312752.5 + (730.5 * i))) / 730.5);
 	
-	TD = delta_t[i+1] + n / 2 * (a + b + n * c);
+	TD = delta_t[i + 1] + n / 2 * (a + b + n * c);
 
     return TD;
 }
 
 /* get the dynamical time diff in the near past / future 1992 .. 2010 */
 /* uses interpolation formula 3.3 on pg 25 */
-static double get_dynamical_diff_near (double JD)
+static double get_dynamical_diff_near(double JD)
 {
     double TD = 0;
     /* TD for 1990, 2000, 2010 */
@@ -150,27 +150,26 @@ static double get_dynamical_diff_near (double JD)
     c = b - a;
     
     /* get number of days since 2000 and divide by 10 years */
-	n = (JD - 2451544.5) / 3652.5; 
+	n =(JD - 2451544.5) / 3652.5; 
 	TD = delta_T[1] + (n / 2) * (a + b + n * c);
 	     
     return TD;
 } 
 
-/* uses equation 9.1 pg 73 to calc JDE for othe JD values */          
-static double get_dynamical_diff_other (double JD)
+/* uses equation 9.1 pg 73 to calc JDE for other JD values */
+static double get_dynamical_diff_other(double JD)
 {     
-    double TD;
-    double a;
+    double TD, a;
     
-    a = (JD - 2382148);
+    a = (JD - 2382148.0);
     a *= a;
 
-    TD = -15 + a / 41048480;
+    TD = -15.0 + a / 41048480.0;
        
-    return (TD);
+    return TD;
 }  
 
-/*! \fn double ln_get_dynamical_time_diff (double JD)
+/*! \fn double ln_get_dynamical_time_diff(double JD)
 * \param JD Julian Day
 * \return TD
 *
@@ -179,45 +178,45 @@ static double get_dynamical_diff_other (double JD)
 */
 /* Equation 9.1 on pg 73.
 */
-double ln_get_dynamical_time_diff (double JD)
+double ln_get_dynamical_time_diff(double JD)
 {
     double TD;
 
     /* check when JD is, and use corresponding formula */
     /* check for date < 948 A.D. */
-    if ( JD < 2067314.5 )
+    if (JD < 2067314.5)
         /* Stephenson and Houlden */
-	    TD = get_dynamical_diff_sh1 (JD);
-    else if ( JD >= 2067314.5 && JD < 2305447.5 )
+	    TD = get_dynamical_diff_sh1(JD);
+    else if (JD >= 2067314.5 && JD < 2305447.5)
 	    /* check for date 948..1600 A.D. Stephenson and Houlden */
-    	TD = get_dynamical_diff_sh2 (JD);
-	else if ( JD >= 2312752.5 && JD < 2448622.5 )
+    	TD = get_dynamical_diff_sh2(JD);
+	else if (JD >= 2312752.5 && JD < 2448622.5)
 		/* check for value in table 1620..1992  interpolation of table */
-		TD = get_dynamical_diff_table (JD);
-	else if ( JD >= 2448622.5 && JD <= 2455197.5 )
+		TD = get_dynamical_diff_table(JD);
+	else if (JD >= 2448622.5 && JD <= 2455197.5)
 		/* check for near future 1992..2010 interpolation */
-		TD = get_dynamical_diff_near (JD);       
+		TD = get_dynamical_diff_near(JD);       
 	else
 	    /* other time period outside */
-	    TD = get_dynamical_diff_other (JD);   	    
+	    TD = get_dynamical_diff_other(JD);   	    
 		    
 	return TD;
 }
       
      
-/*! \fn double ln_get_jde (double JD)
+/*! \fn double ln_get_jde(double JD)
 * \param JD Julian Day
 * \return Julian Ephemeris day 
 *     
-* Calculates the Julian Ephemeris Day (JDE) from the given julian day
+* Calculates the Julian Ephemeris Day(JDE) from the given julian day
 */     
     
-double ln_get_jde (double JD)
+double ln_get_jde(double JD)
 {
     double JDE;
-    double secs_in_day = 24 * 60 * 60;
+    double secs_in_day = 24.0 * 60.0 * 60.0;
     
-    JDE = JD +  ln_get_dynamical_time_diff (JD) / secs_in_day;
+    JDE = JD +  ln_get_dynamical_time_diff(JD) / secs_in_day;
     
     return JDE;
 }

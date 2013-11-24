@@ -28,28 +28,24 @@
 
 #define PLUTO_COEFFS 43
 
-struct pluto_argument 
-{
+struct pluto_argument {
 	double J, S, P;
 };
 
-struct pluto_longitude
-{
-	double A,B;
+struct pluto_longitude {
+	double A, B;
 };
 
-struct pluto_latitude
-{
-	double A,B;
+struct pluto_latitude {
+	double A, B;
 };
 
-struct pluto_radius
-{
-	double A,B;
+struct pluto_radius {
+	double A, B;
 };
 
 /* cache variables */
-static double cJD = 0, cL = 0, cB = 0, cR = 0;
+static double cJD = 0.0, cL = 0.0, cB = 0.0, cR = 0.0;
 
 static const struct pluto_argument argument[PLUTO_COEFFS] = {
 	{0, 0, 1},
@@ -237,13 +233,13 @@ static const struct pluto_radius radius[PLUTO_COEFFS] = {
 };
 
                 
-/*! \fn void ln_get_pluto_equ_coords (double JD, struct ln_equ_posn * position);
+/*! \fn void ln_get_pluto_equ_coords(double JD, struct ln_equ_posn *position);
 * \param JD julian Day
 * \param position Pointer to store position
 *
 * Calculates Pluto's equatorial position for the given julian day.
 */ 
-void ln_get_pluto_equ_coords (double JD, struct ln_equ_posn * position)
+void ln_get_pluto_equ_coords(double JD, struct ln_equ_posn *position)
 {
 	struct ln_helio_posn h_sol, h_pluto;
 	struct ln_rect_posn g_sol, g_pluto;
@@ -251,36 +247,36 @@ void ln_get_pluto_equ_coords (double JD, struct ln_equ_posn * position)
 	double ra, dec, delta, diff, last, t = 0;
 	
 	/* need typdef for solar heliocentric coords */
-	ln_get_solar_geom_coords (JD, &h_sol);
-	ln_get_rect_from_helio (&h_sol,  &g_sol);
+	ln_get_solar_geom_coords(JD, &h_sol);
+	ln_get_rect_from_helio(&h_sol,  &g_sol);
 	
 	do {
 		last = t;
-		ln_get_pluto_helio_coords (JD - t, &h_pluto);
-		ln_get_rect_from_helio (&h_pluto, &g_pluto);
+		ln_get_pluto_helio_coords(JD - t, &h_pluto);
+		ln_get_rect_from_helio(&h_pluto, &g_pluto);
 
 		/* equ 33.10 pg 229 */
 		a = g_sol.X + g_pluto.X;
 		b = g_sol.Y + g_pluto.Y;
 		c = g_sol.Z + g_pluto.Z;
 	
-		delta = a*a + b*b + c*c;
-		delta = sqrt (delta);
+		delta = a * a + b * b + c * c;
+		delta = sqrt(delta);
 		t = delta * 0.0057755183;
 		diff = t - last;
 	} while (diff > 0.0001 || diff < -0.0001);
 		
-	ra = atan2 (b,a);
+	ra = atan2(b, a);
 	dec = c / delta;
-	dec = asin (dec);
+	dec = asin(dec);
 
 	/* back to hours, degrees */
-	position->ra = ln_range_degrees(ln_rad_to_deg (ra));
-	position->dec = ln_rad_to_deg (dec);
+	position->ra = ln_range_degrees(ln_rad_to_deg(ra));
+	position->dec = ln_rad_to_deg(dec);
 }
 	
 	
-/*! \fn void ln_get_pluto_helio_coords (double JD, struct ln_helio_posn * position)
+/*! \fn void ln_get_pluto_helio_coords(double JD, struct ln_helio_posn *position)
 * \param JD Julian Day
 * \param position Pointer to store new heliocentric position
 *
@@ -293,7 +289,7 @@ void ln_get_pluto_equ_coords (double JD, struct ln_equ_posn * position)
 /* Chap 37. Equ 37.1
 */
 
-void ln_get_pluto_helio_coords (double JD, struct ln_helio_posn * position)
+void ln_get_pluto_helio_coords(double JD, struct ln_helio_posn *position)
 {
 	double sum_longitude = 0, sum_latitude = 0, sum_radius = 0;
 	double J, S, P;
@@ -301,7 +297,7 @@ void ln_get_pluto_helio_coords (double JD, struct ln_helio_posn * position)
 	int i;
 		
 	/* check cache first */
-	if (JD == cJD) {
+	if(JD == cJD) {
 		/* cache hit */
 		position->L = cL;
 		position->B = cB;
@@ -310,7 +306,7 @@ void ln_get_pluto_helio_coords (double JD, struct ln_helio_posn * position)
 	}
 	
 	/* get julian centuries since J2000 */
-	t = (JD - 2451545) / 36525;
+	t =(JD - 2451545.0) / 36525.0;
 	
 	/* calculate mean longitudes for jupiter, saturn and pluto */
 	J =  34.35 + 3034.9057 * t;
@@ -318,10 +314,10 @@ void ln_get_pluto_helio_coords (double JD, struct ln_helio_posn * position)
    	P = 238.96 +  144.9600 * t;
  		
 	/* calc periodic terms in table 37.A */
-	for (i=0; i < PLUTO_COEFFS; i++) {
+	for (i = 0; i < PLUTO_COEFFS; i++) {
 		a = argument[i].J * J + argument[i].S * S + argument[i].P * P;
-		sin_a = sin (ln_deg_to_rad(a));
-		cos_a = cos (ln_deg_to_rad(a));
+		sin_a = sin(ln_deg_to_rad(a));
+		cos_a = cos(ln_deg_to_rad(a));
 		
 		/* longitude */
 		sum_longitude += longitude[i].A * sin_a + longitude[i].B * cos_a;
@@ -345,26 +341,26 @@ void ln_get_pluto_helio_coords (double JD, struct ln_helio_posn * position)
 	cR = position->R;
 }
 
-/*! \fn double ln_get_pluto_earth_dist (double JD);
+/*! \fn double ln_get_pluto_earth_dist(double JD);
 * \param JD Julian day
 * \return Distance in AU
 *
 * Calculates the distance in AU between the Earth and Pluto for the
 * given julian day.
 */
-double ln_get_pluto_earth_dist (double JD)
+double ln_get_pluto_earth_dist(double JD)
 {
 	struct ln_helio_posn h_pluto, h_earth;
 	struct ln_rect_posn g_pluto, g_earth;
 	double x, y, z;
 	
 	/* get heliocentric positions */
-	ln_get_pluto_helio_coords (JD, &h_pluto);
-	ln_get_earth_helio_coords (JD, &h_earth);
+	ln_get_pluto_helio_coords(JD, &h_pluto);
+	ln_get_earth_helio_coords(JD, &h_earth);
 	
 	/* get geocentric coords */
-	ln_get_rect_from_helio (&h_pluto, &g_pluto);
-	ln_get_rect_from_helio (&h_earth, &g_earth);
+	ln_get_rect_from_helio(&h_pluto, &g_pluto);
+	ln_get_rect_from_helio(&h_earth, &g_earth);
 	
 	/* use pythag */
 	x = g_pluto.X - g_earth.X;
@@ -374,44 +370,44 @@ double ln_get_pluto_earth_dist (double JD)
 	y = y * y;
 	z = z * z;
 
-	return sqrt (x + y + z);
+	return sqrt(x + y + z);
 }
 	
-/*! \fn double ln_get_pluto_solar_dist (double JD);
+/*! \fn double ln_get_pluto_solar_dist(double JD);
 * \param JD Julian day
 * \return Distance in AU
 *
 * Calculates the distance in AU between the Sun and Pluto for the
 * given julian day.
 */ 
-double ln_get_pluto_solar_dist (double JD)
+double ln_get_pluto_solar_dist(double JD)
 {
 	struct ln_helio_posn h_pluto;
 
 	/* get heliocentric position */
-	ln_get_pluto_helio_coords (JD, &h_pluto);
+	ln_get_pluto_helio_coords(JD, &h_pluto);
 	return h_pluto.R;
 }
 	
-/*! \fn double ln_get_pluto_magnitude (double JD);
+/*! \fn double ln_get_pluto_magnitude(double JD);
 * \param JD Julian day
 * \return Visible magnitude of Pluto
 *
 * Calculate the visible magnitude of Pluto for the given
 * julian day.
 */ 
-double ln_get_pluto_magnitude (double JD)
+double ln_get_pluto_magnitude(double JD)
 {
 	double delta, r;
 	
 	/* get distances */
-	r = ln_get_pluto_solar_dist (JD);
-	delta = ln_get_pluto_earth_dist (JD);
+	r = ln_get_pluto_solar_dist(JD);
+	delta = ln_get_pluto_earth_dist(JD);
 
-	return -1.0 + 5 * log10 (r * delta);
+	return -1.0 + 5.0 * log10(r * delta);
 }
 
-/*! \fn double ln_get_pluto_disk (double JD);
+/*! \fn double ln_get_pluto_disk(double JD);
 * \param JD Julian day
 * \return Illuminated fraction of Plutos disk
 *
@@ -419,20 +415,20 @@ double ln_get_pluto_magnitude (double JD)
 * the given julian day.
 */ 
 /* Chapter 41 */
-double ln_get_pluto_disk (double JD)
+double ln_get_pluto_disk(double JD)
 {
 	double r,delta,R;	
 	
 	/* get distances */
-	R = ln_get_earth_solar_dist (JD);
-	r = ln_get_pluto_solar_dist (JD);
-	delta = ln_get_pluto_earth_dist (JD);
+	R = ln_get_earth_solar_dist(JD);
+	r = ln_get_pluto_solar_dist(JD);
+	delta = ln_get_pluto_earth_dist(JD);
 	
 	/* calc fraction angle */
-	return (((r + delta) * (r + delta)) - R * R) / (4 * r * delta);
+	return (((r + delta) * (r + delta)) - R * R) / (4.0 * r * delta);
 }
 
-/*! \fn double ln_get_pluto_phase (double JD);
+/*! \fn double ln_get_pluto_phase(double JD);
 * \param JD Julian day
 * \return Phase angle of Pluto (degrees)
 *
@@ -440,23 +436,23 @@ double ln_get_pluto_disk (double JD)
 * for the given julian day.
 */ 
 /* Chapter 41 */
-double ln_get_pluto_phase (double JD)
+double ln_get_pluto_phase(double JD)
 {
 	double i,r,delta,R;	
 	
 	/* get distances */
-	R = ln_get_earth_solar_dist (JD);
-	r = ln_get_pluto_solar_dist (JD);
-	delta = ln_get_pluto_earth_dist (JD);
+	R = ln_get_earth_solar_dist(JD);
+	r = ln_get_pluto_solar_dist(JD);
+	delta = ln_get_pluto_earth_dist(JD);
 
 	/* calc phase */
-	i = (r * r + delta * delta - R * R) / (2 * r * delta);
-	i = acos (i);
-	return ln_rad_to_deg (i);
+	i = (r * r + delta * delta - R * R) / (2.0 * r * delta);
+	i = acos(i);
+	return ln_rad_to_deg(i);
 }
 
 
-/*! \fn double ln_get_pluto_rst (double JD, struct ln_lnlat_posn * observer, struct ln_rst_time * rst);
+/*! \fn double ln_get_pluto_rst(double JD, struct ln_lnlat_posn *observer, struct ln_rst_time *rst);
 * \param JD Julian day
 * \param observer Observers position
 * \param rst Pointer to store Rise, Set and Transit time in JD
@@ -468,39 +464,41 @@ double ln_get_pluto_phase (double JD)
 * Note: this functions returns 1 if Pluto is circumpolar, that is it remains the whole
 * day either above or below the horizon.
 */
-int ln_get_pluto_rst (double JD, struct ln_lnlat_posn * observer, struct ln_rst_time * rst)
+int ln_get_pluto_rst(double JD, struct ln_lnlat_posn *observer,
+		struct ln_rst_time *rst)
 {
-	return ln_get_body_rst_horizon (JD, observer, ln_get_pluto_equ_coords, LN_STAR_STANDART_HORIZON, rst);
+	return ln_get_body_rst_horizon(JD, observer, ln_get_pluto_equ_coords,
+		LN_STAR_STANDART_HORIZON, rst);
 }
 
 
-/*! \fn double ln_get_pluto_sdiam (double JD)
+/*! \fn double ln_get_pluto_sdiam(double JD)
 * \param JD Julian day
 * \return Semidiameter in arc seconds
 *
 * Calculate the semidiameter of Pluto in arc seconds for the 
 * given julian day.
 */
-double ln_get_pluto_sdiam (double JD)
+double ln_get_pluto_sdiam(double JD)
 {
 	double So = 2.07; /* at 1 AU */
 	double dist;
 	
-	dist = ln_get_pluto_earth_dist (JD);
+	dist = ln_get_pluto_earth_dist(JD);
 	return So / dist;
 }
 	
-/*! \fn void ln_get_pluto_rect_helio (double JD, struct ln_rect_posn * position)
+/*! \fn void ln_get_pluto_rect_helio(double JD, struct ln_rect_posn *position)
 * \param JD Julian day.
 * \param position pointer to return position
 *
 * Calculate Plutos rectangular heliocentric coordinates for the
 * given Julian day. Coordinates are in AU.
 */
-void ln_get_pluto_rect_helio (double JD, struct ln_rect_posn * position)
+void ln_get_pluto_rect_helio(double JD, struct ln_rect_posn *position)
 {
 	struct ln_helio_posn pluto;
 		
-	ln_get_pluto_helio_coords (JD, &pluto);
-	ln_get_rect_from_helio (&pluto, position);
+	ln_get_pluto_helio_coords(JD, &pluto);
+	ln_get_rect_from_helio(&pluto, position);
 }

@@ -21,13 +21,16 @@
 
 #if !defined(__WIN32__) && (defined(__WIN32) || defined(WIN32))
 #define __WIN32__
+#define ALIGN32
+#else
+#define ALIGN32 __attribute__((aligned(32)))
 #endif
 
-// add a specifiq macro for mingw
+/* add a specific macro for mingw */
 #if defined(__MINGW32__) || defined(__MINGW64__)
 #define __MINGW__
 #endif
-//*/
+
 
 #ifdef __cplusplus
 extern "C" {
@@ -43,7 +46,7 @@ extern "C" {
 #  endif
 #else
 #  define LIBNOVA_EXPORT
-#endif 
+#endif
 
 /* define some useful constants if they are not already defined */
 #if(!defined(M_PI_2) && (!defined(_MSC_VER) || !defined(_USE_MATH_DEFINES)))
@@ -52,9 +55,9 @@ extern "C" {
 #define M_PI            3.1415926535897932384626433832795
 #endif
 
-/* sideral day length in seconds and days (for JD)*/
+/* sidereal day length in seconds and days (for JD)*/
 #define LN_SIDEREAL_DAY_SEC 86164.09
-#define LN_SIDEREAL_DAY_DAY LN_SIDEREAL_DAY_SEC/86400
+#define LN_SIDEREAL_DAY_DAY (LN_SIDEREAL_DAY_SEC / 86400.0)
 
 /* 1.1.2000 Julian Day & others */
 #define JD2000          2451545.0
@@ -73,8 +76,7 @@ extern "C" {
 * ln_zonedate.
 */
 
-struct ln_date
-{
+struct ln_date {
     int years; 		/*!< Years. All values are valid */
     int months;		/*!< Months. Valid values : 1 (January) - 12 (December) */
     int days; 		/*!< Days. Valid values 1 - 28,29,30,31 Depends on month.*/
@@ -93,8 +95,7 @@ struct ln_date
 * used by libnova.
 */
 
-struct ln_zonedate
-{
+struct ln_zonedate {
     int years; 		/*!< Years. All values are valid */
     int months;		/*!< Months. Valid values : 1 (January) - 12 (December) */
     int days; 		/*!< Days. Valid values 1 - 28,29,30,31 Depends on month.*/
@@ -110,8 +111,7 @@ struct ln_zonedate
 * Human readable Angle in degrees, minutes and seconds
 */
 
-struct ln_dms
-{
+struct ln_dms {
     unsigned short neg;         /*!< Non zero if negative */
     unsigned short degrees;   	/*!< Degrees. Valid 0 - 360 */
     unsigned short minutes;   	/*!< Minutes. Valid 0 - 59 */
@@ -124,8 +124,7 @@ struct ln_dms
 * Human readable Angle in hours, minutes and seconds
 */
 
-struct ln_hms
-{
+struct ln_hms {
     unsigned short hours;		/*!< Hours. Valid 0 - 23 */
     unsigned short minutes;		/*!< Minutes. Valid 0 - 59 */
     double seconds;				/*!< Seconds. Valid 0 - 59.9999... */
@@ -137,8 +136,7 @@ struct ln_hms
 * Human readable Equatorial Coordinates.
 */
 
-struct lnh_equ_posn
-{
+struct lnh_equ_posn {
     struct ln_hms ra;	/*!< RA. Object right ascension.*/
     struct ln_dms dec;	/*!< DEC. Object declination */
 };
@@ -149,8 +147,7 @@ struct lnh_equ_posn
 * Human readable Horizontal Coordinates.
 */
 
-struct lnh_hrz_posn
-{
+struct lnh_hrz_posn {
     struct ln_dms az;	/*!< AZ. Object azimuth. */
     struct ln_dms alt;	/*!< ALT. Object altitude. */
 };
@@ -162,8 +159,7 @@ struct lnh_hrz_posn
 * Human readable Ecliptical (or celestial) Longitude and Latitude.
 */
 
-struct lnh_lnlat_posn
-{
+struct lnh_lnlat_posn {
     struct ln_dms lng; /*!< longitude. Object longitude.*/
     struct ln_dms lat; /*!< latitude. Object latitude */
 };
@@ -177,8 +173,7 @@ struct lnh_lnlat_posn
 * Angles are expressed in degrees.
 */
 
-struct ln_equ_posn
-{
+struct ln_equ_posn {
     double ra;	/*!< RA. Object right ascension in degrees.*/
     double dec;	/*!< DEC. Object declination */
 };
@@ -191,8 +186,7 @@ struct ln_equ_posn
 * Angles are expressed in degrees.
 */
 
-struct ln_hrz_posn
-{
+struct ln_hrz_posn {
     double az;	/*!< AZ. Object azimuth. <p>
 		  0 deg = South, 90 deg = West, 180 deg = Nord, 270 deg = East */
     double alt;	/*!< ALT. Object altitude. <p> 0 deg = horizon, 90 deg = zenit, -90 deg = nadir */
@@ -207,8 +201,7 @@ struct ln_hrz_posn
 * Angles are expressed in degrees. East is positive, West negative.
 */
 
-struct ln_lnlat_posn
-{
+struct ln_lnlat_posn {
     double lng; /*!< longitude. Object longitude. */
     double lat; /*!< latitude. Object latitude */
 };
@@ -223,8 +216,7 @@ struct ln_lnlat_posn
 * Angles are expressed in degrees.
 * Radius vector is in AU.
 */
-struct ln_helio_posn
-{
+struct ln_helio_posn {
 	double L;	/*!< Heliocentric longitude */
 	double B;	/*!< Heliocentric latitude */
 	double R;	/*!< Heliocentric radius vector */
@@ -244,8 +236,7 @@ struct ln_helio_posn
 * Position is in units of AU for planets and in units of km
 * for the Moon.
 */
-struct ln_rect_posn
-{
+struct ln_rect_posn {
 	double X;	/*!< Rectangular X coordinate */
 	double Y;	/*!< Rectangular Y coordinate */
 	double Z;	/*!< Rectangular Z coordinate */
@@ -259,8 +250,7 @@ struct ln_rect_posn
 *
 * Angles are expressed in degrees.
 */
-struct ln_gal_posn
-{
+struct ln_gal_posn {
 	double l;	/*!< Galactic longitude (degrees) */
 	double b;	/*!< Galactic latitude (degrees) */
 };
@@ -272,8 +262,7 @@ struct ln_gal_posn
 *  TODO.
 * Angles are expressed in degrees.
 */
-struct ln_ell_orbit
-{
+struct ln_ell_orbit {
 	double a;	/*!< Semi major axis, in AU */
 	double e;	/*!< Eccentricity */
 	double i;	/*!< Inclination in degrees */
@@ -290,8 +279,7 @@ struct ln_ell_orbit
 *  TODO.
 * Angles are expressed in degrees.
 */
-struct ln_par_orbit
-{
+struct ln_par_orbit {
 	double q;	/*!< Perihelion distance in AU */
 	double i;	/*!< Inclination in degrees */
 	double w;	/*!< Argument of perihelion in degrees */
@@ -306,8 +294,7 @@ struct ln_par_orbit
 *  TODO.
 * Angles are expressed in degrees.
 */
-struct ln_hyp_orbit
-{
+struct ln_hyp_orbit {
 	double q;	/*!< Perihelion distance in AU */
 	double e;	/*!< Eccentricity */
 	double i;	/*!< Inclination in degrees */
@@ -324,8 +311,7 @@ struct ln_hyp_orbit
 *  
 * Angles are expressed in degrees.
 */
-struct ln_rst_time
-{
+struct ln_rst_time {
 	double rise;		/*!< Rise time in JD */
 	double set;			/*!< Set time in JD */
 	double transit;		/*!< Transit time in JD */
@@ -339,8 +325,7 @@ struct ln_rst_time
 *
 * Angles are expressed in degrees.
 */
-struct ln_nutation
-{
+struct ln_nutation {
 	double longitude;	/*!< Nutation in longitude, in degrees */
 	double obliquity;	/*!< Nutation in obliquity, in degrees */
 	double ecliptic;	/*!< Mean obliquity of the ecliptic, in degrees */

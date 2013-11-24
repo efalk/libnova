@@ -23,7 +23,7 @@
 #include <libnova/earth.h>
 #include <libnova/utility.h>
 
-/*! \fn double ln_get_heliocentric_time_diff (double JD, struct ln_equ_posn * object)
+/*! \fn double ln_get_heliocentric_time_diff(double JD, struct ln_equ_posn *object)
 * \param JD Julian day
 * \param object Pointer to object (RA, DEC) for which heliocentric correction will be caculated
 *
@@ -32,24 +32,24 @@
 * Calculate heliocentric corection for object at given coordinates and on given
 * date.
 */
-double ln_get_heliocentric_time_diff (double JD, struct ln_equ_posn *object)
+double ln_get_heliocentric_time_diff(double JD, struct ln_equ_posn *object)
 {
 	double theta, ra, dec, c_dec, obliq;
-
 	struct ln_nutation nutation;
 	struct ln_helio_posn earth;
 
-	ln_get_nutation (JD, &nutation);
-	ln_get_earth_helio_coords (JD, &earth);
+	ln_get_nutation(JD, &nutation);
+	ln_get_earth_helio_coords(JD, &earth);
 
-	theta = ln_deg_to_rad (ln_range_degrees (earth.L + 180));
-	ra = ln_deg_to_rad (object->ra);
-	dec = ln_deg_to_rad (object->dec);
-	c_dec = cos (dec);
-	obliq = ln_deg_to_rad (nutation.ecliptic);
+	theta = ln_deg_to_rad(ln_range_degrees(earth.L + 180));
+	ra = ln_deg_to_rad(object->ra);
+	dec = ln_deg_to_rad(object->dec);
+	c_dec = cos(dec);
+	obliq = ln_deg_to_rad(nutation.ecliptic);
 
-	/* L.Binnendijk Properties of Double Stars, Philadelphia, University of Pennselvania Press, pp. 228-232, 1960 */
-	return -0.0057755 * earth.R * (
-		cos (theta) * cos (ra) * c_dec
-		+ sin (theta) * (sin (obliq) * sin (dec) + cos (obliq) * c_dec * sin (ra)));
+	/* L.Binnendijk Properties of Double Stars,
+	 * Philadelphia, University of Pennselvania Press, pp. 228-232, 1960 */
+	return -0.0057755 * earth.R *
+		(cos(theta) * cos(ra) * c_dec
+		+ sin(theta) * (sin(obliq) * sin(dec) + cos(obliq) * c_dec * sin(ra)));
 }

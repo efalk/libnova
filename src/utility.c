@@ -74,38 +74,38 @@ static const char ln_version[] = LIBNOVA_VERSION;
 * Return the libnova library version number string
 * e.g. "0.4.0"
 */
-const char * ln_get_version (void)
+const char *ln_get_version(void)
 {
     return ln_version;
 }
 
 
 /* convert radians to degrees */
-double ln_rad_to_deg (double radians)
+double ln_rad_to_deg(double radians)
 {   
 	return (radians * R2D);
 }    
 
 /* convert degrees to radians */
-double ln_deg_to_rad (double degrees)
+double ln_deg_to_rad(double degrees)
 {   
 	return (degrees * D2R);
 }    
 
 /* convert hours:mins:secs to degrees */
-double ln_hms_to_deg (struct ln_hms *hms)
+double ln_hms_to_deg(struct ln_hms *hms)
 {
     double degrees;
     
-    degrees = ((double)hms->hours / 24) * 360;
-    degrees += ((double)hms->minutes / 60) * 15;
-    degrees += ((double)hms->seconds / 60) * 0.25;
+    degrees = ((double)hms->hours / 24.0) * 360.0;
+    degrees += ((double)hms->minutes / 60.0) * 15.0;
+    degrees += ((double)hms->seconds / 60.0) * 0.25;
     
     return degrees;
 }
 
 /* convert hours:mins:secs to radians */
-double ln_hms_to_rad (struct ln_hms *hms)
+double ln_hms_to_rad(struct ln_hms *hms)
 {
     double radians;
   
@@ -118,26 +118,26 @@ double ln_hms_to_rad (struct ln_hms *hms)
 
 
 /* convert degrees to hh:mm:ss */
-void ln_deg_to_hms (double degrees, struct ln_hms * hms)
+void ln_deg_to_hms (double degrees, struct ln_hms *hms)
 {
     double dtemp;
         
-    degrees = ln_range_degrees (degrees);	
+    degrees = ln_range_degrees(degrees);	
     
 	/* divide degrees by 15 to get the hours */
     dtemp = degrees / 15.0;
     hms->hours = (unsigned short)dtemp;
     
     /* multiply remainder by 60 to get minutes */
-    dtemp = 60*(dtemp - hms->hours);    
+    dtemp = 60.0 * (dtemp - hms->hours);
     hms->minutes = (unsigned short)dtemp;
     
     /* multiply remainder by 60 to get seconds */
-    hms->seconds = 60*(dtemp - hms->minutes);
+    hms->seconds = 60.0 * (dtemp - hms->minutes);
     
     /* catch any overflows */
     if (hms->seconds > 59) {
-    	hms->seconds = 0;
+    	hms->seconds = 0.0;
     	hms->minutes ++;
     }
     if (hms->minutes > 59) {
@@ -147,7 +147,7 @@ void ln_deg_to_hms (double degrees, struct ln_hms * hms)
 }
 
 /* convert radians to hh:mm:ss */
-void ln_rad_to_hms (double radians, struct ln_hms * hms)
+void ln_rad_to_hms (double radians, struct ln_hms *hms)
 {
     double degrees;
          
@@ -159,13 +159,13 @@ void ln_rad_to_hms (double radians, struct ln_hms * hms)
 
 
 /* convert dms to degrees */
-double ln_dms_to_deg (struct ln_dms *dms)
+double ln_dms_to_deg(struct ln_dms *dms)
 {
     double degrees;
     
     degrees =  fabs((double)dms->degrees);
-    degrees += fabs((double)dms->minutes / 60);
-    degrees += fabs((double)dms->seconds / 3600);
+    degrees += fabs((double)dms->minutes / 60.0);
+    degrees += fabs((double)dms->seconds / 3600.0);
 	
 	// negative ?
 	if (dms->neg)
@@ -175,7 +175,7 @@ double ln_dms_to_deg (struct ln_dms *dms)
 }
 
 /* convert dms to radians */
-double ln_dms_to_rad (struct ln_dms *dms)
+double ln_dms_to_rad(struct ln_dms *dms)
 {
     double radians;
  
@@ -191,11 +191,11 @@ double ln_dms_to_rad (struct ln_dms *dms)
 }
 
 /* convert degrees to dms */
-void ln_deg_to_dms (double degrees, struct ln_dms * dms)
+void ln_deg_to_dms (double degrees, struct ln_dms *dms)
 {
     double dtemp;
 
-    if (degrees >= 0) 
+    if (degrees >= 0.0)
 		dms->neg = 0;
 	else
 		dms->neg = 1;
@@ -204,15 +204,15 @@ void ln_deg_to_dms (double degrees, struct ln_dms * dms)
 	dms->degrees = (int)degrees;
 	
     /* multiply remainder by 60 to get minutes */
-    dtemp = 60*(degrees - dms->degrees);
+    dtemp = 60.0 * (degrees - dms->degrees);
     dms->minutes = (unsigned short)dtemp;
     
     /* multiply remainder by 60 to get seconds */
-    dms->seconds = 60*(dtemp - dms->minutes);
+    dms->seconds = 60.0 * (dtemp - dms->minutes);
     
     /* catch any overflows */
     if (dms->seconds > 59) {
-    	dms->seconds = 0;
+    	dms->seconds = 0.0;
     	dms->minutes ++;
     }
     if (dms->minutes > 59) {
@@ -222,7 +222,7 @@ void ln_deg_to_dms (double degrees, struct ln_dms * dms)
 }
 
 /* convert radians to dms */
-void ln_rad_to_dms (double radians, struct ln_dms * dms)
+void ln_rad_to_dms (double radians, struct ln_dms *dms)
 {
     double degrees = ln_rad_to_deg(radians);
     
@@ -231,7 +231,7 @@ void ln_rad_to_dms (double radians, struct ln_dms * dms)
 
 
 /* puts a large angle in the correct range 0 - 360 degrees */
-double ln_range_degrees (double angle)
+double ln_range_degrees(double angle)
 {
     double temp;
     
@@ -241,12 +241,12 @@ double ln_range_degrees (double angle)
 	temp = (int)(angle / 360);
 	if (angle < 0.0)
 	   	temp --;
-    temp *= 360;
+    temp *= 360.0;
 	return angle - temp;
 }
 
 /* puts a large angle in the correct range 0 - 2PI radians */
-double ln_range_radians (double angle)
+double ln_range_radians(double angle)
 {
     double temp;
 
@@ -263,7 +263,7 @@ double ln_range_radians (double angle)
 
 /* puts a large angle in the correct range -2PI - 2PI radians */
 /* preserve sign */
-double ln_range_radians2 (double angle)
+double ln_range_radians2(double angle)
 {
     double temp;
     
@@ -277,7 +277,7 @@ double ln_range_radians2 (double angle)
 
 
 /* add seconds to hms */
-void ln_add_secs_hms (struct ln_hms * hms, double seconds)
+void ln_add_secs_hms(struct ln_hms *hms, double seconds)
 {
     struct ln_hms source_hms;
     
@@ -289,23 +289,23 @@ void ln_add_secs_hms (struct ln_hms * hms, double seconds)
     source_hms.seconds = seconds;
     
     /* add hms to hms */
-    ln_add_hms (&source_hms, hms);
+    ln_add_hms(&source_hms, hms);
 }
 
 
 /* add hms to hms */
-void ln_add_hms (struct ln_hms * source, struct ln_hms * dest)
+void ln_add_hms(struct ln_hms *source, struct ln_hms *dest)
 {
     dest->seconds += source->seconds;
-    if (dest->seconds >= 60) {
+    if (dest->seconds >= 60.0) {
         /* carry */
 	    source->minutes ++;
-	    dest->seconds -= 60;
+	    dest->seconds -= 60.0;
 	} else {
-	    if (dest->seconds < 0) {
+	    if (dest->seconds < 0.0) {
 	        /* carry */
 		    source->minutes --;
-		    dest->seconds += 60;
+		    dest->seconds += 60.0;
 		}
 	}
 	
@@ -315,7 +315,7 @@ void ln_add_hms (struct ln_hms * source, struct ln_hms * dest)
 	    source->hours ++;
 	    dest->minutes -= 60;
 	} else {
-	    if (dest->seconds < 0) {
+	    if (dest->seconds < 0.0) {
 	        /* carry */
 		    source->hours --;
 		    dest->minutes += 60;
@@ -325,86 +325,88 @@ void ln_add_hms (struct ln_hms * source, struct ln_hms * dest)
     dest->hours += source->hours;
 }
 
-/*! \fn void ln_hequ_to_equ (struct lnh_equ_posn * hpos, struct ln_equ_posn * pos)
+/*! \fn void ln_hequ_to_equ(struct lnh_equ_posn *hpos, struct ln_equ_posn *pos)
 * \brief human readable equatorial position to double equatorial position
 * \ingroup conversion
 */
-void ln_hequ_to_equ (struct lnh_equ_posn * hpos, struct ln_equ_posn * pos)
+void ln_hequ_to_equ(struct lnh_equ_posn *hpos, struct ln_equ_posn *pos)
 {
-	pos->ra = ln_hms_to_deg (&hpos->ra);
-	pos->dec = ln_dms_to_deg (&hpos->dec);
+	pos->ra = ln_hms_to_deg(&hpos->ra);
+	pos->dec = ln_dms_to_deg(&hpos->dec);
 }
 	
-/*! \fn void ln_equ_to_hequ (struct ln_equ_posn * pos, struct lnh_equ_posn * hpos)
+/*! \fn void ln_equ_to_hequ(struct ln_equ_posn *pos, struct lnh_equ_posn *hpos)
 * \brief human double equatorial position to human readable equatorial position
 * \ingroup conversion
 */
-void ln_equ_to_hequ (struct ln_equ_posn * pos, struct lnh_equ_posn * hpos)
+void ln_equ_to_hequ(struct ln_equ_posn *pos, struct lnh_equ_posn *hpos)
 {
-	ln_deg_to_hms (pos->ra, &hpos->ra);
-	ln_deg_to_dms (pos->dec, &hpos->dec);
+	ln_deg_to_hms(pos->ra, &hpos->ra);
+	ln_deg_to_dms(pos->dec, &hpos->dec);
 }
 	
-/*! \fn void ln_hhrz_to_hrz (struct lnh_hrz_posn * hpos, struct ln_hrz_posn * pos)
+/*! \fn void ln_hhrz_to_hrz(struct lnh_hrz_posn *hpos, struct ln_hrz_posn *pos)
 * \brief human readable horizontal position to double horizontal position
 * \ingroup conversion
 */
-void ln_hhrz_to_hrz (struct lnh_hrz_posn * hpos, struct ln_hrz_posn * pos)
+void ln_hhrz_to_hrz(struct lnh_hrz_posn *hpos, struct ln_hrz_posn *pos)
 {
-	pos->alt = ln_dms_to_deg (&hpos->alt);
-	pos->az = ln_dms_to_deg (&hpos->az);
+	pos->alt = ln_dms_to_deg(&hpos->alt);
+	pos->az = ln_dms_to_deg(&hpos->az);
 }
 
-/*! \fn void ln_hrz_to_hhrz (struct ln_hrz_posn * pos, struct lnh_hrz_posn * hpos)
+/*! \fn void ln_hrz_to_hhrz(struct ln_hrz_posn *pos, struct lnh_hrz_posn *hpos)
 * \brief double horizontal position to human readable horizontal position
 * \ingroup conversion
 */
-void ln_hrz_to_hhrz (struct ln_hrz_posn * pos, struct lnh_hrz_posn * hpos)
+void ln_hrz_to_hhrz(struct ln_hrz_posn *pos, struct lnh_hrz_posn *hpos)
 {
-	ln_deg_to_dms (pos->alt, &hpos->alt);
-	ln_deg_to_dms (pos->az, &hpos->az);
+	ln_deg_to_dms(pos->alt, &hpos->alt);
+	ln_deg_to_dms(pos->az, &hpos->az);
 }
 
-/*! \fn const char * ln_hrz_to_nswe (struct ln_hrz_posn * pos);
+/*! \fn const char * ln_hrz_to_nswe(struct ln_hrz_posn *pos);
  * \brief returns direction of given azimuth - like N,S,W,E,NSW,...
  * \ingroup conversion
  */ 
-const char * ln_hrz_to_nswe (struct ln_hrz_posn * pos)
+const char *ln_hrz_to_nswe(struct ln_hrz_posn *pos)
 {
-	char * directions[] = {"S", "SSW", "SW", "SWW", "W", "NWW", "NW", "NNW", "N", "NNE", "NE", "NEE", 
-		"E", "SEE", "SE", "SSE"};
+	const char *directions[] =
+		{"S", "SSW", "SW", "SWW", "W", "NWW", "NW", "NNW",
+		"N", "NNE", "NE", "NEE", "E", "SEE", "SE", "SSE"};
+
 	return directions[(int)(pos->az / 22.5)];
 }
 	
-/*! \fn void ln_hlnlat_to_lnlat (struct lnh_lnlat_posn * hpos, struct ln_lnlat_posn * pos)
+/*! \fn void ln_hlnlat_to_lnlat(struct lnh_lnlat_posn *hpos, struct ln_lnlat_posn *pos)
 * \brief human readable long/lat position to double long/lat position
 * \ingroup conversion
 */
-void ln_hlnlat_to_lnlat (struct lnh_lnlat_posn * hpos, struct ln_lnlat_posn * pos)
+void ln_hlnlat_to_lnlat(struct lnh_lnlat_posn *hpos, struct ln_lnlat_posn *pos)
 {
-	pos->lng = ln_dms_to_deg (&hpos->lng);
-	pos->lat = ln_dms_to_deg (&hpos->lat);
+	pos->lng = ln_dms_to_deg(&hpos->lng);
+	pos->lat = ln_dms_to_deg(&hpos->lat);
 }
 	
-/*! \fn void ln_lnlat_to_hlnlat (struct ln_lnlat_posn * pos, struct lnh_lnlat_posn * hpos)
+/*! \fn void ln_lnlat_to_hlnlat(struct ln_lnlat_posn *pos, struct lnh_lnlat_posn *hpos)
 * \brief double long/lat position to human readable long/lat position
 * \ingroup conversion
 */
-void ln_lnlat_to_hlnlat (struct ln_lnlat_posn * pos, struct lnh_lnlat_posn * hpos)
+void ln_lnlat_to_hlnlat(struct ln_lnlat_posn *pos, struct lnh_lnlat_posn *hpos)
 {
-	ln_deg_to_dms (pos->lng, &hpos->lng);
-	ln_deg_to_dms (pos->lat, &hpos->lat);
+	ln_deg_to_dms(pos->lng, &hpos->lng);
+	ln_deg_to_dms(pos->lat, &hpos->lat);
 }
 
 /*
-* \fn double ln_get_rect_distance (struct ln_rect_posn * a, struct ln_rect_posn * b)
+* \fn double ln_get_rect_distance(struct ln_rect_posn *a, struct ln_rect_posn *b)
 * \param a First rectangular coordinate
 * \param b Second rectangular coordinate
 * \return Distance between a and b.
 *
 * Calculate the distance between rectangular points a and b.
 */
-double ln_get_rect_distance (struct ln_rect_posn * a, struct ln_rect_posn * b)
+double ln_get_rect_distance(struct ln_rect_posn *a, struct ln_rect_posn *b)
 {
 	double x,y,z;
 
@@ -412,11 +414,11 @@ double ln_get_rect_distance (struct ln_rect_posn * a, struct ln_rect_posn * b)
 	y = a->Y - b->Y;
 	z = a->Z - b->Z;
 	
-	x *=x;
-	y *=y;
-	z *=z;
+	x *= x;
+	y *= y;
+	z *= z;
 	
-	return sqrt (x + y + z);
+	return sqrt(x + y + z);
 }
 
 /*
@@ -426,7 +428,7 @@ double ln_get_rect_distance (struct ln_rect_posn * a, struct ln_rect_posn * b)
 *
 * Convert units of AU into light days.
 */
-double ln_get_light_time (double dist)
+double ln_get_light_time(double dist)
 {
 	return dist * 0.005775183;
 }
@@ -469,7 +471,7 @@ static char *trim(char *x)
 */
 static void skipwhite(char **s)
 {
-   while(iswhite(**s))
+   while (iswhite(**s))
         (*s)++;
 }
 
@@ -516,70 +518,71 @@ double ln_get_dec_location(char *s)
 	int dghh = 0, minutes = 0;
 	double seconds = 0.0, pos;
 	short count;
-	enum _type{
-		HOURS, DEGREES, LAT, LONG
-		}type;
+	enum {
+	HOURS, DEGREES, LAT, LONG
+	} type;
 
 	if (s == NULL || !*s)
-		return(-0.0);
+	return -0.0;
 	
 	count = strlen(s) + 1;
 	if ((ptr = (char *) alloca(count)) == NULL)
-		return (-0.0);
+	return -0.0;
 	
 	memcpy(ptr, s, count);
 	trim(ptr);
 	skipwhite(&ptr);
 	if (*ptr == '+' || *ptr == '-')
-		negative = (char) (*ptr++ == '-' ? TRUE : negative);
+	negative = (char) (*ptr++ == '-' ? TRUE : negative);
 	
 	/* the last letter has precedence over the sign */
 	if (strpbrk(ptr,"SsWw") != NULL) 
-		negative = TRUE;
+	negative = TRUE;
 	
 	skipwhite(&ptr);
 	if ((hh = strpbrk(ptr,"Hh")) != NULL && hh < ptr + 3) {
-		type = HOURS;
-		if (negative) /* if RA no negative numbers */
-			negative = FALSE;
-		} else if ((ame = strpbrk(ptr,"SsNn")) != NULL) {
-			type = LAT;
-			if (ame == ptr) /* the North/South found before data */
-				ptr++;
-			} else 
-				type = DEGREES; /* unspecified, the caller must control it */
-		if ((ptr = strtok_r(ptr,delim1, &tok_ptr)) != NULL)
-			dghh = atoi (ptr);
-		else
-			return (-0.0);
-		if ((ptr = strtok_r(NULL,delim1, &tok_ptr)) != NULL) {
-			minutes = atoi (ptr);
-			if (minutes > 59)
-				return (-0.0);
+	type = HOURS;
+	if (negative) /* if RA no negative numbers */
+		negative = FALSE;
+	} else if ((ame = strpbrk(ptr,"SsNn")) != NULL) {
+		type = LAT;
+		if (ame == ptr) /* the North/South found before data */
+			ptr++;
 		} else
-			return (-0.0);
-		
-		if ((ptr = strtok_r(NULL,delim2,&tok_ptr)) != NULL) {
-			if ((dec = strchr(ptr,',')) != NULL)
-				*dec = '.';
-			seconds = strtod (ptr, NULL);
-			if (seconds >= 60)
-				return (-0.0);
-		}
-        
-		if ((ptr = strtok(NULL," \n\t")) != NULL) {
-			skipwhite(&ptr);
-			if (*ptr == 'S' || *ptr == 'W' || *ptr == 's' || *ptr == 'W')
-				negative = TRUE;
-		}
-		
-		pos = dghh + minutes /60.0 + seconds / 3600.0;
-		if (type == HOURS && pos > 24.0)
-			return (-0.0);
-		if (type == LAT && pos > 90.0)
-			return (-0.0);
-		if (negative == TRUE)
-			pos = 0.0 - pos;
+			type = DEGREES; /* unspecified, the caller must control it */
+	if ((ptr = strtok_r(ptr,delim1, &tok_ptr)) != NULL)
+		dghh = atoi (ptr);
+	else
+		return (-0.0);
+	if ((ptr = strtok_r(NULL,delim1, &tok_ptr)) != NULL) {
+		minutes = atoi (ptr);
+		if (minutes > 59)
+			return -0.0;
+	} else
+		return -0.0;
+
+	if ((ptr = strtok_r(NULL,delim2,&tok_ptr)) != NULL) {
+		if ((dec = strchr(ptr,',')) != NULL)
+			*dec = '.';
+		seconds = strtod (ptr, NULL);
+		if (seconds >= 60.0)
+			return -0.0;
+	}
+
+	if ((ptr = strtok(NULL," \n\t")) != NULL) {
+		skipwhite(&ptr);
+		if (*ptr == 'S' || *ptr == 'W' || *ptr == 's' || *ptr == 'W')
+			negative = TRUE;
+	}
+
+	pos = dghh + minutes /60.0 + seconds / 3600.0;
+	if (type == HOURS && pos > 24.0)
+		return -0.0;
+	if (type == LAT && pos > 90.0)
+		return -0.0;
+	if (negative == TRUE)
+		pos = 0.0 - pos;
+
 	return pos;
 }
 
@@ -590,19 +593,21 @@ double ln_get_dec_location(char *s)
 *
 * Obtains a human readable location in the form: ddºmm'ss.ss"             
 */
-const char * ln_get_humanr_location(double location)
+const char *ln_get_humanr_location(double location)
 {
-    static char buf[16];
-    double deg = 0.0;
-    double min = 0.0;
-    double sec = 0.0;
-    *buf = 0;
-    sec = 60.0 * (modf(location, &deg));
-    if (sec < 0.0)
-        sec *= -1;
-    sec = 60.0 * (modf(sec, &min));
-    sprintf(buf,"%+dº%d'%.2f\"",(int)deg, (int) min, sec);
-    return buf;
+	static char buf[16];
+	double deg = 0.0;
+	double min = 0.0;
+	double sec = 0.0;
+
+	*buf = 0;
+	sec = 60.0 * (modf(location, &deg));
+	if (sec < 0.0)
+		sec *= -1.0;
+	sec = 60.0 * (modf(sec, &min));
+	sprintf(buf,"%+dº%d'%.2f\"",(int)deg, (int) min, sec);
+
+	return buf;
 }
 
 /*! \fn double ln_interpolate3 (double n, double y1, double y2, double y3)
@@ -615,9 +620,9 @@ const char * ln_get_humanr_location(double location)
 * Calculate an intermediate value of the 3 arguments for the given interpolation
 * factor.
 */
-double ln_interpolate3 (double n, double y1, double y2, double y3)
+double ln_interpolate3(double n, double y1, double y2, double y3)
 {
-	double y,a,b,c;
+	double y, a, b, c;
 	
 	/* equ 3.2 */
 	a = y2 - y1;
@@ -643,10 +648,11 @@ double ln_interpolate3 (double n, double y1, double y2, double y3)
 * Calculate an intermediate value of the 5 arguments for the given interpolation
 * factor.
 */
-double ln_interpolate5 (double n, double y1, double y2, double y3, double y4, double y5)
+double ln_interpolate5(double n, double y1, double y2, double y3,
+	double y4, double y5)
 {
-	double y,A,B,C,D,E,F,G,H,J,K;
-	double n2,n3,n4;
+	double y, A, B, C, D, E, F, G, H, J, K;
+	double n2, n3, n4;
 	
 	/* equ 3.8 */
 	A = y2 - y1;
@@ -677,6 +683,7 @@ double ln_interpolate5 (double n, double y1, double y2, double y3, double y4, do
 /* This section is for Win32 substitutions. */
 #ifdef __WIN32__
 #ifndef __MINGW__
+
 /* Catches calls to the POSIX gettimeofday and converts them to a related WIN32 version. */
 int gettimeofday(struct timeval *tv, struct timezone *tz)
 {
@@ -695,17 +702,17 @@ int gettimeofday(struct timeval *tv, struct timezone *tz)
 #endif // !__MINGW__
 
 /* Catches calls to the POSIX gmtime_r and converts them to a related WIN32 version. */
-struct tm *gmtime_r (time_t *t, struct tm *gmt)
+struct tm *gmtime_r(time_t *t, struct tm *gmt)
 {
-    #ifndef __MINGW__
-    gmtime_s (gmt, t);
-    #else
+#ifndef __MINGW__
+    gmtime_s(gmt, t);
+#else
     struct tm *local_gmt;
     local_gmt = gmtime(t);
 
     if (local_gmt != 0)
         memcpy(gmt, local_gmt, sizeof (gmt));
-    #endif // !__MINGW__
+#endif // !__MINGW__
 
 	return gmt;
 }
@@ -713,11 +720,11 @@ struct tm *gmtime_r (time_t *t, struct tm *gmt)
 /* Catches calls to the POSIX strtok_r and converts them to a related WIN32 version. */
 char *strtok_r(char *str, const char *sep, char **last)
 {
-    #ifndef __MINGW__
+#ifndef __MINGW__
     return strtok_s(str, sep, last);
-    #else
+#else
     return strtok(str, sep);
-    #endif // !__MINGW__
+#endif // !__MINGW__
 }
 
 #endif /* __WIN32__ */
@@ -726,9 +733,9 @@ char *strtok_r(char *str, const char *sep, char **last)
 #ifdef __C89_SUB__
 
 /* Simple cube root */
-double cbrt (double x)
+double cbrt(double x)
 {
-	return pow (x, 1.0/3.0);
+	return pow(x, 1.0 / 3.0);
 }
 
 #endif /* __C89_SUB__ */
@@ -736,11 +743,11 @@ double cbrt (double x)
 #if defined(__WIN32__) || defined(sun) || defined(__C89_SUB__)
 
 /* Not a Number function generator */
-double nan (const char *code)
+double nan(const char *code)
 {
 	double zero = 0.0;
 
-	return zero/0.0;
+	return zero / 0.0;
 }
 
 #endif /* defined(__WIN32__) || defined(sun) || defined(__C89_SUB__) */

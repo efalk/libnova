@@ -45,36 +45,56 @@ void usleep(int miliseconds)
 // holds number of tests
 static int test_number = 0;
 
-double compare_results (double calc, double expect, double tolerance)
+static struct timeval start, end;
+
+static void start_timer(void)
 {
-	if (calc - expect > tolerance || calc - expect < (tolerance * -1.0))
-		return (calc - expect);
-	else
-		return (0);
+	gettimeofday(&start, NULL);
 }
 
-int test_result (char * test, double calc, double expect, double tolerance)
+static void end_timer(void)
+{
+	double secs;
+
+	gettimeofday(&end, NULL);
+	secs = ((end.tv_sec * 1000000 + end.tv_usec) -
+		(start.tv_sec * 1000000 + start.tv_usec)) / 1000000.0;
+
+	fprintf(stdout, "   Time %3.1f msecs\n", secs * 1000.0);
+}
+
+static double compare_results(double calc, double expect, double tolerance)
+{
+	if (calc - expect > tolerance || calc - expect < (tolerance * -1.0))
+		return calc - expect;
+	else
+		return 0;
+}
+
+static int test_result(char *test, double calc, double expect, double tolerance)
 {
 	double diff;
 	
-	printf ("TEST %s....", test);
+	fprintf(stdout, "TEST %s....", test);
 
 	test_number++;
 	
-	diff = compare_results (calc, expect, tolerance);
+	diff = compare_results(calc, expect, tolerance);
 	if (diff) {
-		printf ("[FAILED]\n");
-		printf ("	Expected %8.8f but calculated %8.8f %0.12f error.\n\n", expect, calc, diff);
+		fprintf(stdout, "[FAILED]\n");
+		fprintf(stdout,
+			"	Expected %8.8f but calculated %8.8f %0.12f error.\n\n",
+			expect, calc, diff);
 		return 1;
 	} else {
-		printf ("[PASSED]\n");
-		printf ("	Expected and calculated %8.8f.\n\n", calc);
+		fprintf(stdout, "[PASSED]\n");
+		fprintf(stdout, "	Expected and calculated %8.8f.\n\n", calc);
 		return 0;
 	}
 }
 
 /* test julian day calculations */
-int julian_test (void)
+static int julian_test(void)
 { 
 	double JD, JD2;
 	int wday, failed = 0;
@@ -91,72 +111,86 @@ int julian_test (void)
 	date.hours = 19;
 	date.minutes = 0;
 	date.seconds = 0;
-	JD = ln_get_julian_day (&date);
-	failed += test_result ("(Julian Day) JD for 4/10/1957 19:00:00", JD, 2436116.29166667, 0.00001);
+	JD = ln_get_julian_day(&date);
+	failed += test_result("(Julian Day) JD for 4/10/1957 19:00:00",
+		JD, 2436116.29166667, 0.00001);
 
 	/* Get julian day for 27/01/333 12:00:00 */
 	date.years = 333;
 	date.months = 1;
 	date.days = 27;
 	date.hours = 12;
-	JD = ln_get_julian_day (&date);
-	failed += test_result ("(Julian Day) JD for 27/01/333 12:00:00", JD, 1842713.0, 0.1);
+	JD = ln_get_julian_day(&date);
+	failed += test_result("(Julian Day) JD for 27/01/333 12:00:00",
+		JD, 1842713.0, 0.1);
 
 	/* Get julian day for 30/06/1954 00:00:00 */
 	date.years = 1954;
 	date.months = 6;
 	date.days = 30;
 	date.hours = 0;
-	JD = ln_get_julian_day (&date);
-	failed += test_result ("(Julian Day) JD for 30/06/1954 00:00:00", JD, 2434923.5, 0.1);
+	JD = ln_get_julian_day(&date);
+	failed += test_result("(Julian Day) JD for 30/06/1954 00:00:00",
+		JD, 2434923.5, 0.1);
 
 	wday = ln_get_day_of_week(&date);
-	failed += test_result ("(Julian Day) Weekday No", wday, 3, 0.1);
+	failed += test_result("(Julian Day) Weekday No", wday, 3, 0.1);
 
 	/* Test ln_date_to_zonedate and back */
 
-	ln_date_to_zonedate (&date, &zonedate, 7200);
-	ln_zonedate_to_date (&zonedate, &date);
+	ln_date_to_zonedate(&date, &zonedate, 7200);
+	ln_zonedate_to_date(&zonedate, &date);
 
-	JD = ln_get_julian_day (&date);
+	JD = ln_get_julian_day(&date);
 
-	failed += test_result ("(Julian Day) ln_date_to_zonedate and ln_zonedate_to_date check - JD for 30/06/1954 00:00:00", JD, 2434923.5, 0.1);
+	failed += test_result("(Julian Day) ln_date_to_zonedate and "
+		"ln_zonedate_to_date check - JD for 30/06/1954 00:00:00",
+		JD, 2434923.5, 0.1);
 
-	ln_get_date (JD, &pdate);
-	failed += test_result ("(Julian Day) Day from JD for 30/06/1954 00:00:00", pdate.days, 30, 0.1);
+	ln_get_date(JD, &pdate);
+	failed += test_result("(Julian Day) Day from JD for 30/06/1954 00:00:00",
+		pdate.days, 30, 0.1);
 
-	failed += test_result ("(Julian Day) Month from JD for 30/06/1954 00:00:00", pdate.months, 6, 0.1);
+	failed += test_result("(Julian Day) Month from JD for 30/06/1954 00:00:00",
+		pdate.months, 6, 0.1);
 
-	failed += test_result ("(Julian Day) Year from JD for 30/06/1954 00:00:00", pdate.years, 1954, 0.1);
+	failed += test_result("(Julian Day) Year from JD for 30/06/1954 00:00:00",
+		pdate.years, 1954, 0.1);
 
-	failed += test_result ("(Julian Day) Hour from JD for 30/06/1954 00:00:00", pdate.hours, 0, 0.1);
+	failed += test_result("(Julian Day) Hour from JD for 30/06/1954 00:00:00",
+		pdate.hours, 0, 0.1);
 
-	failed += test_result ("(Julian Day) Minute from JD for 30/06/1954 00:00:00", pdate.minutes, 0, 0.1);
+	failed += test_result("(Julian Day) Minute from JD for 30/06/1954 00:00:00",
+		pdate.minutes, 0, 0.1);
 
-	failed += test_result ("(Julian Day) Second from JD for 30/06/1954 00:00:00", pdate.seconds, 0, 0.001);
+	failed += test_result("(Julian Day) Second from JD for 30/06/1954 00:00:00",
+		pdate.seconds, 0, 0.001);
 
-	JD = ln_get_julian_from_sys ();
+	JD = ln_get_julian_from_sys();
 
 	usleep (10000);
 
-	JD2 = ln_get_julian_from_sys ();
+	JD2 = ln_get_julian_from_sys();
 
-	failed += test_result ("(Julian Day) Diferrence between two sucessive ln_get_julian_from_sys () calls (it shall never be zero)", JD2 - JD, 1e-2/86400.0, .99e-1);
+	failed += test_result("(Julian Day) Diferrence between two successive "
+		"ln_get_julian_from_sys() calls (it shall never be zero)",
+		JD2 - JD, 1e-2/86400.0, .99e-1);
 
 	/* Test that we get from JD same value as is in time_t
 	 * struct..was problem before introduction of ln_zonedate (on
 	 * machines which doesn't run in UTC).
 	 */
 
-	time (&now);
-	ln_get_timet_from_julian (ln_get_julian_from_timet (&now), &now_jd);
+	time(&now);
+	ln_get_timet_from_julian(ln_get_julian_from_timet(&now), &now_jd);
 
-	failed += test_result ("(Julian Day) Diferrence between time_t from system and from JD", difftime(now, now_jd), 0, 0);
+	failed += test_result("(Julian Day) Difference between time_t from system"
+		"and from JD", difftime(now, now_jd), 0, 0);
 
 	return failed;
 }
 
-int dynamical_test ()
+static int dynamical_test(void)
 {
 	struct ln_date date;
 	double TD,JD;
@@ -168,61 +202,62 @@ int dynamical_test ()
 	date.days = 1;
 	date.hours = 0;
 	date.minutes = 0;
-	date.seconds = 0;
+	date.seconds = 0.0;
 
-	JD = ln_get_julian_day (&date);
-	TD = ln_get_jde (JD);
-	failed += test_result ("(Dynamical Time) TD for 01/01/2000 00:00:00", TD, 2451544.50073877, 0.000001);
+	JD = ln_get_julian_day(&date);
+	TD = ln_get_jde(JD);
+	failed += test_result("(Dynamical Time) TD for 01/01/2000 00:00:00",
+		TD, 2451544.50073877, 0.000001);
 	return failed;
 }
 
-int heliocentric_test (void)
+static int heliocentric_test(void)
 {
 	struct ln_equ_posn object;
 	struct ln_date date;
 	double JD;
-
 	double diff;
-
 	int failed = 0;
 
-	object.ra = 0;
+	object.ra = 0.0;
+	object.dec = 60.0;
 
 	date.years = 2000;
 	date.months = 1;
 	date.days = 1;
 	date.hours = 0;
 	date.minutes = 0;
-	date.seconds = 0;
+	date.seconds = 0.0;
 
-	JD = ln_get_julian_day (&date);
+	JD = ln_get_julian_day(&date);
 
-	object.dec = 60;
+	diff = ln_get_heliocentric_time_diff(JD, &object);
 
-	diff = ln_get_heliocentric_time_diff (JD, &object);
+	failed += test_result("(Heliocentric time) TD for 01/01, object on 0h +60",
+		diff, 15.0 * 0.0001, 0.0001);
 
-	failed += test_result ("(Heliocentric time) TD for 01/01, object on 0h +60", diff, 15.0 * 0.0001, 0.0001);
+	object.ra = 270.0;
+	object.dec = 50.0;
 
-	object.ra = 270;
-	object.dec = 50;
+	diff = ln_get_heliocentric_time_diff(JD, &object);
 
-	diff = ln_get_heliocentric_time_diff (JD, &object);
-
-	failed += test_result ("(Heliocentric time) TD for 01/01, object on 18h +50", diff, -16.0 * 0.0001, 0.0001);
+	failed += test_result("(Heliocentric time) TD for 01/01, object on 18h +50",
+		diff, -16.0 * 0.0001, 0.0001);
 
 	date.months = 8;
 	date.days = 8;
 
-	JD = ln_get_julian_day (&date);
+	JD = ln_get_julian_day(&date);
 
-	diff = ln_get_heliocentric_time_diff (JD, &object);
+	diff = ln_get_heliocentric_time_diff(JD, &object);
 
-	failed += test_result ("(Heliocentric time) TD for 08/08, object on 18h +50", diff, 12.0 * 0.0001, 0.0001);
+	failed += test_result("(Heliocentric time) TD for 08/08, object on 18h +50",
+		diff, 12.0 * 0.0001, 0.0001);
 
 	return failed;
 }
 
-int nutation_test (void)
+static int nutation_test(void)
 {
 	double JD;
 	struct ln_nutation nutation;
@@ -230,16 +265,19 @@ int nutation_test (void)
 		
 	JD = 2446895.5;
 
-	ln_get_nutation (JD, &nutation);
-	failed += test_result ("(Nutation) longitude (deg) for JD 2446895.5", nutation.longitude, -0.00100561, 0.00000001);
+	ln_get_nutation(JD, &nutation);
+	failed += test_result("(Nutation) longitude (deg) for JD 2446895.5",
+		nutation.longitude, -0.00100561, 0.00000001);
 	
-	failed += test_result ("(Nutation) obliquity (deg) for JD 2446895.5", nutation.obliquity, 0.00273297, 0.00000001);
+	failed += test_result("(Nutation) obliquity (deg) for JD 2446895.5",
+		nutation.obliquity, 0.00273297, 0.00000001);
 	
-	failed += test_result ("(Nutation) ecliptic (deg) for JD 2446895.5", nutation.ecliptic, 23.44367936, 0.00000001);
+	failed += test_result("(Nutation) ecliptic (deg) for JD 2446895.5",
+		nutation.ecliptic, 23.44367936, 0.00000001);
 	return failed;
 }
 
-int transform_test(void)
+static int transform_test(void)
 {
 	struct lnh_equ_posn hobject, hpollux;
 	struct lnh_lnlat_posn hobserver, hecl;
@@ -255,11 +293,11 @@ int transform_test(void)
 	hobserver.lng.neg = 0;
 	hobserver.lng.degrees = 282;
 	hobserver.lng.minutes = 56;
-	hobserver.lng.seconds = 4;
+	hobserver.lng.seconds = 4.0;
 	hobserver.lat.neg = 0;
 	hobserver.lat.degrees = 38;
 	hobserver.lat.minutes = 55;
-	hobserver.lat.seconds = 17;
+	hobserver.lat.seconds = 17.0;
 
 	/* object position */
 	hobject.ra.hours = 23;
@@ -276,40 +314,50 @@ int transform_test(void)
 	date.days = 10;
 	date.hours = 19;
 	date.minutes = 21;
-	date.seconds = 0;
+	date.seconds = 0.0;
 
-	JD = ln_get_julian_day (&date);
-	ln_hequ_to_equ (&hobject, &object);
-	ln_hlnlat_to_lnlat (&hobserver, &observer);
+	JD = ln_get_julian_day(&date);
+	ln_hequ_to_equ(&hobject, &object);
+	ln_hlnlat_to_lnlat(&hobserver, &observer);
 	
-	ln_get_hrz_from_equ (&object, &observer, JD, &hrz);
-	failed += test_result ("(Transforms) Equ to Horiz ALT ", hrz.alt, 15.12426274, 0.00000001);
-	failed += test_result ("(Transforms) Equ to Horiz AZ ", hrz.az, 68.03429264, 0.00000001);
+	ln_get_hrz_from_equ(&object, &observer, JD, &hrz);
+	failed += test_result("(Transforms) Equ to Horiz ALT ",
+		hrz.alt, 15.12426274, 0.00000001);
+	failed += test_result("(Transforms) Equ to Horiz AZ ",
+		hrz.az, 68.03429264, 0.00000001);
 
 	/* try something close to the pole */
-	object.dec = 90;
+	object.dec = 90.0;
 
-	ln_get_hrz_from_equ (&object, &observer, JD, &hrz);
-	failed += test_result ("(Transforms) Equ to Horiz ALT ", hrz.alt, 38.9213888888, 0.00000001);
-	failed += test_result ("(Transforms) Equ to Horiz AZ ", hrz.az, 180.0, 0.00000001);
+	ln_get_hrz_from_equ(&object, &observer, JD, &hrz);
+	failed += test_result("(Transforms) Equ to Horiz ALT ",
+		hrz.alt, 38.9213888888, 0.00000001);
+	failed += test_result("(Transforms) Equ to Horiz AZ ",
+		hrz.az, 180.0, 0.00000001);
 	
-	object.dec = -90;
+	object.dec = -90.0;
 
-	ln_get_hrz_from_equ (&object, &observer, JD, &hrz);
-	failed += test_result ("(Transforms) Equ to Horiz ALT ", hrz.alt, -38.9213888888, 0.00000001);
-	failed += test_result ("(Transforms) Equ to Horiz AZ ", hrz.az, 0.0, 0.00000001);
+	ln_get_hrz_from_equ(&object, &observer, JD, &hrz);
+	failed += test_result("(Transforms) Equ to Horiz ALT ",
+		hrz.alt, -38.9213888888, 0.00000001);
+	failed += test_result("(Transforms) Equ to Horiz AZ ",
+		hrz.az, 0.0, 0.00000001);
 
-	observer.lat *= -1;
+	observer.lat *= -1.0;
 
-	ln_get_hrz_from_equ (&object, &observer, JD, &hrz);
-	failed += test_result ("(Transforms) Equ to Horiz ALT ", hrz.alt, 38.9213888888, 0.00000001);
-	failed += test_result ("(Transforms) Equ to Horiz AZ ", hrz.az, 0.0, 0.00000001);
+	ln_get_hrz_from_equ(&object, &observer, JD, &hrz);
+	failed += test_result("(Transforms) Equ to Horiz ALT ",
+		hrz.alt, 38.9213888888, 0.00000001);
+	failed += test_result("(Transforms) Equ to Horiz AZ ",
+		hrz.az, 0.0, 0.00000001);
 	
-	object.dec = 90;
+	object.dec = 90.0;
 
-	ln_get_hrz_from_equ (&object, &observer, JD, &hrz);
-	failed += test_result ("(Transforms) Equ to Horiz ALT ", hrz.alt, -38.9213888888, 0.00000001);
-	failed += test_result ("(Transforms) Equ to Horiz AZ ", hrz.az, 180.0, 0.00000001);
+	ln_get_hrz_from_equ(&object, &observer, JD, &hrz);
+	failed += test_result("(Transforms) Equ to Horiz ALT ",
+		hrz.alt, -38.9213888888, 0.00000001);
+	failed += test_result("(Transforms) Equ to Horiz AZ ",
+		hrz.az, 180.0, 0.00000001);
 
 	/* Equ position of Pollux */
 	hpollux.ra.hours = 7;
@@ -320,41 +368,50 @@ int transform_test(void)
 	hpollux.dec.minutes = 1;
 	hpollux.dec.seconds = 34.26;
 
-	ln_hequ_to_equ (&hpollux, &pollux);
+	ln_hequ_to_equ(&hpollux, &pollux);
 	ln_get_ecl_from_equ(&pollux, JD, &ecl);
 	
-	ln_lnlat_to_hlnlat (&ecl, &hecl);
-	failed += test_result ("(Transforms) Equ to Ecl longitude ", ecl.lng, 113.21542105, 0.00000001);
-	failed += test_result ("(Transforms) Equ to Ecl latitude", ecl.lat, 6.68002727, 0.00000001);
+	ln_lnlat_to_hlnlat(&ecl, &hecl);
+	failed += test_result("(Transforms) Equ to Ecl longitude ",
+		ecl.lng, 113.21542105, 0.00000001);
+	failed += test_result("(Transforms) Equ to Ecl latitude",
+		ecl.lat, 6.68002727, 0.00000001);
 
 	ln_get_equ_from_ecl(&ecl, JD, &equ);
-	failed += test_result ("(Transforms) Ecl to Equ RA ", equ.ra, 116.32894167, 0.00000001);
-	failed += test_result ("(Transforms) Ecl to Equ DEC", equ.dec, 28.02618333, 0.00000001);
+	failed += test_result ("(Transforms) Ecl to Equ RA ",
+		equ.ra, 116.32894167, 0.00000001);
+	failed += test_result ("(Transforms) Ecl to Equ DEC",
+		equ.dec, 28.02618333, 0.00000001);
 
 	/* Gal pole */
-	gal.l = 0;
-	gal.b = 90;
+	gal.l = 0.0;
+	gal.b = 90.0;
 	
-	ln_get_equ_from_gal (&gal, &equ);
-	failed += test_result ("(Transforms) Gal to Equ RA", equ.ra, 192.25, 0.00000001);
-	failed += test_result ("(Transforms) Gal to Equ DEC", equ.dec, 27.4, 0.00000001);
+	ln_get_equ_from_gal(&gal, &equ);
+	failed += test_result("(Transforms) Gal to Equ RA",
+		equ.ra, 192.25, 0.00000001);
+	failed += test_result("(Transforms) Gal to Equ DEC",
+		equ.dec, 27.4, 0.00000001);
 
-	ln_get_gal_from_equ (&equ, &gal);
-	failed += test_result ("(Transforms) Equ to Gal b", gal.b, 90, 0.00000001);
+	ln_get_gal_from_equ(&equ, &gal);
+	failed += test_result("(Transforms) Equ to Gal b",
+		gal.b, 90, 0.00000001);
 
 	// Swift triger 174738
 	
 	equ.ra = 125.2401;
 	equ.dec = +31.9260;
 
-	ln_get_gal_from_equ2000 (&equ, &gal);
-	failed += test_result ("(Transforms) Equ J2000 to Gal l", gal.l, 190.54, 0.005);
-	failed += test_result ("(Transforms) Equ J2000 to Gal b", gal.b, 31.92, 0.005);
+	ln_get_gal_from_equ2000(&equ, &gal);
+	failed += test_result("(Transforms) Equ J2000 to Gal l",
+		gal.l, 190.54, 0.005);
+	failed += test_result("(Transforms) Equ J2000 to Gal b",
+		gal.b, 31.92, 0.005);
 
 	return failed;
 }    
 
-int sidereal_test ()
+static int sidereal_test(void)
 {
 	struct ln_date date;
 	double sd;
@@ -367,30 +424,35 @@ int sidereal_test ()
 	date.days = 10;
 	date.hours = 19;
 	date.minutes = 21;
-	date.seconds = 0;
+	date.seconds = 0.0;
 
-	JD = ln_get_julian_day (&date);
-	sd = ln_get_mean_sidereal_time (JD);
+	JD = ln_get_julian_day(&date);
+	sd = ln_get_mean_sidereal_time(JD);
 
-	failed += test_result ("(Sidereal) mean hours on 10/04/1987 19:21:00 ", sd, 8.58252488, 0.000001);
-	sd = ln_get_apparent_sidereal_time (JD);
-	failed += test_result ("(Sidereal) apparent hours on 10/04/1987 19:21:00 ", sd, 8.58245327, 0.000001);
+	failed += test_result("(Sidereal) mean hours on 10/04/1987 19:21:00 ",
+		sd, 8.58252488, 0.000001);
+	sd = ln_get_apparent_sidereal_time(JD);
+	failed += test_result("(Sidereal) apparent hours on 10/04/1987 19:21:00 ",
+		sd, 8.58245327, 0.000001);
 	return failed;
 }
 
-int solar_coord_test (void)
+static int solar_coord_test(void)
 {
 	struct ln_helio_posn pos;
 	int failed = 0;
 	
-	ln_get_solar_geom_coords (2448908.5, &pos);
-	failed += test_result ("(Solar Coords) longitude (deg) on JD 2448908.5  ", pos.L, 200.00810889, 0.00000001);
-	failed += test_result ("(Solar Coords) latitude (deg) on JD 2448908.5  ", pos.B, 0.00018690, 0.00000001);
-	failed += test_result ("(Solar Coords) radius vector (AU) on JD 2448908.5  ", pos.R, 0.99760852, 0.00000001);
+	ln_get_solar_geom_coords(2448908.5, &pos);
+	failed += test_result("(Solar Coords) longitude (deg) on JD 2448908.5  ",
+		pos.L, 200.00810889, 0.00000001);
+	failed += test_result("(Solar Coords) latitude (deg) on JD 2448908.5  ",
+		pos.B, 0.00018690, 0.00000001);
+	failed += test_result("(Solar Coords) radius vector (AU) on JD 2448908.5  ",
+		pos.R, 0.99760852, 0.00000001);
 	return failed;
 }
 
-int aberration_test (void)
+static int aberration_test(void)
 {
 	struct lnh_equ_posn hobject;
 	struct ln_equ_posn object, pos;
@@ -415,16 +477,18 @@ int aberration_test (void)
 	date.minutes = 31;
 	date.seconds = 0;
 
-	JD = ln_get_julian_day (&date);
+	JD = ln_get_julian_day(&date);
 
-	ln_hequ_to_equ (&hobject, &object);
-	ln_get_equ_aber (&object, JD, &pos);
-	failed += test_result ("(Aberration) RA  ", pos.ra, 41.06238352, 0.00000001);
-	failed += test_result ("(Aberration) DEC  ", pos.dec, 49.22962359, 0.00000001);
+	ln_hequ_to_equ(&hobject, &object);
+	ln_get_equ_aber(&object, JD, &pos);
+	failed += test_result("(Aberration) RA  ", pos.ra,
+		41.06238352, 0.00000001);
+	failed += test_result("(Aberration) DEC  ", pos.dec,
+		49.22962359, 0.00000001);
 	return failed;
 }
 
-int precession_test(void)
+static int precession_test(void)
 {
 	double JD;
 	struct ln_equ_posn object, pos, pos2, pm;
@@ -442,29 +506,37 @@ int precession_test(void)
 	hobject.dec.seconds = 42.48;
 
 	JD = 2462088.69;
-	ln_hequ_to_equ (&hobject, &object);
+	ln_hequ_to_equ(&hobject, &object);
 
 	pm.ra = 0.03425 * (15.0 / 3600.0);
 	pm.dec = -0.0895 / 3600.0;
 	
-	ln_get_equ_pm (&object, &pm, JD, &object);
+	ln_get_equ_pm(&object, &pm, JD, &object);
 
-	failed += test_result ("(Proper motion) RA on JD 2462088.69  ", object.ra, 41.054063, 0.00001);
-	failed += test_result ("(Proper motion) DEC on JD 2462088.69  ", object.dec, 49.227750, 0.00001);
+	failed += test_result("(Proper motion) RA on JD 2462088.69  ",
+		object.ra, 41.054063, 0.00001);
+	failed += test_result("(Proper motion) DEC on JD 2462088.69  ",
+		object.dec, 49.227750, 0.00001);
 
-	ln_get_equ_prec (&object, JD, &pos);
-	failed += test_result ("(Precession) RA on JD 2462088.69  ", pos.ra, 41.547214, 0.00003);
-	failed += test_result ("(Precession) DEC on JD 2462088.69  ", pos.dec, 49.348483, 0.00001);
+	ln_get_equ_prec(&object, JD, &pos);
+	failed += test_result("(Precession) RA on JD 2462088.69  ",
+		pos.ra, 41.547214, 0.00003);
+	failed += test_result("(Precession) DEC on JD 2462088.69  ",
+		pos.dec, 49.348483, 0.00001);
 
-	ln_get_equ_prec2 (&object, JD2000, JD, &pos);
+	ln_get_equ_prec2(&object, JD2000, JD, &pos);
 
-	failed += test_result ("(Precession 2) RA on JD 2462088.69  ", pos.ra, 41.547214, 0.00003);
-	failed += test_result ("(Precession 2) DEC on JD 2462088.69  ", pos.dec, 49.348483, 0.00001);
+	failed += test_result("(Precession 2) RA on JD 2462088.69  ",
+		pos.ra, 41.547214, 0.00003);
+	failed += test_result("(Precession 2) DEC on JD 2462088.69  ",
+		pos.dec, 49.348483, 0.00001);
 
-	ln_get_equ_prec2 (&pos, JD, JD2000, &pos2);
+	ln_get_equ_prec2(&pos, JD, JD2000, &pos2);
 
-	failed += test_result ("(Precession 2) RA on JD 2451545.0  ", pos2.ra, object.ra, 0.00001);
-	failed += test_result ("(Precession 2) DEC on JD 2451545.0  ", pos2.dec, object.dec, 0.00001);
+	failed += test_result("(Precession 2) RA on JD 2451545.0  ",
+		pos2.ra, object.ra, 0.00001);
+	failed += test_result("(Precession 2) DEC on JD 2451545.0  ",
+		pos2.dec, object.dec, 0.00001);
 
 	// INTEGRAL GRB050922A coordinates lead to RA not in <0-360> range
 	pos.ra = 271.2473;
@@ -475,14 +547,16 @@ int precession_test(void)
 	grb_date.days = 22;
 	grb_date.hours = 13;
 	grb_date.minutes = 43;
-	grb_date.seconds = 18; 
+	grb_date.seconds = 18.0;
 
-	JD = ln_get_julian_day (&grb_date);
+	JD = ln_get_julian_day(&grb_date);
 
 	ln_get_equ_prec2 (&pos, JD, JD2000, &pos2);
 
-	failed += test_result ("(Precession 2) RA on JD 2451545.0  ", pos2.ra, 271.1541, 0.0002);
-	failed += test_result ("(Precession 2) DEC on JD 2451545.0  ", pos2.dec, -32.0235, 0.0002);
+	failed += test_result("(Precession 2) RA on JD 2451545.0  ",
+		pos2.ra, 271.1541, 0.0002);
+	failed += test_result("(Precession 2) DEC on JD 2451545.0  ",
+		pos2.dec, -32.0235, 0.0002);
 
 	// second test from AA, p. 128
 	hobject.ra.hours = 2;
@@ -499,28 +573,33 @@ int precession_test(void)
 	pm.ra = ((long double) 0.19877) * (15.0 / 3600.0);
 	pm.dec = ((long double) -0.0152) / 3600.0;
 
-	ln_get_equ_pm (&object, &pm, B1900, &pos);
+	ln_get_equ_pm(&object, &pm, B1900, &pos);
 	
-	ln_get_equ_prec2 (&pos, JD2000, B1900, &pos2);
+	ln_get_equ_prec2(&pos, JD2000, B1900, &pos2);
 
 	// the position is so close to pole, that it depends a lot on how precise
 	// functions we will use. So we get such big errors compared to Meeus.
-	// I checked results agains SLAlib on-line calculator and SLAlib performs even worse then we
+	// I checked results agains SLAlib on-line calculator and SLAlib performs
+	// even worse then we
 	
-	failed += test_result ("(Precision 2) RA on B1900  ", pos2.ra, 20.6412499980, 0.002);
-	failed += test_result ("(Precision 2) DEC on B1900  ", pos2.dec, 88.7739388888, 0.0001);
+	failed += test_result ("(Precision 2) RA on B1900  ", pos2.ra,
+		20.6412499980, 0.002);
+	failed += test_result ("(Precision 2) DEC on B1900  ", pos2.dec,
+		88.7739388888, 0.0001);
 
-	ln_get_equ_pm (&object, &pm, JD2050, &pos);
+	ln_get_equ_pm(&object, &pm, JD2050, &pos);
 
-	ln_get_equ_prec2 (&pos, JD2000, JD2050, &pos2);
+	ln_get_equ_prec2(&pos, JD2000, JD2050, &pos2);
 
-	failed += test_result ("(Precision 2) RA on J2050  ", pos2.ra, 57.0684583320, 0.003);
-	failed += test_result ("(Precision 2) DEC on J2050  ", pos2.dec, 89.4542722222, 0.0001);
+	failed += test_result("(Precision 2) RA on J2050  ",
+		pos2.ra, 57.0684583320, 0.003);
+	failed += test_result("(Precision 2) DEC on J2050  ",
+		pos2.dec, 89.4542722222, 0.0001);
 
 	return failed;
 }
 
-int apparent_position_test(void)
+static int apparent_position_test(void)
 {
 	double JD;
 	struct lnh_equ_posn hobject, hpm;
@@ -546,16 +625,18 @@ int apparent_position_test(void)
 	hpm.dec.seconds = 0.0895;
     
 	JD = 2462088.69;
-	ln_hequ_to_equ (&hobject, &object);
-	ln_hequ_to_equ (&hpm, &pm);
-	ln_get_apparent_posn (&object, &pm, JD, &pos);
+	ln_hequ_to_equ(&hobject, &object);
+	ln_hequ_to_equ(&hpm, &pm);
+	ln_get_apparent_posn(&object, &pm, JD, &pos);
 
-	failed += test_result ("(Apparent Position) RA on JD 2462088.69  ", pos.ra, 41.55966517, 0.00000001);
-	failed += test_result ("(Apparent Position) DEC on JD 2462088.69  ", pos.dec, 49.34962340, 0.00000001);
+	failed += test_result("(Apparent Position) RA on JD 2462088.69  ",
+		pos.ra, 41.55966517, 0.00000001);
+	failed += test_result("(Apparent Position) DEC on JD 2462088.69  ",
+		pos.dec, 49.34962340, 0.00000001);
 	return failed;
 }
 
-int vsop87_test(void)
+static int vsop87_test(void)
 {
 	struct ln_helio_posn pos;
 	struct lnh_equ_posn hequ;
@@ -573,168 +654,170 @@ int vsop87_test(void)
 	date.minutes = 0;
 	date.seconds = 0;
 
-	JD = ln_get_julian_day (&date);
+	JD = ln_get_julian_day(&date);
 #endif
 #ifdef SYS_TIME
 	JD = ln_get_julian_from_sys();	
 #endif
 	
-	ln_get_solar_equ_coords (JD, &equ);
-	failed += test_result ("(Solar Position) RA on JD 2448976.5  ", equ.ra, 268.32146893, 0.00000001);
-	failed += test_result ("(Solar Position) DEC on JD 2448976.5  ", equ.dec, -23.43026873, 0.00000001);
+	ln_get_solar_equ_coords(JD, &equ);
+	failed += test_result("(Solar Position) RA on JD 2448976.5  ",
+		equ.ra, 268.32146893, 0.00000001);
+	failed += test_result("(Solar Position) DEC on JD 2448976.5  ",
+		equ.dec, -23.43026873, 0.00000001);
 	
 	ln_get_mercury_helio_coords(JD, &pos);
 	printf("Mercury L %f B %f R %f\n", pos.L, pos.B, pos.R);
-	ln_get_mercury_equ_coords (JD, &equ);
+	ln_get_mercury_equ_coords(JD, &equ);
 	ln_equ_to_hequ (&equ, &hequ);
 	printf("Mercury RA %d:%d:%f Dec %d:%d:%f\n", hequ.ra.hours, hequ.ra.minutes, hequ.ra.seconds, hequ.dec.degrees, hequ.dec.minutes, hequ.dec.seconds);
-	au = ln_get_mercury_earth_dist (JD);
-	printf ("mercury -> Earth dist (AU) %f\n",au);
-	au = ln_get_mercury_solar_dist (JD);
-	printf ("mercury -> Sun dist (AU) %f\n",au);
-	au = ln_get_mercury_disk (JD);
-	printf ("mercury -> illuminated disk %f\n",au);
-	au = ln_get_mercury_magnitude (JD);
-	printf ("mercury -> magnitude %f\n",au);
-	au = ln_get_mercury_phase (JD);
-	printf ("mercury -> phase %f\n",au);
-	au = ln_get_mercury_sdiam (JD);
-	printf ("mercury -> sdiam %f\n",au);
+	au = ln_get_mercury_earth_dist(JD);
+	fprintf(stdout, "mercury -> Earth dist (AU) %f\n",au);
+	au = ln_get_mercury_solar_dist(JD);
+	fprintf(stdout, "mercury -> Sun dist (AU) %f\n",au);
+	au = ln_get_mercury_disk(JD);
+	fprintf(stdout, "mercury -> illuminated disk %f\n",au);
+	au = ln_get_mercury_magnitude(JD);
+	fprintf(stdout, "mercury -> magnitude %f\n",au);
+	au = ln_get_mercury_phase(JD);
+	fprintf(stdout, "mercury -> phase %f\n",au);
+	au = ln_get_mercury_sdiam(JD);
+	fprintf(stdout, "mercury -> sdiam %f\n",au);
 	
 	ln_get_venus_helio_coords(JD, &pos);
 	printf("Venus L %f B %f R %f\n", pos.L, pos.B, pos.R);
-	ln_get_venus_equ_coords (JD, &equ);
+	ln_get_venus_equ_coords(JD, &equ);
 	ln_equ_to_hequ (&equ, &hequ);
 	printf("Venus RA %d:%d:%f Dec %d:%d:%f\n", hequ.ra.hours, hequ.ra.minutes, hequ.ra.seconds, hequ.dec.degrees, hequ.dec.minutes, hequ.dec.seconds);
-	au = ln_get_venus_earth_dist (JD);
-	printf ("venus -> Earth dist (AU) %f\n",au);
-	au = ln_get_venus_solar_dist (JD);
-	printf ("venus -> Sun dist (AU) %f\n",au);
-	au = ln_get_venus_disk (JD);
-	printf ("venus -> illuminated disk %f\n",au);
-	au = ln_get_venus_magnitude (JD);
-	printf ("venus -> magnitude %f\n",au);
-	au = ln_get_venus_phase (JD);
-	printf ("venus -> phase %f\n",au);
-	au = ln_get_venus_sdiam (JD);
-	printf ("venus -> sdiam %f\n",au);
+	au = ln_get_venus_earth_dist(JD);
+	fprintf(stdout, "venus -> Earth dist (AU) %f\n",au);
+	au = ln_get_venus_solar_dist(JD);
+	fprintf(stdout, "venus -> Sun dist (AU) %f\n",au);
+	au = ln_get_venus_disk(JD);
+	fprintf(stdout, "venus -> illuminated disk %f\n",au);
+	au = ln_get_venus_magnitude(JD);
+	fprintf(stdout, "venus -> magnitude %f\n",au);
+	au = ln_get_venus_phase(JD);
+	fprintf(stdout, "venus -> phase %f\n",au);
+	au = ln_get_venus_sdiam(JD);
+	fprintf(stdout, "venus -> sdiam %f\n",au);
 	
 	ln_get_earth_helio_coords(JD, &pos);
 	printf("Earth L %f B %f R %f\n", pos.L, pos.B, pos.R);
-	au = ln_get_earth_solar_dist (JD);
-	printf ("earth -> Sun dist (AU) %f\n",au);
+	au = ln_get_earth_solar_dist(JD);
+	fprintf(stdout, "earth -> Sun dist (AU) %f\n",au);
 
 	ln_get_mars_helio_coords(JD, &pos);	
 	printf("Mars L %f B %f R %f\n", pos.L, pos.B, pos.R);
-	ln_get_mars_equ_coords (JD, &equ);
+	ln_get_mars_equ_coords(JD, &equ);
 	ln_equ_to_hequ (&equ, &hequ);
 	printf("Mars RA %d:%d:%f Dec %d:%d:%f\n", hequ.ra.hours, hequ.ra.minutes, hequ.ra.seconds, hequ.dec.degrees, hequ.dec.minutes, hequ.dec.seconds);
-	au = ln_get_mars_earth_dist (JD);
-	printf ("mars -> Earth dist (AU) %f\n",au);
-	au = ln_get_mars_solar_dist (JD);
-	printf ("mars -> Sun dist (AU) %f\n",au);
-	au = ln_get_mars_disk (JD);
-	printf ("mars -> illuminated disk %f\n",au);
-	au = ln_get_mars_magnitude (JD);
-	printf ("mars -> magnitude %f\n",au);
-	au = ln_get_mars_phase (JD);
-	printf ("mars -> phase %f\n",au);
-	au = ln_get_mars_sdiam (JD);
-	printf ("mars -> sdiam %f\n",au);
+	au = ln_get_mars_earth_dist(JD);
+	fprintf(stdout, "mars -> Earth dist (AU) %f\n",au);
+	au = ln_get_mars_solar_dist(JD);
+	fprintf(stdout, "mars -> Sun dist (AU) %f\n",au);
+	au = ln_get_mars_disk(JD);
+	fprintf(stdout, "mars -> illuminated disk %f\n",au);
+	au = ln_get_mars_magnitude(JD);
+	fprintf(stdout, "mars -> magnitude %f\n",au);
+	au = ln_get_mars_phase(JD);
+	fprintf(stdout, "mars -> phase %f\n",au);
+	au = ln_get_mars_sdiam(JD);
+	fprintf(stdout, "mars -> sdiam %f\n",au);
 	
 	ln_get_jupiter_helio_coords(JD, &pos);
 	printf("Jupiter L %f B %f R %f\n", pos.L, pos.B, pos.R);
-	ln_get_jupiter_equ_coords (JD, &equ);
+	ln_get_jupiter_equ_coords(JD, &equ);
 	ln_equ_to_hequ (&equ, &hequ);
 	printf("Jupiter RA %d:%d:%f Dec %d:%d:%f\n", hequ.ra.hours, hequ.ra.minutes, hequ.ra.seconds, hequ.dec.degrees, hequ.dec.minutes, hequ.dec.seconds);
-	au = ln_get_jupiter_earth_dist (JD);
-	printf ("jupiter -> Earth dist (AU) %f\n",au);
-	au = ln_get_jupiter_solar_dist (JD);
-	printf ("jupiter -> Sun dist (AU) %f\n",au);
-	au = ln_get_jupiter_disk (JD);
-	printf ("jupiter -> illuminated disk %f\n",au);
-	au = ln_get_jupiter_magnitude (JD);
-	printf ("jupiter -> magnitude %f\n",au);
-	au = ln_get_jupiter_phase (JD);
-	printf ("jupiter -> phase %f\n",au);
-	au = ln_get_jupiter_pol_sdiam (JD);
-	printf ("jupiter -> polar sdiam %f\n",au);
-	au = ln_get_jupiter_equ_sdiam (JD);
-	printf ("jupiter -> equ sdiam %f\n",au);
+	au = ln_get_jupiter_earth_dist(JD);
+	fprintf(stdout, "jupiter -> Earth dist (AU) %f\n",au);
+	au = ln_get_jupiter_solar_dist(JD);
+	fprintf(stdout, "jupiter -> Sun dist (AU) %f\n",au);
+	au = ln_get_jupiter_disk(JD);
+	fprintf(stdout, "jupiter -> illuminated disk %f\n",au);
+	au = ln_get_jupiter_magnitude(JD);
+	fprintf(stdout, "jupiter -> magnitude %f\n",au);
+	au = ln_get_jupiter_phase(JD);
+	fprintf(stdout, "jupiter -> phase %f\n",au);
+	au = ln_get_jupiter_pol_sdiam(JD);
+	fprintf(stdout, "jupiter -> polar sdiam %f\n",au);
+	au = ln_get_jupiter_equ_sdiam(JD);
+	fprintf(stdout, "jupiter -> equ sdiam %f\n",au);
 	
 	ln_get_saturn_helio_coords(JD, &pos);
 	printf("Saturn L %f B %f R %f\n", pos.L, pos.B, pos.R);
-	ln_get_saturn_equ_coords (JD, &equ);
+	ln_get_saturn_equ_coords(JD, &equ);
 	ln_equ_to_hequ (&equ, &hequ);
 	printf("Saturn RA %d:%d:%f Dec %d:%d:%f\n", hequ.ra.hours, hequ.ra.minutes, hequ.ra.seconds, hequ.dec.degrees, hequ.dec.minutes, hequ.dec.seconds);
-	au = ln_get_saturn_earth_dist (JD);
-	printf ("saturn -> Earth dist (AU) %f\n",au);
-	au = ln_get_saturn_solar_dist (JD);
-	printf ("saturn -> Sun dist (AU) %f\n",au);
-	au = ln_get_saturn_disk (JD);
-	printf ("saturn -> illuminated disk %f\n",au);
-	au = ln_get_saturn_magnitude (JD);
-	printf ("saturn -> magnitude %f\n",au);
-	au = ln_get_saturn_phase (JD);
-	printf ("saturn -> phase %f\n",au);
-	au = ln_get_saturn_pol_sdiam (JD);
-	printf ("saturn -> polar sdiam %f\n",au);
-	au = ln_get_saturn_equ_sdiam (JD);
-	printf ("saturn -> equ sdiam %f\n",au);
+	au = ln_get_saturn_earth_dist(JD);
+	fprintf(stdout, "saturn -> Earth dist (AU) %f\n",au);
+	au = ln_get_saturn_solar_dist(JD);
+	fprintf(stdout, "saturn -> Sun dist (AU) %f\n",au);
+	au = ln_get_saturn_disk(JD);
+	fprintf(stdout, "saturn -> illuminated disk %f\n",au);
+	au = ln_get_saturn_magnitude(JD);
+	fprintf(stdout, "saturn -> magnitude %f\n",au);
+	au = ln_get_saturn_phase(JD);
+	fprintf(stdout, "saturn -> phase %f\n",au);
+	au = ln_get_saturn_pol_sdiam(JD);
+	fprintf(stdout, "saturn -> polar sdiam %f\n",au);
+	au = ln_get_saturn_equ_sdiam(JD);
+	fprintf(stdout, "saturn -> equ sdiam %f\n",au);
 	
 	ln_get_uranus_helio_coords(JD, &pos);	
 	printf("Uranus L %f B %f R %f\n", pos.L, pos.B, pos.R);
-	ln_get_uranus_equ_coords (JD, &equ);
+	ln_get_uranus_equ_coords(JD, &equ);
 	ln_equ_to_hequ (&equ, &hequ);
 	printf("Uranus RA %d:%d:%f Dec %d:%d:%f\n", hequ.ra.hours, hequ.ra.minutes, hequ.ra.seconds, hequ.dec.degrees, hequ.dec.minutes, hequ.dec.seconds);
-	au = ln_get_uranus_earth_dist (JD);
-	printf ("uranus -> Earth dist (AU) %f\n",au);
-	au = ln_get_uranus_solar_dist (JD);
-	printf ("uranus -> Sun dist (AU) %f\n",au);
-	au = ln_get_uranus_disk (JD);
-	printf ("uranus -> illuminated disk %f\n",au);
-	au = ln_get_uranus_magnitude (JD);
-	printf ("uranus -> magnitude %f\n",au);
-	au = ln_get_uranus_phase (JD);
-	printf ("uranus -> phase %f\n",au);
-	au = ln_get_uranus_sdiam (JD);
-	printf ("uranus -> sdiam %f\n",au);
+	au = ln_get_uranus_earth_dist(JD);
+	fprintf(stdout, "uranus -> Earth dist (AU) %f\n",au);
+	au = ln_get_uranus_solar_dist(JD);
+	fprintf(stdout, "uranus -> Sun dist (AU) %f\n",au);
+	au = ln_get_uranus_disk(JD);
+	fprintf(stdout, "uranus -> illuminated disk %f\n",au);
+	au = ln_get_uranus_magnitude(JD);
+	fprintf(stdout, "uranus -> magnitude %f\n",au);
+	au = ln_get_uranus_phase(JD);
+	fprintf(stdout, "uranus -> phase %f\n",au);
+	au = ln_get_uranus_sdiam(JD);
+	fprintf(stdout, "uranus -> sdiam %f\n",au);
 	
 	ln_get_neptune_helio_coords(JD, &pos);
 	printf("Neptune L %f B %f R %f\n", pos.L, pos.B, pos.R);
-	ln_get_neptune_equ_coords (JD, &equ);
+	ln_get_neptune_equ_coords(JD, &equ);
 	ln_equ_to_hequ (&equ, &hequ);
 	printf("Neptune RA %d:%d:%f Dec %d:%d:%f\n", hequ.ra.hours, hequ.ra.minutes, hequ.ra.seconds, hequ.dec.degrees, hequ.dec.minutes, hequ.dec.seconds);
-	au = ln_get_neptune_earth_dist (JD);
-	printf ("neptune -> Earth dist (AU) %f\n",au);
-	au = ln_get_neptune_solar_dist (JD);
-	printf ("neptune -> Sun dist (AU) %f\n",au);
-	au = ln_get_neptune_disk (JD);
-	printf ("neptune -> illuminated disk %f\n",au);
-	au = ln_get_neptune_magnitude (JD);
-	printf ("neptune -> magnitude %f\n",au);
-	au = ln_get_neptune_phase (JD);
-	printf ("neptune -> phase %f\n",au);
-	au = ln_get_neptune_sdiam (JD);
-	printf ("neptune -> sdiam %f\n",au);
+	au = ln_get_neptune_earth_dist(JD);
+	fprintf(stdout, "neptune -> Earth dist (AU) %f\n",au);
+	au = ln_get_neptune_solar_dist(JD);
+	fprintf(stdout, "neptune -> Sun dist (AU) %f\n",au);
+	au = ln_get_neptune_disk(JD);
+	fprintf(stdout, "neptune -> illuminated disk %f\n",au);
+	au = ln_get_neptune_magnitude(JD);
+	fprintf(stdout, "neptune -> magnitude %f\n",au);
+	au = ln_get_neptune_phase(JD);
+	fprintf(stdout, "neptune -> phase %f\n",au);
+	au = ln_get_neptune_sdiam(JD);
+	fprintf(stdout, "neptune -> sdiam %f\n",au);
 	
 	ln_get_pluto_helio_coords(JD, &pos);
 	printf("Pluto L %f B %f R %f\n", pos.L, pos.B, pos.R);
-	ln_get_pluto_equ_coords (JD, &equ);
+	ln_get_pluto_equ_coords(JD, &equ);
 	ln_equ_to_hequ (&equ, &hequ);
 	printf("Pluto RA %d:%d:%f Dec %d:%d:%f\n", hequ.ra.hours, hequ.ra.minutes, hequ.ra.seconds, hequ.dec.degrees, hequ.dec.minutes, hequ.dec.seconds);
-	au = ln_get_pluto_earth_dist (JD);
-	printf ("pluto -> Earth dist (AU) %f\n",au);
-	au = ln_get_pluto_solar_dist (JD);
-	printf ("pluto -> Sun dist (AU) %f\n",au);
-	au = ln_get_pluto_disk (JD);
-	printf ("pluto -> illuminated disk %f\n",au);
-	au = ln_get_pluto_magnitude (JD);
-	printf ("pluto -> magnitude %f\n",au);
-	au = ln_get_pluto_phase (JD);
-	printf ("pluto -> phase %f\n",au);
-	au = ln_get_pluto_sdiam (JD);
-	printf ("pluto -> sdiam %f\n",au);
+	au = ln_get_pluto_earth_dist(JD);
+	fprintf(stdout, "pluto -> Earth dist (AU) %f\n",au);
+	au = ln_get_pluto_solar_dist(JD);
+	fprintf(stdout, "pluto -> Sun dist (AU) %f\n",au);
+	au = ln_get_pluto_disk(JD);
+	fprintf(stdout, "pluto -> illuminated disk %f\n",au);
+	au = ln_get_pluto_magnitude(JD);
+	fprintf(stdout, "pluto -> magnitude %f\n",au);
+	au = ln_get_pluto_phase(JD);
+	fprintf(stdout, "pluto -> phase %f\n",au);
+	au = ln_get_pluto_sdiam(JD);
+	fprintf(stdout, "pluto -> sdiam %f\n",au);
 	
 	return failed;
 }
@@ -750,16 +833,16 @@ int lunar_test ()
 	
 	/*	JD = get_julian_from_sys();*/
 	/*JD=2448724.5;*/
-	ln_get_lunar_geo_posn (JD, &moon, 0);
-	printf ("lunar x %f  y %f  z %f\n",moon.X, moon.Y, moon.Z);
-	ln_get_lunar_ecl_coords (JD, &ecl, 0);
-	printf ("lunar long %f  lat %f\n",ecl.lng, ecl.lat);
-	ln_get_lunar_equ_coords_prec (JD, &equ, 0);
-	printf ("lunar RA %f  Dec %f\n",equ.ra, equ.dec);
-	printf ("lunar distance km %f\n", ln_get_lunar_earth_dist(JD));
-	printf ("lunar disk %f\n", ln_get_lunar_disk(JD));
-	printf ("lunar phase %f\n", ln_get_lunar_phase(JD));
-	printf ("lunar bright limb %f\n", ln_get_lunar_bright_limb(JD));
+	ln_get_lunar_geo_posn(JD, &moon, 0);
+	fprintf(stdout, "lunar x %f  y %f  z %f\n",moon.X, moon.Y, moon.Z);
+	ln_get_lunar_ecl_coords(JD, &ecl, 0);
+	fprintf(stdout, "lunar long %f  lat %f\n",ecl.lng, ecl.lat);
+	ln_get_lunar_equ_coords_prec(JD, &equ, 0);
+	fprintf(stdout, "lunar RA %f  Dec %f\n",equ.ra, equ.dec);
+	fprintf(stdout, "lunar distance km %f\n", ln_get_lunar_earth_dist(JD));
+	fprintf(stdout, "lunar disk %f\n", ln_get_lunar_disk(JD));
+	fprintf(stdout, "lunar phase %f\n", ln_get_lunar_phase(JD));
+	fprintf(stdout, "lunar bright limb %f\n", ln_get_lunar_bright_limb(JD));
 	return failed;
 }
 
@@ -1049,7 +1132,7 @@ int rst_test ()
 	observer.lng = 15;
 	observer.lat = 51;
 
-	ret = ln_get_object_rst (JD, &observer, &object, &rst);
+	ret = ln_get_object_rst(JD, &observer, &object, &rst);
 	failed += test_result ("Arcturus sometimes rise at 15 E, 51 N", ret, 0, 0);
 
 	if (!ret)
@@ -1068,12 +1151,12 @@ int rst_test ()
 	}
 
 	JD_next = rst.transit - 0.001;
-	ret = ln_get_object_next_rst (JD_next, &observer, &object, &rst);
+	ret = ln_get_object_next_rst(JD_next, &observer, &object, &rst);
 	failed += test_result ("Arcturus sometimes rise at 15 E, 51 N", ret, 0, 0);
 
 	if (!ret)
 	{
-		failed += test_result ("Arcturus next date is less then transit time", (JD_next < rst.transit), 1, 0);
+		failed += test_result ("Arcturus next date is less then transit time",(JD_next < rst.transit), 1, 0);
 		failed += test_result ("Arcturus next transit time is less then set time", (rst.transit < rst.set), 1, 0);
 		failed += test_result ("Arcturus next set time is less then rise time", (rst.set < rst.rise), 1, 0);
 
@@ -1091,12 +1174,12 @@ int rst_test ()
 	}
 
 	JD_next = rst.set - 0.001;
-	ret = ln_get_object_next_rst (JD_next, &observer, &object, &rst);
+	ret = ln_get_object_next_rst(JD_next, &observer, &object, &rst);
 	failed += test_result ("Arcturus sometimes rise at 15 E, 51 N", ret, 0, 0);
 
 	if (!ret)
 	{
-		failed += test_result ("Arcturus next date is less then set time", (JD_next < rst.set), 1, 0);
+		failed += test_result ("Arcturus next date is less then set time",(JD_next < rst.set), 1, 0);
 		failed += test_result ("Arcturus next set time is less then rise time", (rst.set < rst.rise), 1, 0);
 		failed += test_result ("Arcturus next rise time is less then transit time", (rst.rise < rst.transit), 1, 0);
 
@@ -1114,12 +1197,12 @@ int rst_test ()
 	}
 
 	JD_next = rst.rise - 0.001;
-	ret = ln_get_object_next_rst (JD_next, &observer, &object, &rst);
+	ret = ln_get_object_next_rst(JD_next, &observer, &object, &rst);
 	failed += test_result ("Arcturus sometimes rise at 15 E, 51 N", ret, 0, 0);
 
 	if (!ret)
 	{
-		failed += test_result ("Arcturus next date is less then rise time", (JD_next < rst.rise), 1, 0);
+		failed += test_result ("Arcturus next date is less then rise time",(JD_next < rst.rise), 1, 0);
 		failed += test_result ("Arcturus next rise time is less then transit time", (rst.rise < rst.transit), 1, 0);
 		failed += test_result ("Arcturus next transit time is less then set time", (rst.transit < rst.set), 1, 0);
 
@@ -1137,12 +1220,12 @@ int rst_test ()
 	}
 
 	JD_next = rst.rise + 0.001;
-	ret = ln_get_object_next_rst (JD_next, &observer, &object, &rst);
+	ret = ln_get_object_next_rst(JD_next, &observer, &object, &rst);
 	failed += test_result ("Arcturus sometimes rise at 15 E, 51 N", ret, 0, 0);
 
 	if (!ret)
 	{
-		failed += test_result ("Arcturus next date is less then transit time", (JD_next < rst.transit), 1, 0);
+		failed += test_result ("Arcturus next date is less then transit time",(JD_next < rst.transit), 1, 0);
 		failed += test_result ("Arcturus next transit time is less then set time", (rst.transit < rst.set), 1, 0);
 		failed += test_result ("Arcturus next set time is less then rise time", (rst.set < rst.rise), 1, 0);
 
@@ -1159,7 +1242,7 @@ int rst_test ()
 		failed += test_result ("Arcturus next set minute on 2006/01/18 at (15 E,51 N)", date.minutes, 10, 0);
 	}
 
-	ret = ln_get_object_rst_horizon (JD, &observer, &object, 20, &rst);
+	ret = ln_get_object_rst_horizon(JD, &observer, &object, 20, &rst);
 	failed += test_result ("Arcturus sometimes rise above 20 deg at 15 E, 51 N", ret, 0, 0);
 
 	if (!ret)
@@ -1178,12 +1261,12 @@ int rst_test ()
 	}
 
 	JD_next = rst.rise - 0.002;
-	ret = ln_get_object_next_rst_horizon (JD_next, &observer, &object, 20, &rst);
+	ret = ln_get_object_next_rst_horizon(JD_next, &observer, &object, 20, &rst);
 	failed += test_result ("Arcturus sometimes rise above 20 deg at 15 E, 51 N", ret, 0, 0);
 
 	if (!ret)
 	{
-		failed += test_result ("Arcturus next date is less then rise time", (JD_next < rst.rise), 1, 0);
+		failed += test_result ("Arcturus next date is less then rise time",(JD_next < rst.rise), 1, 0);
 		failed += test_result ("Arcturus next rise time is less then transit time", (rst.rise < rst.transit), 1, 0);
 		failed += test_result ("Arcturus next transit time is less then set time", (rst.transit < rst.set), 1, 0);
 
@@ -1201,12 +1284,12 @@ int rst_test ()
 	}
 
 	JD_next = rst.transit - 0.001;
-	ret = ln_get_object_next_rst_horizon (JD_next, &observer, &object, 20, &rst);
+	ret = ln_get_object_next_rst_horizon(JD_next, &observer, &object, 20, &rst);
 	failed += test_result ("Arcturus sometimes rise above 20 deg at 15 E, 51 N", ret, 0, 0);
 
 	if (!ret)
 	{
-		failed += test_result ("Arcturus next date is less then transit time", (JD_next < rst.transit), 1, 0);
+		failed += test_result ("Arcturus next date is less then transit time",(JD_next < rst.transit), 1, 0);
 		failed += test_result ("Arcturus next transit time is less then set time", (rst.transit < rst.set), 1, 0);
 		failed += test_result ("Arcturus next set time is less then rise time", (rst.set < rst.rise), 1, 0);
 
@@ -1224,12 +1307,12 @@ int rst_test ()
 	}
 
 	JD_next = rst.set - 0.001;
-	ret = ln_get_object_next_rst_horizon (JD_next, &observer, &object, 20, &rst);
+	ret = ln_get_object_next_rst_horizon(JD_next, &observer, &object, 20, &rst);
 	failed += test_result ("Arcturus sometimes rise above 20 deg at 15 E, 51 N", ret, 0, 0);
 
 	if (!ret)
 	{
-		failed += test_result ("Arcturus next date is less then set time", (JD_next < rst.set), 1, 0);
+		failed += test_result ("Arcturus next date is less then set time",(JD_next < rst.set), 1, 0);
 		failed += test_result ("Arcturus next set time is less then rise time", (rst.set < rst.rise), 1, 0);
 		failed += test_result ("Arcturus next rise time is less then transit time", (rst.rise < rst.transit), 1, 0);
 
@@ -1247,12 +1330,12 @@ int rst_test ()
 	}
 
 	JD_next = rst.set + 0.001;
-	ret = ln_get_object_next_rst_horizon (JD_next, &observer, &object, 20, &rst);
+	ret = ln_get_object_next_rst_horizon(JD_next, &observer, &object, 20, &rst);
 	failed += test_result ("Arcturus sometimes rise above 20 deg at 15 E, 51 N", ret, 0, 0);
 
 	if (!ret)
 	{
-		failed += test_result ("Arcturus next date is less then rise time", (JD_next < rst.rise), 1, 0);
+		failed += test_result ("Arcturus next date is less then rise time",(JD_next < rst.rise), 1, 0);
 		failed += test_result ("Arcturus next rise time is less then transit time", (rst.rise < rst.transit), 1, 0);
 		failed += test_result ("Arcturus next transit time is less then set time", (rst.transit < rst.set), 1, 0);
 
@@ -1271,7 +1354,7 @@ int rst_test ()
 
 	observer.lat = -51;
 
-	ret = ln_get_object_rst (JD, &observer, &object, &rst);
+	ret = ln_get_object_rst(JD, &observer, &object, &rst);
 	failed += test_result ("Arcturus sometimes rise at 15 E, 51 S", ret, 0, 0);
 
 	if (!ret)
@@ -1289,7 +1372,7 @@ int rst_test ()
 		failed += test_result ("Arcturus set minute on 2006/01/17 at (15 E,51 S)", date.minutes, 51, 0);
 	}
 
-	ret = ln_get_object_rst_horizon (JD, &observer, &object, -20, &rst);
+	ret = ln_get_object_rst_horizon(JD, &observer, &object, -20, &rst);
 	failed += test_result ("Arcturus sometimes rise above -20 deg at 15 E, 51 S", ret, 0, 0);
 
 	if (!ret)
@@ -1307,7 +1390,7 @@ int rst_test ()
 		failed += test_result ("Arcturus set bellow -20 deg minute on 2006/01/17 at (15 E,51 S)", date.minutes, 4, 0);
 	}
 	
-	ret = ln_get_solar_rst (JD, &observer, &rst);
+	ret = ln_get_solar_rst(JD, &observer, &rst);
 	failed += test_result ("Sun sometimes rise on 2006/01/17 at 15 E, 51 S", ret, 0, 0);
 
 	if (!ret)
@@ -1328,30 +1411,30 @@ int rst_test ()
 	observer.lat = 37;
 
 	object.dec = -54;
-	failed += test_result ("Object at dec -54 never rise at 37 N", ln_get_object_rst (JD, &observer, &object, &rst), -1, 0);
+	failed += test_result ("Object at dec -54 never rise at 37 N", ln_get_object_rst(JD, &observer, &object, &rst), -1, 0);
 
 	object.dec = -52;
-	failed += test_result ("Object at dec -52 rise at 37 N", ln_get_object_rst (JD, &observer, &object, &rst), 0, 0);
+	failed += test_result ("Object at dec -52 rise at 37 N", ln_get_object_rst(JD, &observer, &object, &rst), 0, 0);
 
 	object.dec = 54;
-	failed += test_result ("Object at dec 54 is always above the horizon at 37 N", ln_get_object_rst (JD, &observer, &object, &rst), 1, 0);
+	failed += test_result ("Object at dec 54 is always above the horizon at 37 N", ln_get_object_rst(JD, &observer, &object, &rst), 1, 0);
 
 	object.dec = 52;
-	failed += test_result ("Object at dec 52 rise at 37 N", ln_get_object_rst (JD, &observer, &object, &rst), 0, 0);
+	failed += test_result ("Object at dec 52 rise at 37 N", ln_get_object_rst(JD, &observer, &object, &rst), 0, 0);
 
 	observer.lat = -37;
 
 	object.dec = 54;
-	failed += test_result ("Object at dec 54 never rise at 37 S", ln_get_object_rst (JD, &observer, &object, &rst), -1, 0);
+	failed += test_result ("Object at dec 54 never rise at 37 S", ln_get_object_rst(JD, &observer, &object, &rst), -1, 0);
 
 	object.dec = 52;
-	failed += test_result ("Object at dec 52 rise at 37 S", ln_get_object_rst (JD, &observer, &object, &rst), 0, 0);
+	failed += test_result ("Object at dec 52 rise at 37 S", ln_get_object_rst(JD, &observer, &object, &rst), 0, 0);
 
 	object.dec = -54;
-	failed += test_result ("Object at dec -54 is always above the horizon at 37 S", ln_get_object_rst (JD, &observer, &object, &rst), 1, 0);
+	failed += test_result ("Object at dec -54 is always above the horizon at 37 S", ln_get_object_rst(JD, &observer, &object, &rst), 1, 0);
 
 	object.dec = -52;
-	failed += test_result ("Object at dec -52 rise at 37 S", ln_get_object_rst (JD, &observer, &object, &rst), 0, 0);
+	failed += test_result ("Object at dec -52 rise at 37 S", ln_get_object_rst(JD, &observer, &object, &rst), 0, 0);
 
 	/* Venus on 1988 March 20 at Boston */
 	date.years = 1988;
@@ -1367,7 +1450,7 @@ int rst_test ()
 	observer.lng = -71.0833;
 	observer.lat = 42.3333;
 
-	ret = ln_get_venus_rst (JD, &observer, &rst);
+	ret = ln_get_venus_rst(JD, &observer, &rst);
 	failed += test_result ("Venus sometime rise on 1988/03/20 at Boston", ret, 0, 0);
 	
 	if (!ret)
@@ -1388,7 +1471,7 @@ int rst_test ()
 	return failed;
 }
 
-int ell_rst_test ()
+static int ell_rst_test(void)
 {
   	struct ln_lnlat_posn observer;
 	struct ln_ell_orbit orbit;
@@ -1401,8 +1484,8 @@ int ell_rst_test ()
 
 	/* Comment C/1996 B2 (Hyakutake) somewhere at Japan */
 
-	observer.lng = 135;
-	observer.lat = 35;
+	observer.lng = 135.0;
+	observer.lat = 35.0;
 	
 	date.years = 1996;
 	date.months = 5;
@@ -1410,16 +1493,16 @@ int ell_rst_test ()
 	
 	date.hours = 0;
 	date.minutes = 0;
-	date.seconds = 0;
+	date.seconds = 0.0;
 
-	orbit.JD = ln_get_julian_day (&date);
+	orbit.JD = ln_get_julian_day(&date);
 	orbit.JD += 0.39481;
 	orbit.a = 1014.2022026431;
 	orbit.e = 0.9997730;
 	orbit.i = 124.92379;
 	orbit.omega = 188.04546;
 	orbit.w = 130.17654;
-	orbit.n = 0;
+	orbit.n = 0.0;
 
 	date.years = 1996;
 	date.months = 3;
@@ -1428,77 +1511,94 @@ int ell_rst_test ()
 	date.hours = date.minutes = 0;
 	date.seconds = 0.0;
 
-	JD = ln_get_julian_day (&date);
+	JD = ln_get_julian_day(&date);
 
-	ln_get_ell_body_equ_coords (JD, &orbit, &pos);
-	failed += test_result ("(RA) for Hyakutake 1996/03/28 00:00", pos.ra, 220.8554, 0.001);
-	failed += test_result ("(Dec) for Hyakutake 1996/03/28 00:00", pos.dec, 36.5341, 0.001);
+	ln_get_ell_body_equ_coords(JD, &orbit, &pos);
+	failed += test_result("(RA) for Hyakutake 1996/03/28 00:00",
+		pos.ra, 220.8554, 0.001);
+	failed += test_result("(Dec) for Hyakutake 1996/03/28 00:00",
+		pos.dec, 36.5341, 0.001);
 
 	date.days = 28;
 
 	date.hours = 10;
 	date.minutes = 42;
 
-	JD = ln_get_julian_day (&date);
+	JD = ln_get_julian_day(&date);
 
-	ln_get_ell_body_equ_coords (JD, &orbit, &pos);
-	failed += test_result ("(RA) for Hyakutake 1996/03/28 10:42", pos.ra, 56.2140, 0.001);
-	failed += test_result ("(Dec) for Hyakutake 1996/03/28 10:42", pos.dec, 74.4302, 0.001);
+	ln_get_ell_body_equ_coords(JD, &orbit, &pos);
+	failed += test_result("(RA) for Hyakutake 1996/03/28 10:42",
+		pos.ra, 56.2140, 0.001);
+	failed += test_result("(Dec) for Hyakutake 1996/03/28 10:42",
+		pos.dec, 74.4302, 0.001);
 
 	date.days = 23;
 
 	date.hours = 17;
 	date.minutes = 38;
-	date.seconds = 0;
+	date.seconds = 0.0;
 
 	JD = ln_get_julian_day (&date);
 
-	ln_get_ell_body_equ_coords (JD, &orbit, &pos);
-	failed += test_result ("(RA) for Hyakutake 1996/03/23 17:38", pos.ra,  221.2153, 0.001);
-	failed += test_result ("(Dec) for Hyakutake 1996/03/23 17:38", pos.dec, 32.4803, 0.001);
+	ln_get_ell_body_equ_coords(JD, &orbit, &pos);
+	failed += test_result("(RA) for Hyakutake 1996/03/23 17:38",
+		pos.ra,  221.2153, 0.001);
+	failed += test_result("(Dec) for Hyakutake 1996/03/23 17:38",
+		pos.dec, 32.4803, 0.001);
 
-	JD = ln_get_julian_day (&date);
+	JD = ln_get_julian_day(&date);
 	
-	ret = ln_get_ell_body_rst (JD, &observer, &orbit, &rst);
-	failed += test_result ("Hyakutake sometime rise on 1996/03/23 at 135 E, 35 N", ret, 0, 0);
+	ret = ln_get_ell_body_rst(JD, &observer, &orbit, &rst);
+	failed += test_result("Hyakutake sometime rise on 1996/03/23 at 135 E, 35 N",
+		ret, 0, 0);
 
-	if (!ret)
-	{
-		ln_get_date (rst.rise, &date);
-		failed += test_result ("Hyakutake rise hour on 1996/03/23 at 135 E, 35 N", date.hours, 9, 0);
-		failed += test_result ("Hyakutake rise minute on 1996/03/23 at 135 E, 35 N", date.minutes, 31, 0);
+	if (!ret) {
+		ln_get_date(rst.rise, &date);
+		failed += test_result("Hyakutake rise hour on 1996/03/23 at 135 E, 35 N",
+			date.hours, 9, 0);
+		failed += test_result("Hyakutake rise minute on 1996/03/23 at 135 E, 35 N",
+			date.minutes, 31, 0);
 
-		ln_get_date (rst.transit, &date);
-		failed += test_result ("Hyakutake transit hour on 1996/03/23 at 135 E, 35 N", date.hours, 17, 0);
-		failed += test_result ("Hyakutake transit minute on 1996/03/23 at 135 E, 35 N", date.minutes, 27, 0);
+		ln_get_date(rst.transit, &date);
+		failed += test_result("Hyakutake transit hour on 1996/03/23 at 135 E, 35 N",
+			date.hours, 17, 0);
+		failed += test_result("Hyakutake transit minute on 1996/03/23 at 135 E, 35 N",
+			date.minutes, 27, 0);
 
-		ln_get_date (rst.set, &date);
-		failed += test_result ("Hyakutake set hour on 1996/03/23 at 135 E, 35 N", date.hours, 1, 0);
-		failed += test_result ("Hyakutake set minute on 1996/03/23 at 135 E, 35 N", date.minutes, 49, 0);
+		ln_get_date(rst.set, &date);
+		failed += test_result("Hyakutake set hour on 1996/03/23 at 135 E, 35 N",
+			date.hours, 1, 0);
+		failed += test_result("Hyakutake set minute on 1996/03/23 at 135 E, 35 N",
+			date.minutes, 49, 0);
 	}
 
-	ret = ln_get_ell_body_next_rst (JD, &observer, &orbit, &rst);
+	ret = ln_get_ell_body_next_rst(JD, &observer, &orbit, &rst);
 	failed += test_result ("Hyakutake sometime rise on 1996/03/23 at 135 E, 35 N", ret, 0, 0);
 
-	if (!ret)
-	{
-		ln_get_date (rst.rise, &date);
-		failed += test_result ("Hyakutake next rise hour on 1996/03/23 at 135 E, 35 N", date.hours, 9, 0);
-		failed += test_result ("Hyakutake next rise minute on 1996/03/23 at 135 E, 35 N", date.minutes, 31, 0);
+	if (!ret) {
+		ln_get_date(rst.rise, &date);
+		failed += test_result("Hyakutake next rise hour on 1996/03/23 at 135 E, 35 N",
+			date.hours, 9, 0);
+		failed += test_result("Hyakutake next rise minute on 1996/03/23 at 135 E, 35 N",
+			date.minutes, 31, 0);
 
-		ln_get_date (rst.transit, &date);
-		failed += test_result ("Hyakutake next transit hour on 1996/03/24 at 135 E, 35 N", date.hours, 17, 0);
-		failed += test_result ("Hyakutake next transit minute on 1996/03/24 at 135 E, 35 N", date.minutes, 4, 0);
+		ln_get_date(rst.transit, &date);
+		failed += test_result("Hyakutake next transit hour on 1996/03/24 at 135 E, 35 N",
+			date.hours, 17, 0);
+		failed += test_result("Hyakutake next transit minute on 1996/03/24 at 135 E, 35 N",
+			date.minutes, 4, 0);
 
-		ln_get_date (rst.set, &date);
-		failed += test_result ("Hyakutake next set hour on 1996/03/23 at 135 E, 35 N", date.hours, 1, 0);
-		failed += test_result ("Hyakutake next set minute on 1996/03/23 at 135 E, 35 N", date.minutes, 49, 0);
+		ln_get_date(rst.set, &date);
+		failed += test_result ("Hyakutake next set hour on 1996/03/23 at 135 E, 35 N",
+			date.hours, 1, 0);
+		failed += test_result ("Hyakutake next set minute on 1996/03/23 at 135 E, 35 N",
+			date.minutes, 49, 0);
 	}
 
 	return failed;
 }
 
-int hyp_future_rst_test ()
+static int hyp_future_rst_test(void)
 {
 	struct ln_lnlat_posn observer;
 	struct ln_hyp_orbit orbit;
@@ -1508,8 +1608,8 @@ int hyp_future_rst_test ()
 	int ret;
 	int failed = 0;
 
-	observer.lng = 15;
-	observer.lat = 50;
+	observer.lng = 15.0;
+	observer.lat = 50.0;
 
 	/* C/2006 P1 (McNaught) */
 
@@ -1528,33 +1628,40 @@ int hyp_future_rst_test ()
 	date.minutes = 0;
 	date.seconds = 0.0;
 
-	JD = ln_get_julian_day (&date);
+	JD = ln_get_julian_day(&date);
 
-	ret = ln_get_hyp_body_next_rst_horizon (JD, &observer, &orbit, 0, &rst);
-	failed += test_result ("McNaught rise on 2997/01/18 at 15 E, 50 N", ret, 0, 0);
+	ret = ln_get_hyp_body_next_rst_horizon(JD, &observer, &orbit, 0, &rst);
+	failed += test_result("McNaught rise on 2997/01/18 at 15 E, 50 N",
+		ret, 0, 0);
 
-	if (!ret)
-	{
-		ln_get_date (rst.rise, &date);
-		failed += test_result ("McNaught rise hour on 2007/01/18 at 15 E, 50 N", date.hours, 9, 0);
-		failed += test_result ("McNaught rise minute on 2007/01/18 at 15 E, 50 N", date.minutes, 6, 0);
+	if (!ret) {
+		ln_get_date(rst.rise, &date);
+		failed += test_result("McNaught rise hour on 2007/01/18 at 15 E, 50 N",
+			date.hours, 9, 0);
+		failed += test_result("McNaught rise minute on 2007/01/18 at 15 E, 50 N",
+			date.minutes, 6, 0);
 
-		ln_get_date (rst.transit, &date);
-		failed += test_result ("McNaught transit hour on 2007/01/18 at 15 E, 50 N", date.hours, 11, 0);
-		failed += test_result ("McNaught transit minute on 2007/01/18 at 15 E, 50 N", date.minutes, 38, 0);
+		ln_get_date(rst.transit, &date);
+		failed += test_result("McNaught transit hour on 2007/01/18 at 15 E, 50 N",
+			date.hours, 11, 0);
+		failed += test_result("McNaught transit minute on 2007/01/18 at 15 E, 50 N",
+			date.minutes, 38, 0);
 
-		ln_get_date (rst.set, &date);
-		failed += test_result ("McNaught set hour on 2007/01/17 at 15 E, 50 N", date.hours, 14, 0);
-		failed += test_result ("McNaught set minute on 2007/01/17 at 15 E, 50 N", date.minutes, 37, 0);
+		ln_get_date(rst.set, &date);
+		failed += test_result("McNaught set hour on 2007/01/17 at 15 E, 50 N",
+			date.hours, 14, 0);
+		failed += test_result("McNaught set minute on 2007/01/17 at 15 E, 50 N",
+			date.minutes, 37, 0);
 	}
 
-	ret = ln_get_hyp_body_next_rst_horizon (JD, &observer, &orbit, 15, &rst);
-	failed += test_result ("McNaught does not rise above 15 degrees on 2007/01/17 at 15 E, 50 N", ret, -1, 0);
+	ret = ln_get_hyp_body_next_rst_horizon(JD, &observer, &orbit, 15, &rst);
+	failed += test_result("McNaught does not rise above 15 degrees on"
+		"2007/01/17 at 15 E, 50 N", ret, -1, 0);
 	
 	return failed;
 }
 
-int body_future_rst_test ()
+static int body_future_rst_test(void)
 {
 	struct ln_lnlat_posn observer;
 	struct ln_date date;
@@ -1573,66 +1680,97 @@ int body_future_rst_test ()
 	date.hours = date.minutes = 0;
 	date.seconds = 0.0;
 
-	JD = ln_get_julian_day (&date);
+	JD = ln_get_julian_day(&date);
 
-	ret = ln_get_body_next_rst_horizon_future (JD, &observer, ln_get_solar_equ_coords, LN_SOLAR_STANDART_HORIZON, 300, &rst);
-	failed += test_result ("Sun is above horizon sometimes at 0, 85 N", ret, 0, 0);
+	ret = ln_get_body_next_rst_horizon_future(JD, &observer,
+		ln_get_solar_equ_coords, LN_SOLAR_STANDART_HORIZON, 300, &rst);
 
-	if (!ret)
-	{
-		ln_get_date (rst.rise, &date);
-		failed += test_result ("Solar next rise years at 0, 85 N", date.years, 2006, 0);
-		failed += test_result ("Solar next rise months at 0, 85 N", date.months, 3, 0);
-		failed += test_result ("Solar next rise days at 0, 85 N", date.days, 7, 0);
-		failed += test_result ("Solar next rise hour at 0, 85 N", date.hours, 10, 0);
-		failed += test_result ("Solar next rise minute at 0, 85 N", date.minutes, 19, 0);
+	failed += test_result("Sun is above horizon sometimes at 0, 85 N",
+		ret, 0, 0);
 
-		ln_get_date (rst.transit, &date);
-		failed += test_result ("Solar next transit years at 0, 85 N", date.years, 2006, 0);
-		failed += test_result ("Solar next transit months at 0, 85 N", date.months, 3, 0);
-		failed += test_result ("Solar next transit days at 0, 85 N", date.days, 7, 0);
-		failed += test_result ("Solar next transit hour at 0 E, 85 N", date.hours, 12, 0);
-		failed += test_result ("Solar next transit minute at 0 E, 85 N", date.minutes, 10, 0);
+	if (!ret) {
+		ln_get_date(rst.rise, &date);
+		failed += test_result("Solar next rise years at 0, 85 N",
+			date.years, 2006, 0);
+		failed += test_result("Solar next rise months at 0, 85 N",
+			date.months, 3, 0);
+		failed += test_result("Solar next rise days at 0, 85 N",
+			date.days, 7, 0);
+		failed += test_result("Solar next rise hour at 0, 85 N",
+			date.hours, 10, 0);
+		failed += test_result("Solar next rise minute at 0, 85 N",
+			date.minutes, 19, 0);
 
-		ln_get_date (rst.set, &date);
-		failed += test_result ("Solar next set years at 0, 85 N", date.years, 2006, 0);
-		failed += test_result ("Solar next set months at 0, 85 N", date.months, 3, 0);
-		failed += test_result ("Solar next set days at 0, 85 N", date.days, 7, 0);
-		failed += test_result ("Solar next set hour at 0 E, 85 N", date.hours, 14, 0);
-		failed += test_result ("Solar next set minute at 0, 85 N", date.minutes, 8, 0);
+		ln_get_date(rst.transit, &date);
+		failed += test_result("Solar next transit years at 0, 85 N",
+			date.years, 2006, 0);
+		failed += test_result("Solar next transit months at 0, 85 N",
+			date.months, 3, 0);
+		failed += test_result("Solar next transit days at 0, 85 N",
+			date.days, 7, 0);
+		failed += test_result("Solar next transit hour at 0 E, 85 N",
+			date.hours, 12, 0);
+		failed += test_result("Solar next transit minute at 0 E, 85 N",
+			date.minutes, 10, 0);
+
+		ln_get_date(rst.set, &date);
+		failed += test_result("Solar next set years at 0, 85 N",
+			date.years, 2006, 0);
+		failed += test_result("Solar next set months at 0, 85 N",
+			date.months, 3, 0);
+		failed += test_result("Solar next set days at 0, 85 N",
+			date.days, 7, 0);
+		failed += test_result("Solar next set hour at 0 E, 85 N",
+			date.hours, 14, 0);
+		failed += test_result("Solar next set minute at 0, 85 N",
+			date.minutes, 8, 0);
 	}
 
-	ret = ln_get_body_next_rst_horizon_future (JD, &observer, ln_get_solar_equ_coords, 0, 300, &rst);
+	ret = ln_get_body_next_rst_horizon_future(JD, &observer, ln_get_solar_equ_coords, 0, 300, &rst);
 	failed += test_result ("Sun is above 0 horizon sometimes at 0, 85 N", ret, 0, 0);
 
-	if (!ret)
-	{
-		ln_get_date (rst.rise, &date);
-		failed += test_result ("Solar next rise years at 0, 85 N with 0 horizon", date.years, 2006, 0);
-		failed += test_result ("Solar next rise months at 0, 85 N with 0 horizon", date.months, 3, 0);
-		failed += test_result ("Solar next rise days at 0, 85 N with 0 horizon", date.days, 9, 0);
-		failed += test_result ("Solar next rise hour at 0, 85 N with 0 horizon", date.hours, 10, 0);
-		failed += test_result ("Solar next rise minute at 0, 85 N with 0 horizon", date.minutes, 23, 0);
+	if (!ret) {
+		ln_get_date(rst.rise, &date);
+		failed += test_result("Solar next rise years at 0, 85 N with 0 horizon",
+			date.years, 2006, 0);
+		failed += test_result("Solar next rise months at 0, 85 N with 0 horizon",
+			date.months, 3, 0);
+		failed += test_result("Solar next rise days at 0, 85 N with 0 horizon",
+			date.days, 9, 0);
+		failed += test_result("Solar next rise hour at 0, 85 N with 0 horizon",
+			date.hours, 10, 0);
+		failed += test_result("Solar next rise minute at 0, 85 N with 0 horizon",
+			date.minutes, 23, 0);
 
-		ln_get_date (rst.transit, &date);
-		failed += test_result ("Solar next transit years at 0, 85 N with 0 horizon", date.years, 2006, 0);
-		failed += test_result ("Solar next transit months at 0, 85 N with 0 horizon", date.months, 3, 0);
-		failed += test_result ("Solar next transit days at 0, 85 N with 0 horizon", date.days, 9, 0);
-		failed += test_result ("Solar next transit hour at 0 E, 85 N with 0 horizon", date.hours, 12, 0);
-		failed += test_result ("Solar next transit minute at 0 E, 85 N with 0 horizon", date.minutes, 10, 0);
+		ln_get_date(rst.transit, &date);
+		failed += test_result("Solar next transit years at 0, 85 N with 0 horizon",
+			date.years, 2006, 0);
+		failed += test_result("Solar next transit months at 0, 85 N with 0 horizon",
+			date.months, 3, 0);
+		failed += test_result("Solar next transit days at 0, 85 N with 0 horizon",
+			date.days, 9, 0);
+		failed += test_result("Solar next transit hour at 0 E, 85 N with 0 horizon",
+			date.hours, 12, 0);
+		failed += test_result("Solar next transit minute at 0 E, 85 N with 0 horizon",
+			date.minutes, 10, 0);
 
-		ln_get_date (rst.set, &date);
-		failed += test_result ("Solar next set years at 0, 85 N with 0 horizon", date.years, 2006, 0);
-		failed += test_result ("Solar next set months at 0, 85 N with 0 horizon", date.months, 3, 0);
-		failed += test_result ("Solar next set days at 0, 85 N with 0 horizon", date.days, 9, 0);
-		failed += test_result ("Solar next set hour at 0 E, 85 N with 0 horizon", date.hours, 14, 0);
-		failed += test_result ("Solar next set minute at 0, 85 N with 0 horizon", date.minutes, 2, 0);
+		ln_get_date(rst.set, &date);
+		failed += test_result("Solar next set years at 0, 85 N with 0 horizon",
+			date.years, 2006, 0);
+		failed += test_result("Solar next set months at 0, 85 N with 0 horizon",
+			date.months, 3, 0);
+		failed += test_result("Solar next set days at 0, 85 N with 0 horizon",
+			date.days, 9, 0);
+		failed += test_result("Solar next set hour at 0 E, 85 N with 0 horizon",
+			date.hours, 14, 0);
+		failed += test_result("Solar next set minute at 0, 85 N with 0 horizon",
+			date.minutes, 2, 0);
 	}
 
 	return failed;
 }
 
-int parallax_test ()
+static int parallax_test(void)
 {
 	struct ln_equ_posn mars, parallax;
   	struct ln_lnlat_posn observer;
@@ -1644,16 +1782,16 @@ int parallax_test ()
 	dms.neg = 0;
 	dms.degrees = 33;
 	dms.minutes = 21;
-	dms.seconds = 22;
+	dms.seconds = 22.0;
 	
-	observer.lat = ln_dms_to_deg (&dms);
+	observer.lat = ln_dms_to_deg(&dms);
 
 	dms.neg = 1;
 	dms.degrees = 116;
 	dms.minutes = 51;
-	dms.seconds = 47;
+	dms.seconds = 47.0;
 	
-	observer.lng = ln_dms_to_deg (&dms);
+	observer.lng = ln_dms_to_deg(&dms);
 
 	date.years = 2003;
 	date.months = 8;
@@ -1661,23 +1799,25 @@ int parallax_test ()
 
 	date.hours = 3;
 	date.minutes = 17;
-	date.seconds = 0;
+	date.seconds = 0.0;
 
-	jd = ln_get_julian_day (&date);
+	jd = ln_get_julian_day(&date);
 
-	ln_get_mars_equ_coords (jd, &mars);
+	ln_get_mars_equ_coords(jd, &mars);
 
-	ln_get_parallax (&mars, ln_get_mars_earth_dist (jd), &observer, 1706, jd, &parallax);
+	ln_get_parallax(&mars, ln_get_mars_earth_dist(jd),
+			&observer, 1706, jd, &parallax);
 
-	/* parallax is hard to calculate, so we allow relatively big errror */
-
-	failed += test_result ("Mars RA parallax for Palomar observatory at 2003/08/28 3:17 UT  ", parallax.ra, 0.0053917, 0.00001);
-	failed += test_result ("Mars DEC parallax for Palomar observatory at 2003/08/28 3:17 UT  ", parallax.dec, -14.1 / 3600.0, 0.00002);
+	/* parallax is hard to calculate, so we allow relatively big error */
+	failed += test_result("Mars RA parallax for Palomar observatory at"
+		"2003/08/28 3:17 UT  ", parallax.ra, 0.0053917, 0.00001);
+	failed += test_result("Mars DEC parallax for Palomar observatory at"
+		"2003/08/28 3:17 UT  ", parallax.dec, -14.1 / 3600.0, 0.00002);
 
 	return failed;
 }
 
-int angular_test ()
+static int angular_test(void)
 {
 	int failed = 0;
 	double d;
@@ -1692,55 +1832,63 @@ int angular_test ()
 	posn2.dec = -11.1614;
 	
 	d = ln_get_angular_separation(&posn1, &posn2);
-	failed += test_result ("(Angular) Separation of Arcturus and Spica   ", d, 32.79302684, 0.00001);
+	failed += test_result("(Angular) Separation of Arcturus and Spica   ",
+		d, 32.79302684, 0.00001);
 	
 	d = ln_get_rel_posn_angle(&posn1, &posn2);
-	failed += test_result ("(Angular) Position Angle of Arcturus and Spica   ", d, 22.39042787, 0.00001);
+	failed += test_result("(Angular) Position Angle of Arcturus and Spica   ",
+		d, 22.39042787, 0.00001);
 	
 	return failed;
 }
 
-int utility_test()
+static int utility_test(void)
 {
 	struct ln_dms dms;
 	double deg = -1.23, deg2 = 1.23, deg3 = -0.5;
 	
-	ln_deg_to_dms (deg, &dms);
-	printf("TEST deg %f ==> deg %c%d min %d sec %f\n", deg, dms.neg ? '-' : '+', dms.degrees, dms.minutes, dms.seconds); 
-	ln_deg_to_dms (deg2, &dms);
-	printf("TEST deg %f ==> deg %c%d min %d sec %f\n", deg2, dms.neg ? '-' : '+', dms.degrees, dms.minutes, dms.seconds); 
-	ln_deg_to_dms (deg3, &dms);
-	printf("TEST deg %f ==> deg %c%d min %d sec %f\n", deg3, dms.neg ? '-' : '+', dms.degrees, dms.minutes, dms.seconds);
+	ln_deg_to_dms(deg, &dms);
+	printf("TEST deg %f ==> deg %c%d min %d sec %f\n",
+		deg, dms.neg ? '-' : '+', dms.degrees, dms.minutes, dms.seconds);
+	ln_deg_to_dms(deg2, &dms);
+	printf("TEST deg %f ==> deg %c%d min %d sec %f\n",
+		deg2, dms.neg ? '-' : '+', dms.degrees, dms.minutes, dms.seconds);
+	ln_deg_to_dms(deg3, &dms);
+	printf("TEST deg %f ==> deg %c%d min %d sec %f\n",
+		deg3, dms.neg ? '-' : '+', dms.degrees, dms.minutes, dms.seconds);
 	return 0;
 }
 
-int airmass_test()
+static int airmass_test(void)
 {
 	int failed = 0;
 	double x;
 
-	double X = ln_get_airmass (90, 750.0);
-	failed += test_result ("(Airmass) Airmass at Zenith", X, 1, 0);
+	double X = ln_get_airmass(90, 750.0);
+	failed += test_result("(Airmass) Airmass at Zenith", X, 1, 0);
  
-	X = ln_get_airmass (10, 750.0);
-	failed += test_result ("(Airmass) Airmass at 10 degrees altitude", X, 5.64, 0.1);
+	X = ln_get_airmass(10, 750.0);
+	failed += test_result("(Airmass) Airmass at 10 degrees altitude",
+		X, 5.64, 0.1);
 	
-	X = ln_get_alt_from_airmass (1, 750.0);
-	failed += test_result ("(Airmass) Altitude at airmass 1", X, 90, 0);
+	X = ln_get_alt_from_airmass(1, 750.0);
+	failed += test_result("(Airmass) Altitude at airmass 1", X, 90, 0);
 
-	for (x = -10; x < 90; x += 10.54546456)
-	{
-		X = ln_get_alt_from_airmass (ln_get_airmass (x, 750.0), 750.0);
-		failed += test_result ("(Airmass) Altitude->Airmass->Altitude at 10 degrees", X, x, 0.000000001);
+	for (x = -10; x < 90; x += 10.54546456) {
+		X = ln_get_alt_from_airmass(ln_get_airmass(x, 750.0), 750.0);
+		failed += test_result("(Airmass) Altitude->Airmass->Altitude at"
+			"10 degrees", X, x, 0.000000001);
 	}
 
 	return failed;
 }
 
-int main ()
+int main(int argc, const char *argv[])
 {
 	int failed = 0;
 	
+	start_timer();
+
 	failed += julian_test();
 	failed += dynamical_test();
 	failed += heliocentric_test ();
@@ -1765,7 +1913,9 @@ int main ()
 	failed += utility_test();
 	failed += airmass_test ();
 	
-	printf ("Test completed: %d tests, %d errors.\n", test_number, failed);
+	end_timer();
+	fprintf(stdout, "Test completed: %d tests, %d errors.\n",
+		test_number, failed);
 		
-	return (failed > 0);
+	return 0;
 }

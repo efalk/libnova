@@ -26,18 +26,18 @@ A simple example showing some solar calculations.
 #include <libnova/rise_set.h>
 #include <libnova/transform.h>
 
-void print_date (char * title, struct ln_zonedate* date)
+static void print_date (char *title, struct ln_zonedate *date)
 {
-	printf ("\n%s\n",title);
-	printf (" Year    : %d\n", date->years);
-	printf (" Month   : %d\n", date->months);
-	printf (" Day     : %d\n", date->days);
-	printf (" Hours   : %d\n", date->hours);
-	printf (" Minutes : %d\n", date->minutes);
-	printf (" Seconds : %f\n", date->seconds);
+	fprintf(stdout, "\n%s\n",title);
+	fprintf(stdout, " Year    : %d\n", date->years);
+	fprintf(stdout, " Month   : %d\n", date->months);
+	fprintf(stdout, " Day     : %d\n", date->days);
+	fprintf(stdout, " Hours   : %d\n", date->hours);
+	fprintf(stdout, " Minutes : %d\n", date->minutes);
+	fprintf(stdout, " Seconds : %f\n", date->seconds);
 }
 
-int main (int argc, char * argv[])
+int main (int argc, const char *argv[])
 {
 	struct ln_equ_posn equ;
 	struct ln_rst_time rst;
@@ -52,29 +52,29 @@ int main (int argc, char * argv[])
 	
 	/* get Julian day from local time */
 	JD = ln_get_julian_from_sys();	
-	printf ("JD %f\n", JD);
+	fprintf(stdout, "JD %f\n", JD);
 	
 	/* geometric coordinates */
-	ln_get_solar_geom_coords (JD, &pos);
-	printf("Solar Coords longitude (deg) %f\n", pos.L);
-	printf("             latitude (deg) %f\n", pos.B);
-	printf("             radius vector (AU) %f\n", pos.R);
+	ln_get_solar_geom_coords(JD, &pos);
+	fprintf(stdout, "Solar Coords longitude (deg) %f\n", pos.L);
+	fprintf(stdout, "             latitude (deg) %f\n", pos.B);
+	fprintf(stdout, "             radius vector (AU) %f\n", pos.R);
 	
 	/* ra, dec */
-	ln_get_solar_equ_coords (JD, &equ);
-	printf("Solar Position RA %f\n", equ.ra);
-	printf("               DEC %f\n", equ.dec);
+	ln_get_solar_equ_coords(JD, &equ);
+	fprintf(stdout, "Solar Position RA %f\n", equ.ra);
+	fprintf(stdout, "               DEC %f\n", equ.dec);
 	
 	/* rise, set and transit */
-	if (ln_get_solar_rst (JD, &observer, &rst) == 1) 
-		printf ("Sun is circumpolar\n");
+	if (ln_get_solar_rst(JD, &observer, &rst) != 0)
+		fprintf(stdout, "Sun is circumpolar\n");
 	else {
-		ln_get_local_date (rst.rise, &rise);
-		ln_get_local_date (rst.transit, &transit);
-		ln_get_local_date (rst.set, &set);
-		print_date ("Rise", &rise);
-		print_date ("Transit", &transit);
-		print_date ("Set", &set);
+		ln_get_local_date(rst.rise, &rise);
+		ln_get_local_date(rst.transit, &transit);
+		ln_get_local_date(rst.set, &set);
+		print_date("Rise", &rise);
+		print_date("Transit", &transit);
+		print_date("Set", &set);
 	}
 	
 	return 0;

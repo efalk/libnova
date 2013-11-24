@@ -31,17 +31,17 @@ extern "C" {
 * TODO
 */
 
-/*! \fn double ln_get_dynamical_time_diff (double JD)
+/*! \fn double ln_get_dynamical_time_diff(double JD)
 * \ingroup dynamical
-* \brief Calculate approximate dynamical time difference from julian day in seconds
+* \brief Calculate approximate dynamical time difference from Julian day in seconds
 */
-double LIBNOVA_EXPORT ln_get_dynamical_time_diff (double JD);
+double LIBNOVA_EXPORT ln_get_dynamical_time_diff(double JD);
 
-/*! \fn double ln_get_jde (double JD)
-* \brief Calculate julian ephemeris day (JDE)
+/*! \fn double ln_get_jde(double JD)
+* \brief Calculate Julian ephemeris day(JDE)
 * \ingroup dynamical 
 */
-double LIBNOVA_EXPORT ln_get_jde (double JD);
+double LIBNOVA_EXPORT ln_get_jde(double JD);
 	
 #ifdef __cplusplus
 };

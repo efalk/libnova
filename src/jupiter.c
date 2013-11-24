@@ -48,9 +48,9 @@
 #define RADIUS_R5 9
 
 /* cache variables */
-static double cJD = 0, cL = 0, cB = 0, cR = 0;
+static double cJD = 0.0, cL = 0.0, cB = 0.0, cR = 0.0;
 
-static const struct ln_vsop jupiter_longitude_l0[LONG_L0] = {
+static const struct ln_vsop ALIGN32 jupiter_longitude_l0[LONG_L0] = {
     {     0.59954691494,  0.00000000000,        0.00000000000}, 
     {     0.09695898719,  5.06191793158,      529.69096509460}, 
     {     0.00573610142,  1.44406205629,        7.11354700080}, 
@@ -914,7 +914,7 @@ static const struct ln_vsop jupiter_longitude_l0[LONG_L0] = {
 };
 
 
-static const struct ln_vsop jupiter_longitude_l1[LONG_L1] = {
+static const struct ln_vsop ALIGN32 jupiter_longitude_l1[LONG_L1] = {
     {   529.69096508814,  0.00000000000,        0.00000000000}, 
     {     0.00489503243,  4.22082939470,      529.69096509460}, 
     {     0.00228917222,  6.02646855621,        7.11354700080}, 
@@ -1344,7 +1344,7 @@ static const struct ln_vsop jupiter_longitude_l1[LONG_L1] = {
 };
 
 
-static const struct ln_vsop jupiter_longitude_l2[LONG_L2] = {
+static const struct ln_vsop ALIGN32 jupiter_longitude_l2[LONG_L2] = {
     {     0.00047233601,  4.32148536482,        7.11354700080}, 
     {     0.00030649436,  2.92977788700,      529.69096509460}, 
     {     0.00014837605,  3.14159265359,        0.00000000000}, 
@@ -1573,7 +1573,7 @@ static const struct ln_vsop jupiter_longitude_l2[LONG_L2] = {
 };
 
 
-static const struct ln_vsop jupiter_longitude_l3[LONG_L3] = {
+static const struct ln_vsop ALIGN32 jupiter_longitude_l3[LONG_L3] = {
     {     0.00006501673,  2.59862923650,        7.11354700080}, 
     {     0.00001355012,  1.34692775915,      529.69096509460}, 
     {     0.00000470691,  2.47502798748,       14.22709400160}, 
@@ -1697,7 +1697,7 @@ static const struct ln_vsop jupiter_longitude_l3[LONG_L3] = {
 };
 
 
-static const struct ln_vsop jupiter_longitude_l4[LONG_L4] = {
+static const struct ln_vsop ALIGN32 jupiter_longitude_l4[LONG_L4] = {
     {     0.00000669505,  0.85280378158,        7.11354700080}, 
     {     0.00000099965,  0.74243651986,       14.22709400160}, 
     {     0.00000050030,  1.65383477095,      536.80451209540}, 
@@ -1749,7 +1749,7 @@ static const struct ln_vsop jupiter_longitude_l4[LONG_L4] = {
 };
 
 
-static const struct ln_vsop jupiter_longitude_l5[LONG_L5] = {
+static const struct ln_vsop ALIGN32 jupiter_longitude_l5[LONG_L5] = {
     {     0.00000049639,  5.25769924770,        7.11354700080}, 
     {     0.00000015775,  5.24859620238,       14.22709400160}, 
     {     0.00000004326,  0.02660738929,      536.80451209540}, 
@@ -1764,7 +1764,7 @@ static const struct ln_vsop jupiter_longitude_l5[LONG_L5] = {
 };
 
 
-static const struct ln_vsop jupiter_latitude_b0[LAT_B0] = {
+static const struct ln_vsop ALIGN32 jupiter_latitude_b0[LAT_B0] = {
     {     0.02268615702,  3.55852606721,      529.69096509460}, 
     {     0.00109971634,  3.90809347197,     1059.38193018920}, 
     {     0.00110090358,  0.00000000000,        0.00000000000}, 
@@ -2017,7 +2017,7 @@ static const struct ln_vsop jupiter_latitude_b0[LAT_B0] = {
 };
 
 
-static const struct ln_vsop jupiter_latitude_b1[LAT_B1] = {
+static const struct ln_vsop ALIGN32 jupiter_latitude_b1[LAT_B1] = {
     {     0.00078203446,  1.52377859742,      529.69096509460}, 
     {     0.00007789905,  2.59734071843,     1059.38193018920}, 
     {     0.00002788602,  4.85622679819,      536.80451209540}, 
@@ -2141,7 +2141,7 @@ static const struct ln_vsop jupiter_latitude_b1[LAT_B1] = {
 };
 
 
-static const struct ln_vsop jupiter_latitude_b2[LAT_B2] = {
+static const struct ln_vsop ALIGN32 jupiter_latitude_b2[LAT_B2] = {
     {     0.00005498320,  3.01596270062,      529.69096509460}, 
     {     0.00000602076,  3.13358939436,      536.80451209540}, 
     {     0.00000502174,  2.05202111599,     1059.38193018920}, 
@@ -2227,7 +2227,7 @@ static const struct ln_vsop jupiter_latitude_b2[LAT_B2] = {
 };
 
 
-static const struct ln_vsop jupiter_latitude_b3[LAT_B3] = {
+static const struct ln_vsop ALIGN32 jupiter_latitude_b3[LAT_B3] = {
     {     0.00000185332,  4.79276761490,      529.69096509460}, 
     {     0.00000085668,  1.40023038638,      536.80451209540}, 
     {     0.00000056359,  2.81574766965,      522.57741809380}, 
@@ -2264,7 +2264,7 @@ static const struct ln_vsop jupiter_latitude_b3[LAT_B3] = {
 };
 
 
-static const struct ln_vsop jupiter_latitude_b4[LAT_B4] = {
+static const struct ln_vsop ALIGN32 jupiter_latitude_b4[LAT_B4] = {
     {     0.00000008963,  5.93887232380,      536.80451209540}, 
     {     0.00000005280,  4.80778878768,      522.57741809380}, 
     {     0.00000001161,  0.46295890438,     1066.49547719000}, 
@@ -2281,14 +2281,14 @@ static const struct ln_vsop jupiter_latitude_b4[LAT_B4] = {
 };
 
 
-static const struct ln_vsop jupiter_latitude_b5[LAT_B5] = {
+static const struct ln_vsop ALIGN32 jupiter_latitude_b5[LAT_B5] = {
     {     0.00000000662,  4.10413626462,      536.80451209540}, 
     {     0.00000000431,  0.82614663721,      522.57741809380}, 
     {     0.00000000208,  0.05498457769,      515.46387109300}, 
 };
 
 
-static const struct ln_vsop jupiter_radius_r0[RADIUS_R0] = {
+static const struct ln_vsop ALIGN32 jupiter_radius_r0[RADIUS_R0] = {
     {     5.20887429326,  0.00000000000,        0.00000000000}, 
     {     0.25209327119,  3.49108639871,      529.69096509460}, 
     {     0.00610599976,  3.84115365948,     1059.38193018920}, 
@@ -3019,7 +3019,7 @@ static const struct ln_vsop jupiter_radius_r0[RADIUS_R0] = {
 };
 
 
-static const struct ln_vsop jupiter_radius_r1[RADIUS_R1] = {
+static const struct ln_vsop ALIGN32 jupiter_radius_r1[RADIUS_R1] = {
     {     0.01271801520,  2.64937512894,      529.69096509460}, 
     {     0.00061661816,  3.00076460387,     1059.38193018920}, 
     {     0.00053443713,  3.89717383175,      522.57741809380}, 
@@ -3394,7 +3394,7 @@ static const struct ln_vsop jupiter_radius_r1[RADIUS_R1] = {
 };
 
 
-static const struct ln_vsop jupiter_radius_r2[RADIUS_R2] = {
+static const struct ln_vsop ALIGN32 jupiter_radius_r2[RADIUS_R2] = {
     {     0.00079644957,  1.35865949884,      529.69096509460}, 
     {     0.00008251645,  5.77774460400,      522.57741809380}, 
     {     0.00007029940,  3.27477392111,      536.80451209540}, 
@@ -3584,7 +3584,7 @@ static const struct ln_vsop jupiter_radius_r2[RADIUS_R2] = {
 };
 
 
-static const struct ln_vsop jupiter_radius_r3[RADIUS_R3] = {
+static const struct ln_vsop ALIGN32 jupiter_radius_r3[RADIUS_R3] = {
     {     0.00003519277,  6.05800355513,      529.69096509460}, 
     {     0.00001073281,  1.67319166156,      536.80451209540}, 
     {     0.00000915630,  1.41326157617,      522.57741809380}, 
@@ -3685,7 +3685,7 @@ static const struct ln_vsop jupiter_radius_r3[RADIUS_R3] = {
 };
 
 
-static const struct ln_vsop jupiter_radius_r4[RADIUS_R4] = {
+static const struct ln_vsop ALIGN32 jupiter_radius_r4[RADIUS_R4] = {
     {     0.00000128623,  0.08347608895,      536.80451209540}, 
     {     0.00000113458,  4.24818938180,      529.69096509460}, 
     {     0.00000082704,  3.29801136583,      522.57741809380}, 
@@ -3734,7 +3734,7 @@ static const struct ln_vsop jupiter_radius_r4[RADIUS_R4] = {
 };
 
 
-static const struct ln_vsop jupiter_radius_r5[RADIUS_R5] = {
+static const struct ln_vsop ALIGN32 jupiter_radius_r5[RADIUS_R5] = {
     {     0.00000011193,  4.74280611863,      536.80451209540}, 
     {     0.00000004288,  5.90497787277,      522.57741809380}, 
     {     0.00000002004,  3.65178377123,        7.11354700080}, 
@@ -3746,7 +3746,7 @@ static const struct ln_vsop jupiter_radius_r5[RADIUS_R5] = {
     {     0.00000001033,  4.50671820436,      529.69096509460}, 
 };
 
-/*! \fn void ln_get_jupiter_equ_coords (double JD, struct ln_equ_posn * position);
+/*! \fn void ln_get_jupiter_equ_coords(double JD, struct ln_equ_posn *position);
 * \param JD julian Day
 * \param position Pointer to store position
 *
@@ -3759,43 +3759,43 @@ static const struct ln_vsop jupiter_radius_r5[RADIUS_R5] = {
 *
 * The position returned is accurate to within 0.1 arcsecs.
 */ 
-void ln_get_jupiter_equ_coords (double JD, struct ln_equ_posn * position)
+void ln_get_jupiter_equ_coords(double JD, struct ln_equ_posn *position)
 {
 	struct ln_helio_posn h_sol, h_jupiter;
 	struct ln_rect_posn g_sol, g_jupiter;
-	double a,b,c;
+	double a, b, c;
 	double ra, dec, delta, diff, last, t = 0;
 	
 	/* need typdef for solar heliocentric coords */
-	ln_get_solar_geom_coords (JD, &h_sol);
-	ln_get_rect_from_helio (&h_sol,  &g_sol);
+	ln_get_solar_geom_coords(JD, &h_sol);
+	ln_get_rect_from_helio(&h_sol,  &g_sol);
 	
 	do {
 		last = t;
-		ln_get_jupiter_helio_coords (JD - t, &h_jupiter);
-		ln_get_rect_from_helio (&h_jupiter, &g_jupiter);
+		ln_get_jupiter_helio_coords(JD - t, &h_jupiter);
+		ln_get_rect_from_helio(&h_jupiter, &g_jupiter);
 
 		/* equ 33.10 pg 229 */
 		a = g_sol.X + g_jupiter.X;
 		b = g_sol.Y + g_jupiter.Y;
 		c = g_sol.Z + g_jupiter.Z;
 	
-		delta = a*a + b*b + c*c;
-		delta = sqrt (delta);
+		delta = a * a + b * b + c * c;
+		delta = sqrt(delta);
 		t = delta * 0.0057755183;
 		diff = t - last;
 	} while (diff > 0.0001 || diff < -0.0001);
 		
-	ra = atan2 (b,a);
+	ra = atan2(b, a);
 	dec = c / delta;
-	dec = asin (dec);
+	dec = asin(dec);
 
 	/* back to hours, degrees */
-	position->ra = ln_range_degrees(ln_rad_to_deg (ra));
-	position->dec = ln_rad_to_deg (dec);
+	position->ra = ln_range_degrees(ln_rad_to_deg(ra));
+	position->dec = ln_rad_to_deg(dec);
 }
 	
-/*! \fn void ln_get_jupiter_helio_coords (double JD, struct ln_helio_posn * position)
+/*! \fn void ln_get_jupiter_helio_coords(double JD, struct ln_helio_posn *position)
 * \param JD Julian Day
 * \param position Pointer to store heliocentric position
 *
@@ -3805,7 +3805,7 @@ void ln_get_jupiter_equ_coords (double JD, struct ln_equ_posn * position)
 */
 /* Chapter 31 Pg 206-207 Equ 31.1 31.2 , 31.3 using VSOP 87 
 */
-void ln_get_jupiter_helio_coords (double JD, struct ln_helio_posn * position)
+void ln_get_jupiter_helio_coords(double JD, struct ln_helio_posn *position)
 {
 	double t, t2, t3, t4, t5;
 	double L0, L1, L2, L3, L4, L5;
@@ -3813,7 +3813,7 @@ void ln_get_jupiter_helio_coords (double JD, struct ln_helio_posn * position)
 	double R0, R1, R2, R3, R4, R5;
            	
 	/* check cache first */
-	if (JD == cJD) {
+	if(JD == cJD) {
 		/* cache hit */
 		position->L = cL;
 		position->B = cB;
@@ -3822,38 +3822,38 @@ void ln_get_jupiter_helio_coords (double JD, struct ln_helio_posn * position)
 	}
 	
 	/* get julian ephemeris day */
-	t = (JD - 2451545.0) / 365250;
+	t =(JD - 2451545.0) / 365250;
 	t2 = t * t;
 	t3 = t2 * t;
 	t4 = t3 * t;
 	t5 = t4 * t;
 	
 	/* calc L series */
-	L0 = ln_calc_series (jupiter_longitude_l0, LONG_L0, t);
-	L1 = ln_calc_series (jupiter_longitude_l1, LONG_L1, t);
-	L2 = ln_calc_series (jupiter_longitude_l2, LONG_L2, t);
-	L3 = ln_calc_series (jupiter_longitude_l3, LONG_L3, t);
-	L4 = ln_calc_series (jupiter_longitude_l4, LONG_L4, t);
-	L5 = ln_calc_series (jupiter_longitude_l5, LONG_L5, t);
+	L0 = ln_calc_series(jupiter_longitude_l0, LONG_L0, t);
+	L1 = ln_calc_series(jupiter_longitude_l1, LONG_L1, t);
+	L2 = ln_calc_series(jupiter_longitude_l2, LONG_L2, t);
+	L3 = ln_calc_series(jupiter_longitude_l3, LONG_L3, t);
+	L4 = ln_calc_series(jupiter_longitude_l4, LONG_L4, t);
+	L5 = ln_calc_series(jupiter_longitude_l5, LONG_L5, t);
 	position->L = (L0 + L1 * t + L2 * t2 + L3 * t3 + L4 * t4 + L5 * t5);
 
 	/* calc B series */
-	B0 = ln_calc_series (jupiter_latitude_b0, LAT_B0, t);
-	B1 = ln_calc_series (jupiter_latitude_b1, LAT_B1, t);
-	B2 = ln_calc_series (jupiter_latitude_b2, LAT_B2, t);
-	B3 = ln_calc_series (jupiter_latitude_b3, LAT_B3, t);
-	B4 = ln_calc_series (jupiter_latitude_b4, LAT_B4, t);
-	B5 = ln_calc_series (jupiter_latitude_b5, LAT_B5, t);
+	B0 = ln_calc_series(jupiter_latitude_b0, LAT_B0, t);
+	B1 = ln_calc_series(jupiter_latitude_b1, LAT_B1, t);
+	B2 = ln_calc_series(jupiter_latitude_b2, LAT_B2, t);
+	B3 = ln_calc_series(jupiter_latitude_b3, LAT_B3, t);
+	B4 = ln_calc_series(jupiter_latitude_b4, LAT_B4, t);
+	B5 = ln_calc_series(jupiter_latitude_b5, LAT_B5, t);
 	position->B = (B0 + B1 * t + B2 * t2 + B3 * t3 + B4 * t4 + B5 * t5);
 
 
 	/* calc R series */
-	R0 = ln_calc_series (jupiter_radius_r0, RADIUS_R0, t);
-	R1 = ln_calc_series (jupiter_radius_r1, RADIUS_R1, t);
-	R2 = ln_calc_series (jupiter_radius_r2, RADIUS_R2, t);
-	R3 = ln_calc_series (jupiter_radius_r3, RADIUS_R3, t);
-	R4 = ln_calc_series (jupiter_radius_r4, RADIUS_R4, t);
-	R5 = ln_calc_series (jupiter_radius_r5, RADIUS_R5, t);
+	R0 = ln_calc_series(jupiter_radius_r0, RADIUS_R0, t);
+	R1 = ln_calc_series(jupiter_radius_r1, RADIUS_R1, t);
+	R2 = ln_calc_series(jupiter_radius_r2, RADIUS_R2, t);
+	R3 = ln_calc_series(jupiter_radius_r3, RADIUS_R3, t);
+	R4 = ln_calc_series(jupiter_radius_r4, RADIUS_R4, t);
+	R5 = ln_calc_series(jupiter_radius_r5, RADIUS_R5, t);
 	position->R = (R0 + R1 * t + R2 * t2 + R3 * t3 + R4 * t4 + R5 * t5);
 	
 	/* change to degrees in correct quadrant */
@@ -3862,7 +3862,7 @@ void ln_get_jupiter_helio_coords (double JD, struct ln_helio_posn * position)
 	position->L = ln_range_degrees(position->L);
 	
 	/* change to fk5 reference frame */
-	ln_vsop87_to_fk5 (position, JD);
+	ln_vsop87_to_fk5(position, JD);
 	
 	/* save cache */
 	cJD = JD;
@@ -3871,26 +3871,26 @@ void ln_get_jupiter_helio_coords (double JD, struct ln_helio_posn * position)
 	cR = position->R;
 }
 
-/*! \fn double ln_get_jupiter_earth_dist (double JD);
+/*! \fn double ln_get_jupiter_earth_dist(double JD);
 * \param JD Julian day.
 * \brief Calculate the distance between Jupiter and the Earth in AU
 * \return Distance in AU.
 *
 * Calculates the distance in AU between the Earth and Jupiter for the given julian day.
 */
-double ln_get_jupiter_earth_dist (double JD)
+double ln_get_jupiter_earth_dist(double JD)
 {
-	struct ln_helio_posn  h_jupiter, h_earth;
+	struct ln_helio_posn h_jupiter, h_earth;
 	struct ln_rect_posn g_jupiter, g_earth;
 	double x, y, z;
 	
 	/* get heliocentric positions */
-	ln_get_jupiter_helio_coords (JD, &h_jupiter);
-	ln_get_earth_helio_coords (JD, &h_earth);
+	ln_get_jupiter_helio_coords(JD, &h_jupiter);
+	ln_get_earth_helio_coords(JD, &h_earth);
 	
 	/* get geocentric coords */
-	ln_get_rect_from_helio (&h_jupiter, &g_jupiter);
-	ln_get_rect_from_helio (&h_earth, &g_earth);
+	ln_get_rect_from_helio(&h_jupiter, &g_jupiter);
+	ln_get_rect_from_helio(&h_earth, &g_earth);
 	
 	/* use pythag */
 	x = g_jupiter.X - g_earth.X;
@@ -3900,47 +3900,47 @@ double ln_get_jupiter_earth_dist (double JD)
 	y = y * y;
 	z = z * z;
 
-	return sqrt (x + y + z);
+	return sqrt(x + y + z);
 }
 	
-/*! \fn double ln_get_jupiter_solar_dist (double JD);
+/*! \fn double ln_get_jupiter_solar_dist(double JD);
 * \param JD Julian day.
 * \brief Calculate the distance between Jupiter and the Sun in AU
 * \return Distance in AU.
 *
 * Calculates the distance in AU between the Sun and Jupiter for the given julian day.
 */ 
-double ln_get_jupiter_solar_dist (double JD)
+double ln_get_jupiter_solar_dist(double JD)
 {
 	struct ln_helio_posn h_jupiter;
 	
 	/* get heliocentric position */
-	ln_get_jupiter_helio_coords (JD, &h_jupiter);
+	ln_get_jupiter_helio_coords(JD, &h_jupiter);
 	return h_jupiter.R;
 }
 	
-/*! \fn double ln_get_jupiter_magnitude (double JD);
+/*! \fn double ln_get_jupiter_magnitude(double JD);
 * \param JD Julian day
 * \brief Calculate the visible magnitude of Jupiter
 * \return Visible magnitude of Jupiter
 *
 * Calculate the visible magnitude of jupiter for the given julian day.
 */ 
-double ln_get_jupiter_magnitude (double JD)
+double ln_get_jupiter_magnitude(double JD)
 {
 	double delta, r, i;
 	
 	/* get distances */
-	r = ln_get_jupiter_solar_dist (JD);
-	delta = ln_get_jupiter_earth_dist (JD);
+	r = ln_get_jupiter_solar_dist(JD);
+	delta = ln_get_jupiter_earth_dist(JD);
 	
 	/* get phase */
-	i = ln_get_jupiter_phase (JD);
+	i = ln_get_jupiter_phase(JD);
 
-	return -9.40 + 5 * log10 (r * delta) + 0.005 * i;
+	return -9.40 + 5.0 * log10(r * delta) + 0.005 * i;
 }
 
-/*! \fn double ln_get_jupiter_disk (double JD);
+/*! \fn double ln_get_jupiter_disk(double JD);
 * \param JD Julian day.
 * \brief Calculate the illuminated fraction of Jupiter's disk
 * \return Illuminated fraction of Jupiters disk (Value between 0 and 1)
@@ -3949,20 +3949,20 @@ double ln_get_jupiter_magnitude (double JD)
 * day.
 */ 
 /* Chapter 41 */
-double ln_get_jupiter_disk (double JD)
+double ln_get_jupiter_disk(double JD)
 {
-	double r,delta,R;	
+	double r, delta, R;
 	
 	/* get distances */
-	R = ln_get_earth_solar_dist (JD);
-	r = ln_get_jupiter_solar_dist (JD);
-	delta = ln_get_jupiter_earth_dist (JD);
+	R = ln_get_earth_solar_dist(JD);
+	r = ln_get_jupiter_solar_dist(JD);
+	delta = ln_get_jupiter_earth_dist(JD);
 	
 	/* calc fraction angle */
 	return (((r + delta) * (r + delta)) - R * R) / (4 * r * delta);
 }
 
-/*! \fn double ln_get_jupiter_phase (double JD);
+/*! \fn double ln_get_jupiter_phase(double JD);
 * \param JD Julian Day
 * \return Phase angle of Jupiter (degrees)
 *
@@ -3970,23 +3970,23 @@ double ln_get_jupiter_disk (double JD)
 * Jupiter - Earth for the given Julian day.
 */ 
 /* Chapter 41 */
-double ln_get_jupiter_phase (double JD)
+double ln_get_jupiter_phase(double JD)
 {
 	double i,r,delta,R;	
 	
 	/* get distances */
-	R = ln_get_earth_solar_dist (JD);
-	r = ln_get_jupiter_solar_dist (JD);
-	delta = ln_get_jupiter_earth_dist (JD);
+	R = ln_get_earth_solar_dist(JD);
+	r = ln_get_jupiter_solar_dist(JD);
+	delta = ln_get_jupiter_earth_dist(JD);
 
 	/* calc phase */
-	i = (r * r + delta * delta - R * R) / (2 * r * delta);
-	i = acos (i);
-	return ln_rad_to_deg (i);
+	i = (r * r + delta * delta - R * R) / (2.0 * r * delta);
+	i = acos(i);
+	return ln_rad_to_deg(i);
 }
 
 
-/*! \fn double ln_get_jupiter_rst (double JD, struct ln_lnlat_posn * observer, struct ln_rst_time * rst);
+/*! \fn double ln_get_jupiter_rst(double JD, struct ln_lnlat_posn *observer, struct ln_rst_time *rst);
 * \param JD Julian day
 * \param observer Observers position
 * \param rst Pointer to store Rise, Set and Transit time in JD
@@ -3998,29 +3998,31 @@ double ln_get_jupiter_phase (double JD)
 * Note: this functions returns 1 if Jupiter is circumpolar, that is it remains the whole
 * day either above or below the horizon.
 */
-int ln_get_jupiter_rst (double JD, struct ln_lnlat_posn * observer, struct ln_rst_time * rst)
+int ln_get_jupiter_rst(double JD, struct ln_lnlat_posn *observer,
+	struct ln_rst_time *rst)
 {
-	return ln_get_body_rst_horizon (JD, observer, ln_get_jupiter_equ_coords, LN_STAR_STANDART_HORIZON, rst);
+	return ln_get_body_rst_horizon(JD, observer, ln_get_jupiter_equ_coords,
+		LN_STAR_STANDART_HORIZON, rst);
 }
 
 
-/*! \fn double ln_get_jupiter_equ_sdiam (double JD)
+/*! \fn double ln_get_jupiter_equ_sdiam(double JD)
 * \param JD Julian day
 * \return Semidiameter in arc seconds
 *
 * Calculate the equatorial semidiameter of Jupiter in arc seconds for the 
 * given julian day.
 */
-double ln_get_jupiter_equ_sdiam (double JD)
+double ln_get_jupiter_equ_sdiam(double JD)
 {
 	double So = 98.44; /* at 1 AU */
 	double dist;
 	
-	dist = ln_get_jupiter_earth_dist (JD);
+	dist = ln_get_jupiter_earth_dist(JD);
 	return So / dist;
 }
 
-/*! \fn double ln_get_jupiter_pol_sdiam (double JD)
+/*! \fn double ln_get_jupiter_pol_sdiam(double JD)
 * \param JD Julian day
 * \return Semidiameter in arc seconds
 * \todo Use Jupitercentric latitude of Earth Pg 390
@@ -4028,26 +4030,26 @@ double ln_get_jupiter_equ_sdiam (double JD)
 * Calculate the polar semidiameter of Jupiter in arc seconds for the 
 * given julian day.
 */
-double ln_get_jupiter_pol_sdiam (double JD)
+double ln_get_jupiter_pol_sdiam(double JD)
 {
 	double So = 92.06; /* at 1 AU */
 	double dist;
 	
-	dist = ln_get_jupiter_earth_dist (JD);
+	dist = ln_get_jupiter_earth_dist(JD);
 	return So / dist;
 }
 
-/*! \fn void ln_get_jupiter_rect_helio (double JD, struct ln_rect_posn * position)
+/*! \fn void ln_get_jupiter_rect_helio(double JD, struct ln_rect_posn *position)
 * \param JD Julian day.
 * \param position pointer to return position
 *
 * Calculate Jupiters rectangular heliocentric coordinates for the
 * given Julian day. Coordinates are in AU.
 */
-void ln_get_jupiter_rect_helio (double JD, struct ln_rect_posn * position)
+void ln_get_jupiter_rect_helio(double JD, struct ln_rect_posn *position)
 {
 	struct ln_helio_posn jupiter;
 		
-	ln_get_jupiter_helio_coords (JD, &jupiter);
-	ln_get_rect_from_helio (&jupiter, position);
+	ln_get_jupiter_helio_coords(JD, &jupiter);
+	ln_get_rect_from_helio(&jupiter, position);
 }

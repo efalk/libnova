@@ -33,11 +33,12 @@ extern "C" {
 * All angles are expressed in degrees.
 */
 
-/*! \fn void ln_get_apparent_posn (struct ln_equ_posn * mean_position, struct ln_equ_posn * proper_motion, double JD, struct ln_equ_posn * position);
+/*! \fn void ln_get_apparent_posn(struct ln_equ_posn *mean_position, struct ln_equ_posn *proper_motion, double JD, struct ln_equ_posn *position);
 * \brief Calculate the apparent position of a star.  
 * \ingroup apparent
 */
-void LIBNOVA_EXPORT ln_get_apparent_posn (struct ln_equ_posn * mean_position, struct ln_equ_posn * proper_motion, double JD,struct ln_equ_posn * position);
+void LIBNOVA_EXPORT ln_get_apparent_posn(struct ln_equ_posn *mean_position,
+	struct ln_equ_posn *proper_motion, double JD, struct ln_equ_posn *position);
 
 #ifdef __cplusplus
 };

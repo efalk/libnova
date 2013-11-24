@@ -24,12 +24,12 @@
 #include <libnova/vsop87.h>
 #include <libnova/utility.h>
 
-double ln_calc_series (const struct ln_vsop * data, int terms, double t)
+double ln_calc_series(const struct ln_vsop *data, int terms, double t)
 {
-	double value = 0;
+	double value = 0.0;
 	int i;
-	
-	for (i=0; i<terms; i++) {
+
+	for (i = 0; i < terms; i++) {
 		value += data->A * cos(data->B + data->C * t);
 		data++;
 	}
@@ -38,28 +38,29 @@ double ln_calc_series (const struct ln_vsop * data, int terms, double t)
 }
 
 
-/*! \fn void ln_vsop87_to_fk5 (struct ln_helio_posn * position, double JD)
+/*! \fn void ln_vsop87_to_fk5(struct ln_helio_posn *position, double JD)
 * \param position Position to transform. 
 * \param JD Julian day
 *
 * Transform from VSOP87 to FK5 reference frame. 
 */
-/* Equation 31.3 Pg 207.         
+/* Equation 31.3 Pg 207.
 */
-void ln_vsop87_to_fk5 (struct ln_helio_posn * position, double JD)
+void ln_vsop87_to_fk5(struct ln_helio_posn *position, double JD)
 {
 	double LL, cos_LL, sin_LL, T, delta_L, delta_B, B;
 	
 	/* get julian centuries from 2000 */
-	T = (JD - 2451545.0)/ 36525.0;
+	T =(JD - 2451545.0) / 36525.0;
 	
-	LL = position->L + ( - 1.397 - 0.00031 * T ) * T;
-	LL = ln_deg_to_rad (LL);
+	LL = position->L + (- 1.397 - 0.00031 * T) * T;
+	LL = ln_deg_to_rad(LL);
 	cos_LL = cos(LL);
 	sin_LL = sin(LL);
 	B = ln_deg_to_rad(position->B);
 	
-	delta_L = (-0.09033 / 3600.0) + (0.03916 / 3600.0) * (cos_LL + sin_LL) * tan (B);
+	delta_L = (-0.09033 / 3600.0) + (0.03916 / 3600.0) *
+			(cos_LL + sin_LL) * tan(B);
 	delta_B = (0.03916 / 3600.0) * (cos_LL - sin_LL);
 	
 	position->L += delta_L;

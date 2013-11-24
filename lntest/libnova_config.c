@@ -21,24 +21,24 @@ Copyright 2001 Liam Girdwood
 #include <stdlib.h>
 #include <libnova/utility.h>
 
-void usage ()
+static void usage(void)
 {
-	printf ("libnova-config --version\n");
+	fprintf(stdout, "libnova-config --version\n");
 	exit (-1);
 }
 
-void get_version ()
+static void get_version(void)
 {
-	printf ("libnova %s\n", ln_get_version());
+	fprintf(stdout, "libnova %s\n", ln_get_version());
 }
 
-int main (int argc, char * argv[])
+int main(int argc, const char *argv[])
 {
 	int arg = 0;
 	int version = 0;
 	
 	if (argc < 2)
-		usage ();
+		usage();
 		
 	argc--;
 	arg = 1;

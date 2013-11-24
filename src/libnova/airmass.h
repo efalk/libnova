@@ -26,17 +26,17 @@
 extern "C" {
 #endif
 
-/*! \fn double ln_get_airmass (double alt, double airmass_scale);
- * \brief Calculate airmass in given altitude.
+/*! \fn double ln_get_airmass(double alt, double airmass_scale);
+ * \brief Calculate air mass in given altitude.
  * \ingroup airmass
  */
-double LIBNOVA_EXPORT ln_get_airmass (double alt, double airmass_scale);
+double LIBNOVA_EXPORT ln_get_airmass(double alt, double airmass_scale);
 
-/*! \fn double ln_get_alt_from_airmass (double X, double airmass_scale)
- * \brief Calculate altitude for given airmass.
+/*! \fn double ln_get_alt_from_airmass(double X, double airmass_scale)
+ * \brief Calculate altitude for given air mass.
  * \ingroup airmass
  */
-double LIBNOVA_EXPORT ln_get_alt_from_airmass (double X, double airmass_scale);
+double LIBNOVA_EXPORT ln_get_alt_from_airmass(double X, double airmass_scale);
 
 #ifdef __cplusplus
 };

@@ -25,7 +25,7 @@ Copyright 2004 Liam Girdwood
  * Do some RA/DEC <--> ALT/AZ conversions for Alnilam
  * in Leon (Spain) on 25/4/2004
  */
-int main (int argc, char * argv[])
+int main (int argc, const char *argv[])
 {
 	struct lnh_equ_posn hobject, hequ;
 	struct lnh_lnlat_posn hobserver;
@@ -33,8 +33,8 @@ int main (int argc, char * argv[])
 	struct ln_hrz_posn hrz;
 	struct lnh_hrz_posn hhrz;
 	struct ln_lnlat_posn observer;
-	double JD;
 	struct ln_date date;
+	double JD;
 	
 	/* 
 	 * observers position
@@ -44,19 +44,19 @@ int main (int argc, char * argv[])
 	 */
 	hobserver.lng.degrees = -5;
 	hobserver.lng.minutes = 36;
-	hobserver.lng.seconds = 30;
+	hobserver.lng.seconds = 30.0;
 	hobserver.lat.degrees = 42;
 	hobserver.lat.minutes = 35;
-	hobserver.lat.seconds = 40;
+	hobserver.lat.seconds = 40.0;
 
 	/* Alnilam */
 	hobject.ra.hours = 5;
 	hobject.ra.minutes = 36;
-	hobject.ra.seconds = 27;
+	hobject.ra.seconds = 27.0;
 	hobject.dec.neg = 1;
 	hobject.dec.degrees = 1;
 	hobject.dec.minutes = 12;
-	hobject.dec.seconds = 0;
+	hobject.dec.seconds = 0.0;
 
 	/* UT date and time */
 	date.years = 2004;
@@ -64,25 +64,29 @@ int main (int argc, char * argv[])
 	date.days = 25;
 	date.hours = 12;
 	date.minutes = 18;
-	date.seconds = 49;
+	date.seconds = 49.0;
 
-	JD = ln_get_julian_day (&date);
-	ln_hequ_to_equ (&hobject, &object);
-	ln_hlnlat_to_lnlat (&hobserver, &observer);
+	JD = ln_get_julian_day(&date);
+	ln_hequ_to_equ(&hobject, &object);
+	ln_hlnlat_to_lnlat(&hobserver, &observer);
 
-	ln_get_hrz_from_equ (&object, &observer, JD, &hrz);
-	printf("(Alnilam) Equ to Horiz ALT %f\n", hrz.alt);
-	printf("(Alnilam) Equ to Horiz AZ %f\n", hrz.az);
+	ln_get_hrz_from_equ(&object, &observer, JD, &hrz);
+	fprintf(stdout, "(Alnilam) Equ to Horiz ALT %f\n", hrz.alt);
+	fprintf(stdout, "(Alnilam) Equ to Horiz AZ %f\n", hrz.az);
+
 	ln_hrz_to_hhrz(&hrz, &hhrz);
-	printf("ALT %d:%d:%f  AZ %d:%d:%f\n", hhrz.alt.degrees, hhrz.alt.minutes,
-		hhrz.alt.seconds, hhrz.az.degrees, hhrz.az.minutes, hhrz.az.seconds);
+	fprintf(stdout, "ALT %d:%d:%f  AZ %d:%d:%f\n",
+		hhrz.alt.degrees, hhrz.alt.minutes, hhrz.alt.seconds,
+		hhrz.az.degrees, hhrz.az.minutes, hhrz.az.seconds);
 
 	ln_get_equ_from_hrz (&hrz, &observer, JD, &equ);
-	printf("(Alnilam) Horiz to Equ RA %f\n", equ.ra);
-	printf("(Alnilam) Horiz to Equ DEC %f\n", equ.dec);
+	fprintf(stdout, "(Alnilam) Horiz to Equ RA %f\n", equ.ra);
+	fprintf(stdout, "(Alnilam) Horiz to Equ DEC %f\n", equ.dec);
+
 	ln_equ_to_hequ(&equ, &hequ);
-	printf("RA %d:%d:%f  DEC %d:%d:%f\n", hequ.ra.hours, hequ.ra.minutes,
-		hequ.ra.seconds, hequ.dec.degrees, hequ.dec.minutes, hequ.dec.seconds);
+	fprintf(stdout, "RA %d:%d:%f  DEC %d:%d:%f\n",
+		hequ.ra.hours, hequ.ra.minutes, hequ.ra.seconds,
+		hequ.dec.degrees, hequ.dec.minutes, hequ.dec.seconds);
 
 	return 0;
 }

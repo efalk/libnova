@@ -13,7 +13,7 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  *  
- *  Copyright (C) 2000 - 2005 Liam Girdwood  
+ *  Copyright (C) 2000 - 2005 Liam Girdwood <lgirdwood@gmail.com>
  */
 
 #define LIBNOVA_VERSION "0.14.0"
@@ -87,10 +87,6 @@
 *
 * Thanks to Messrs. Bretagnon and Francou for publishing planetary 
 * solution VSOP87.
-*
-* Thanks to everyone who has submitted patches. NOTE: I sufferend a disk failure 
-* this year and lost a windows patch. I would be grateful if the author could
-* resubmit it.
 *
 * Also thanks to Sourceforge for hosting this project. <A href="http://sourceforge.net"> <IMG src="http://sourceforge.net/sflogo.php?group_id=57697&amp;type=5" width="210" height="62" border="0" alt="SourceForge Logo"></A> 
 */

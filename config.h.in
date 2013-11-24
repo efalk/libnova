@@ -24,6 +24,9 @@
 /* Define to 1 if you have the `atan2l' function. */
 #undef HAVE_ATAN2L
 
+/* Define to enable AVX optimizations. */
+#undef HAVE_AVX
+
 /* Define to 1 if you have the `cosl' function. */
 #undef HAVE_COSL
 

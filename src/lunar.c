@@ -38280,8 +38280,8 @@ static double sum_series_elp1 (double* t)
 			}
 			
 			/* y in correct quad */
-			y = ln_range_radians2 (y);
-			result += x * sin (y);
+			y = ln_range_radians2(y);
+			result += x * sin(y);
 		}
 	}
 	return result;
@@ -38310,8 +38310,8 @@ static double sum_series_elp2 (double* t)
 					y += main_elp2[j].ilu[i] * del[i][k] * t[k];
 			}
 			/* y in correct quad */
-			y = ln_range_radians2 (y);
-			result += x * sin (y);
+			y = ln_range_radians2(y);
+			result += x * sin(y);
 		}
 	}
 	return result;
@@ -38341,8 +38341,8 @@ static double sum_series_elp3 (double* t)
 			}
 			y += (M_PI_2);
 			/* y in correct quad */
-			y = ln_range_radians2 (y);
-			result += x * sin (y);
+			y = ln_range_radians2(y);
+			result += x * sin(y);
 		}
 	}
 	return result;
@@ -38350,7 +38350,7 @@ static double sum_series_elp3 (double* t)
 
 
 /* sum lunar elp4 series */
-static double sum_series_elp4 (double *t)
+static double sum_series_elp4(double *t)
 {
 	double result = 0;
 	int i,j,k;
@@ -38366,15 +38366,15 @@ static double sum_series_elp4 (double *t)
 					y += earth_pert_elp4[j].ilu[i] * del[i][k] * t[k];
 			}
 			/* put y in correct quad */
-			y = ln_range_radians2 (y);
-			result += earth_pert_elp4[j].A * sin (y);
+			y = ln_range_radians2(y);
+			result += earth_pert_elp4[j].A * sin(y);
 		}
 	}
 	return result;
 }
 
 /* sum lunar elp5 series */
-static double sum_series_elp5 (double *t)
+static double sum_series_elp5(double *t)
 {
 	double result = 0;
 	int i,j,k;
@@ -38390,8 +38390,8 @@ static double sum_series_elp5 (double *t)
 					y += earth_pert_elp5[j].ilu[i] * del[i][k] * t[k];
 			}
 			/* put y in correct quad */
-			y = ln_range_radians2 (y);
-			result += earth_pert_elp5[j].A * sin (y);
+			y = ln_range_radians2(y);
+			result += earth_pert_elp5[j].A * sin(y);
 		}
 	}
 	return result;
@@ -38399,7 +38399,7 @@ static double sum_series_elp5 (double *t)
 
 
 /* sum lunar elp6 series */
-static double sum_series_elp6 (double *t)
+static double sum_series_elp6(double *t)
 {
 	double result = 0;
 	int i,j,k;
@@ -38415,15 +38415,15 @@ static double sum_series_elp6 (double *t)
 					y += earth_pert_elp6[j].ilu[i] * del[i][k] * t[k];
 			}
 			/* put y in correct quad */
-			y = ln_range_radians2 (y);
-			result += earth_pert_elp6[j].A * sin (y);
+			y = ln_range_radians2(y);
+			result += earth_pert_elp6[j].A * sin(y);
 		}
 	}
 	return result;
 }
 
 /* sum lunar elp7 series */
-static double sum_series_elp7 (double *t)
+static double sum_series_elp7(double *t)
 {
 	double result = 0;
 	int i,j,k;
@@ -38440,15 +38440,15 @@ static double sum_series_elp7 (double *t)
 					y += earth_pert_elp7[j].ilu[i] * del[i][k] * t[k];
 			}
 			/* put y in correct quad */
-			y = ln_range_radians2 (y);
-			result += A * sin (y);
+			y = ln_range_radians2(y);
+			result += A * sin(y);
 		}
 	}
 	return result;
 }
 
 /* sum lunar elp8 series */
-static double sum_series_elp8 (double *t)
+static double sum_series_elp8(double *t)
 {
 	double result = 0;
 	int i,j,k;
@@ -38465,15 +38465,15 @@ static double sum_series_elp8 (double *t)
 					y += earth_pert_elp8[j].ilu[i] * del[i][k] * t[k];
 			}
 			/* put y in correct quad */
-			y = ln_range_radians2 (y);
-			result += A * sin (y);
+			y = ln_range_radians2(y);
+			result += A * sin(y);
 		}
 	}
 	return result;
 }
 
 /* sum lunar elp9 series */
-static double sum_series_elp9 (double *t)
+static double sum_series_elp9(double *t)
 {
 	double result = 0;
 	int i,j,k;
@@ -38490,15 +38490,15 @@ static double sum_series_elp9 (double *t)
 					y += earth_pert_elp9[j].ilu[i] * del[i][k] * t[k];
 			}
 			/* put y in correct quad */
-			y = ln_range_radians2 (y);
-			result += A * sin (y);
+			y = ln_range_radians2(y);
+			result += A * sin(y);
 		}
 	}
 	return result;
 }
 
 /* sum lunar elp10 series */
-static double sum_series_elp10 (double *t)
+static double sum_series_elp10(double *t)
 {
 	double result = 0;
 	int i,j,k;
@@ -38516,15 +38516,15 @@ static double sum_series_elp10 (double *t)
 					y += plan_pert_elp10[j].ipla[i] * p[i][k] * t[k];
 			}
 			/* put y in correct quad */
-			y = ln_range_radians2 (y);
-			result += plan_pert_elp10[j].O * sin (y);
+			y = ln_range_radians2(y);
+			result += plan_pert_elp10[j].O * sin(y);
 		}
 	}
 	return result;
 }
 
 /* sum lunar elp11 series */
-static double sum_series_elp11 (double *t)
+static double sum_series_elp11(double *t)
 {
 	double result = 0;
 	int i,j,k;
@@ -38542,15 +38542,15 @@ static double sum_series_elp11 (double *t)
 					y += plan_pert_elp11[j].ipla[i] * p[i][k] * t[k];
 			}
 			/* put y in correct quad */
-			y = ln_range_radians2 (y);
-			result += plan_pert_elp11[j].O * sin (y);
+			y = ln_range_radians2(y);
+			result += plan_pert_elp11[j].O * sin(y);
 		}
 	}
 	return result;
 }
 
 /* sum lunar elp12 series */
-static double sum_series_elp12 (double *t)
+static double sum_series_elp12(double *t)
 {
 	double result = 0;
 	int i,j,k;
@@ -38568,15 +38568,15 @@ static double sum_series_elp12 (double *t)
 					y += plan_pert_elp12[j].ipla[i] * p[i][k] * t[k];
 			}
 			/* put y in correct quad */
-			y = ln_range_radians2 (y);
-			result += plan_pert_elp12[j].O * sin (y);
+			y = ln_range_radians2(y);
+			result += plan_pert_elp12[j].O * sin(y);
 		}
 	}
 	return result;
 }
 
 /* sum lunar elp13 series */
-static double sum_series_elp13 (double *t)
+static double sum_series_elp13(double *t)
 {
 	double result = 0;
 	int i,j,k;
@@ -38594,16 +38594,16 @@ static double sum_series_elp13 (double *t)
 					y += plan_pert_elp13[j].ipla[i] * p[i][k] * t[k];
 			}
 			/* put y in correct quad */
-			y = ln_range_radians2 (y);
+			y = ln_range_radians2(y);
 			x = plan_pert_elp13[j].O * t[1];
-			result += x * sin (y);
+			result += x * sin(y);
 		}
 	}
 	return result;
 }
 
 /* sum lunar elp14 series */
-static double sum_series_elp14 (double *t)
+static double sum_series_elp14(double *t)
 {
 	double result = 0;
 	int i,j,k;
@@ -38621,9 +38621,9 @@ static double sum_series_elp14 (double *t)
 					y += plan_pert_elp14[j].ipla[i] * p[i][k] * t[k];
 			}
 			/* put y in correct quad */
-			y = ln_range_radians2 (y);
+			y = ln_range_radians2(y);
 			x = plan_pert_elp14[j].O * t[1];
-			result += x * sin (y);
+			result += x * sin(y);
 		}
 	}
 	return result;
@@ -38631,7 +38631,7 @@ static double sum_series_elp14 (double *t)
 
 
 /* sum lunar elp15 series */
-static double sum_series_elp15 (double *t)
+static double sum_series_elp15(double *t)
 {
 	double result = 0;
 	int i,j,k;
@@ -38649,16 +38649,16 @@ static double sum_series_elp15 (double *t)
 					y += plan_pert_elp15[j].ipla[i] * p[i][k] * t[k];
 			}
 			/* put y in correct quad */
-			y = ln_range_radians2 (y);
+			y = ln_range_radians2(y);
 			x = plan_pert_elp15[j].O * t[1];
-			result += x * sin (y);
+			result += x * sin(y);
 		}
 	}
 	return result;
 }
 
 /* sum lunar elp16 series */
-static double sum_series_elp16 (double *t)
+static double sum_series_elp16(double *t)
 {
 	double result = 0;
 	int i,j,k;
@@ -38675,14 +38675,14 @@ static double sum_series_elp16 (double *t)
 					y += plan_pert_elp16[j].ipla[i] * p[i][k] * t[k];
 			}
 			/* put y in correct quad */
-			y = ln_range_radians2 (y);
-			result += plan_pert_elp16[j].O * sin (y);
+			y = ln_range_radians2(y);
+			result += plan_pert_elp16[j].O * sin(y);
 		}
 	}
 	return result;
 }
 
-static double sum_series_elp17 (double *t)
+static double sum_series_elp17(double *t)
 {
 	double result = 0;
 	int i,j,k;
@@ -38699,14 +38699,14 @@ static double sum_series_elp17 (double *t)
 					y += plan_pert_elp17[j].ipla[i] * p[i][k] * t[k];
 			}
 			/* put y in correct quad */
-			y = ln_range_radians2 (y);
-			result += plan_pert_elp17[j].O * sin (y);
+			y = ln_range_radians2(y);
+			result += plan_pert_elp17[j].O * sin(y);
 		}
 	}
 	return result;
 }
 
-static double sum_series_elp18 (double *t)
+static double sum_series_elp18(double *t)
 {
 	double result = 0;
 	int i,j,k;
@@ -38723,14 +38723,14 @@ static double sum_series_elp18 (double *t)
 					y += plan_pert_elp18[j].ipla[i] * p[i][k] * t[k];
 			}
 			/* put y in correct quad */
-			y = ln_range_radians2 (y);
-			result += plan_pert_elp18[j].O * sin (y);
+			y = ln_range_radians2(y);
+			result += plan_pert_elp18[j].O * sin(y);
 		}
 	}
 	return result;
 }
 
-static double sum_series_elp19 (double *t)
+static double sum_series_elp19(double *t)
 {
 	double result = 0;
 	int i,j,k;
@@ -38747,15 +38747,15 @@ static double sum_series_elp19 (double *t)
 					y += plan_pert_elp19[j].ipla[i] * p[i][k] * t[k];
 			}
 			/* put y in correct quad */
-			y = ln_range_radians2 (y);
+			y = ln_range_radians2(y);
 			x = plan_pert_elp19[j].O * t[1];
-			result += x * sin (y);
+			result += x * sin(y);
 		}
 	}
 	return result;
 }
 
-static double sum_series_elp20 (double *t)
+static double sum_series_elp20(double *t)
 {
 	double result = 0;
 	int i,j,k;
@@ -38772,15 +38772,15 @@ static double sum_series_elp20 (double *t)
 					y += plan_pert_elp20[j].ipla[i] * p[i][k] * t[k];
 			}
 			/* put y in correct quad */
-			y = ln_range_radians2 (y);
+			y = ln_range_radians2(y);
 			x = plan_pert_elp20[j].O * t[1];
-			result += x * sin (y);
+			result += x * sin(y);
 		}
 	}
 	return result;
 }
 
-static double sum_series_elp21 (double *t)
+static double sum_series_elp21(double *t)
 {
 	double result = 0;
 	int i,j,k;
@@ -38797,16 +38797,16 @@ static double sum_series_elp21 (double *t)
 					y += plan_pert_elp21[j].ipla[i] * p[i][k] * t[k];
 			}
 			/* put y in correct quad */
-			y = ln_range_radians2 (y);
+			y = ln_range_radians2(y);
 			x = plan_pert_elp21[j].O * t[1];
-			result += x * sin (y);
+			result += x * sin(y);
 		}
 	}
 	return result;
 }
 
 /* sum lunar elp22 series */
-static double sum_series_elp22 (double *t)
+static double sum_series_elp22(double *t)
 {
 	double result = 0;
 	int i,j,k;
@@ -38822,15 +38822,15 @@ static double sum_series_elp22 (double *t)
 					y += tidal_effects_elp22[j].ilu[i] * del[i][k] * t[k];
 			}
 			/* put y in correct quad */
-			y = ln_range_radians2 (y);
-			result += tidal_effects_elp22[j].A * sin (y);
+			y = ln_range_radians2(y);
+			result += tidal_effects_elp22[j].A * sin(y);
 		}
 	}
 	return result;
 }
 
 /* sum lunar elp23 series */
-static double sum_series_elp23 (double *t)
+static double sum_series_elp23(double *t)
 {
 	double result = 0;
 	int i,j,k;
@@ -38846,15 +38846,15 @@ static double sum_series_elp23 (double *t)
 					y += tidal_effects_elp23[j].ilu[i] * del[i][k] * t[k];
 			}
 			/* put y in correct quad */
-			y = ln_range_radians2 (y);
-			result += tidal_effects_elp23[j].A * sin (y);
+			y = ln_range_radians2(y);
+			result += tidal_effects_elp23[j].A * sin(y);
 		}
 	}
 	return result;
 }
 
 /* sum lunar elp24 series */
-static double sum_series_elp24 (double *t)
+static double sum_series_elp24(double *t)
 {
 	double result = 0;
 	int i,j,k;
@@ -38870,15 +38870,15 @@ static double sum_series_elp24 (double *t)
 					y += tidal_effects_elp24[j].ilu[i] * del[i][k] * t[k];
 			}
 			/* put y in correct quad */
-			y = ln_range_radians2 (y);
-			result += tidal_effects_elp24[j].A * sin (y);
+			y = ln_range_radians2(y);
+			result += tidal_effects_elp24[j].A * sin(y);
 		}
 	}
 	return result;
 }
 
 /* sum lunar elp25 series */
-static double sum_series_elp25 (double *t)
+static double sum_series_elp25(double *t)
 {
 	double result = 0;
 	int i,j,k;
@@ -38895,15 +38895,15 @@ static double sum_series_elp25 (double *t)
 					y += tidal_effects_elp25[j].ilu[i] * del[i][k] * t[k];
 			}
 			/* put y in correct quad */
-			y = ln_range_radians2 (y);
-			result += A * sin (y);
+			y = ln_range_radians2(y);
+			result += A * sin(y);
 		}
 	}
 	return result;
 }
 
 /* sum lunar elp26 series */
-static double sum_series_elp26 (double *t)
+static double sum_series_elp26(double *t)
 {
 	double result = 0;
 	int i,j,k;
@@ -38920,15 +38920,15 @@ static double sum_series_elp26 (double *t)
 					y += tidal_effects_elp26[j].ilu[i] * del[i][k] * t[k];
 			}
 			/* put y in correct quad */
-			y = ln_range_radians2 (y);
-			result += A * sin (y);
+			y = ln_range_radians2(y);
+			result += A * sin(y);
 		}
 	}
 	return result;
 }
 
 /* sum lunar elp27 series */
-static double sum_series_elp27 (double *t)
+static double sum_series_elp27(double *t)
 {
 	double result = 0;
 	int i,j,k;
@@ -38945,15 +38945,15 @@ static double sum_series_elp27 (double *t)
 					y += tidal_effects_elp27[j].ilu[i] * del[i][k] * t[k];
 			}
 			/* put y in correct quad */
-			y = ln_range_radians2 (y);
-			result += A * sin (y);
+			y = ln_range_radians2(y);
+			result += A * sin(y);
 		}
 	}
 	return result;
 }
 
 /* sum lunar elp28 series */
-static double sum_series_elp28 (double *t)
+static double sum_series_elp28(double *t)
 {
 	double result = 0;
 	int i,j,k;
@@ -38969,15 +38969,15 @@ static double sum_series_elp28 (double *t)
 					y += moon_pert_elp28[j].ilu[i] * del[i][k] * t[k];
 			}
 			/* put y in correct quad */
-			y = ln_range_radians2 (y);
-			result += moon_pert_elp28[j].A * sin (y);
+			y = ln_range_radians2(y);
+			result += moon_pert_elp28[j].A * sin(y);
 		}
 	}
 	return result;
 }
 
 /* sum lunar elp29 series */
-static double sum_series_elp29 (double *t)
+static double sum_series_elp29(double *t)
 {
 	double result = 0;
 	int i,j,k;
@@ -38993,8 +38993,8 @@ static double sum_series_elp29 (double *t)
 					y += moon_pert_elp29[j].ilu[i] * del[i][k] * t[k];
 			}
 			/* put y in correct quad */
-			y = ln_range_radians2 (y);
-			result += moon_pert_elp29[j].A * sin (y);
+			y = ln_range_radians2(y);
+			result += moon_pert_elp29[j].A * sin(y);
 		}
 	}
 	return result;
@@ -39002,7 +39002,7 @@ static double sum_series_elp29 (double *t)
 
 
 /* sum lunar elp30 series */
-static double sum_series_elp30 (double *t)
+static double sum_series_elp30(double *t)
 {
 	double result = 0;
 	int i,j,k;
@@ -39018,8 +39018,8 @@ static double sum_series_elp30 (double *t)
 					y += moon_pert_elp30[j].ilu[i] * del[i][k] * t[k];
 			}
 			/* put y in correct quad */
-			y = ln_range_radians2 (y);
-			result += moon_pert_elp30[j].A * sin (y);
+			y = ln_range_radians2(y);
+			result += moon_pert_elp30[j].A * sin(y);
 		}
 	}
 	return result;
@@ -39027,7 +39027,7 @@ static double sum_series_elp30 (double *t)
 
 
 /* sum lunar elp31 series */
-static double sum_series_elp31 (double *t)
+static double sum_series_elp31(double *t)
 {
 	double result = 0;
 	int i,j,k;
@@ -39043,15 +39043,15 @@ static double sum_series_elp31 (double *t)
 					y += rel_pert_elp31[j].ilu[i] * del[i][k] * t[k];
 			}
 			/* put y in correct quad */
-			y = ln_range_radians2 (y);
-			result += rel_pert_elp31[j].A * sin (y);
+			y = ln_range_radians2(y);
+			result += rel_pert_elp31[j].A * sin(y);
 		}
 	}
 	return result;
 }
 
 /* sum lunar elp32 series */
-static double sum_series_elp32 (double *t)
+static double sum_series_elp32(double *t)
 {
 	double result = 0;
 	int i,j,k;
@@ -39067,15 +39067,15 @@ static double sum_series_elp32 (double *t)
 					y += rel_pert_elp32[j].ilu[i] * del[i][k] * t[k];
 			}
 			/* put y in correct quad */
-			y = ln_range_radians2 (y);
-			result += rel_pert_elp32[j].A * sin (y);
+			y = ln_range_radians2(y);
+			result += rel_pert_elp32[j].A * sin(y);
 		}
 	}
 	return result;
 }
 
 /* sum lunar elp33 series */
-static double sum_series_elp33 (double *t)
+static double sum_series_elp33(double *t)
 {
 	double result = 0;
 	int i,j,k;
@@ -39091,15 +39091,15 @@ static double sum_series_elp33 (double *t)
 					y += rel_pert_elp33[j].ilu[i] * del[i][k] * t[k];
 			}
 			/* put y in correct quad */
-			y = ln_range_radians2 (y);
-			result += rel_pert_elp33[j].A * sin (y);
+			y = ln_range_radians2(y);
+			result += rel_pert_elp33[j].A * sin(y);
 		}
 	}
 	return result;
 }
 
 /* sum lunar elp34 series */
-static double sum_series_elp34 (double *t)
+static double sum_series_elp34(double *t)
 {
 	double result = 0;
 	int i,j,k;
@@ -39116,14 +39116,14 @@ static double sum_series_elp34 (double *t)
 					y += plan_sol_pert_elp34[j].ilu[i] * del[i][k] * t[k];
 			}
 			/* put y in correct quad */
-			y = ln_range_radians2 (y);
-			result += A * sin (y);
+			y = ln_range_radians2(y);
+			result += A * sin(y);
 		}
 	}
 	return result;
 }
 /* sum lunar elp35 series */
-static double sum_series_elp35 (double *t)
+static double sum_series_elp35(double *t)
 {
 	double result = 0;
 	int i,j,k;
@@ -39140,15 +39140,15 @@ static double sum_series_elp35 (double *t)
 					y += plan_sol_pert_elp35[j].ilu[i] * del[i][k] * t[k];
 			}
 			/* put y in correct quad */
-			y = ln_range_radians2 (y);
-			result += A * sin (y);
+			y = ln_range_radians2(y);
+			result += A * sin(y);
 		}
 	}
 	return result;
 }
 
 /* sum lunar elp36 series */
-static double sum_series_elp36 (double *t)
+static double sum_series_elp36(double *t)
 {
 	double result = 0;
 	int i,j,k;
@@ -39165,14 +39165,14 @@ static double sum_series_elp36 (double *t)
 					y += plan_sol_pert_elp36[j].ilu[i] * del[i][k] * t[k];
 			}
 			/* put y in correct quad */
-			y = ln_range_radians2 (y);
-			result += A * sin (y);
+			y = ln_range_radians2(y);
+			result += A * sin(y);
 		}
 	}
 	return result;
 }
 
-/*! \fn void ln_get_lunar_geo_posn (double JD, struct ln_rect_posn * pos, double precision);
+/*! \fn void ln_get_lunar_geo_posn(double JD, struct ln_rect_posn *pos, double precision);
 * \param JD Julian day.
 * \param pos Pointer to a geocentric position structure to held result.
 * \param precision The truncation level of the series in radians for longitude 
@@ -39188,7 +39188,7 @@ static double sum_series_elp36 (double *t)
 * Paris.
 */ 
 /* ELP 2000-82B theory */
-void ln_get_lunar_geo_posn (double JD, struct ln_rect_posn * moon, double precision)
+void ln_get_lunar_geo_posn(double JD, struct ln_rect_posn *moon, double precision)
 {
 	double t[5];
 	double elp[36];
@@ -39201,7 +39201,7 @@ void ln_get_lunar_geo_posn (double JD, struct ln_rect_posn * moon, double precis
 		precision = 0.01;
 	
 	/* is value in cache ? */
-	if (JD == c_JD && precision >= c_precision) {
+	if(JD == c_JD && precision >= c_precision) {
 		moon->X = c_X;
 		moon->Y = c_Y;
 		moon->Z = c_Z;
@@ -39210,7 +39210,7 @@ void ln_get_lunar_geo_posn (double JD, struct ln_rect_posn * moon, double precis
 	
 	/* calc julian centuries */
 	t[0] = 1.0;
-	t[1] = (JD - 2451545.0) / 36525.0;
+	t[1] =(JD - 2451545.0) / 36525.0;
 	t[2] = t[1] * t[1];
 	t[3] = t[2] * t[1];
 	t[4] = t[3] * t[1];
@@ -39268,8 +39268,9 @@ void ln_get_lunar_geo_posn (double JD, struct ln_rect_posn * moon, double precis
 		elp[17] + elp[20] + elp[23] + elp[26] +
 		elp[29] + elp[32] + elp[35];
 		
-	/* calculate geocentric coords */	
-	a = a / RAD + W1[0] + W1[1] * t[1] + W1[2] * t[2] + W1[3] * t[3] + W1[4] * t[4];
+	/* calculate geocentric coords */
+	a = a / RAD + W1[0] + W1[1] * t[1] + W1[2] * t[2] + W1[3] * t[3]
+	    + W1[4] * t[4];
 	b = b / RAD;
 	c = c * A0 / ATH;
 	
@@ -39298,7 +39299,7 @@ void ln_get_lunar_geo_posn (double JD, struct ln_rect_posn * moon, double precis
 	c_Z = moon->Z = c;
 }
 
-/*! \fn void ln_get_lunar_equ_coords_prec (double JD, struct ln_equ_posn * position, double precision);
+/*! \fn void ln_get_lunar_equ_coords_prec(double JD, struct ln_equ_posn *position, double precision);
 * \param JD Julian Day
 * \param position Pointer to a struct ln_lnlat_posn to store result.
 * \param precision The truncation level of the series in radians for longitude 
@@ -39308,15 +39309,16 @@ void ln_get_lunar_geo_posn (double JD, struct ln_rect_posn * moon, double precis
 * Calculate the lunar RA and DEC for Julian day JD. 
 * Accuracy is better than 10 arcsecs in right ascension and 4 arcsecs in declination.
 */ 
-void ln_get_lunar_equ_coords_prec (double JD, struct ln_equ_posn * position, double precision)
+void ln_get_lunar_equ_coords_prec(double JD, struct ln_equ_posn *position,
+	double precision)
 {
 	struct ln_lnlat_posn ecl;
 		
-	ln_get_lunar_ecl_coords (JD, &ecl, precision);
-	ln_get_equ_from_ecl (&ecl, JD, position);
+	ln_get_lunar_ecl_coords(JD, &ecl, precision);
+	ln_get_equ_from_ecl(&ecl, JD, position);
 }
 
-/*! \fn void ln_get_lunar_equ_coords (double JD, struct ln_equ_posn * position);
+/*! \fn void ln_get_lunar_equ_coords(double JD, struct ln_equ_posn *position);
 * \param JD Julian Day
 * \param position Pointer to a struct ln_lnlat_posn to store result.
 * \ingroup lunar
@@ -39324,12 +39326,12 @@ void ln_get_lunar_equ_coords_prec (double JD, struct ln_equ_posn * position, dou
 * Calculate the lunar RA and DEC for Julian day JD. 
 * Accuracy is better than 10 arcsecs in right ascension and 4 arcsecs in declination.
 */ 
-void ln_get_lunar_equ_coords (double JD, struct ln_equ_posn * position)
+void ln_get_lunar_equ_coords(double JD, struct ln_equ_posn *position)
 {
-	ln_get_lunar_equ_coords_prec (JD, position, 0);
+	ln_get_lunar_equ_coords_prec(JD, position, 0);
 }
 
-/*! \fn void ln_get_lunar_ecl_coords (double JD, struct ln_lnlat_posn * position, double precision);
+/*! \fn void ln_get_lunar_ecl_coords(double JD, struct ln_lnlat_posn *position, double precision);
 * \param JD Julian Day
 * \param position Pointer to a struct ln_lnlat_posn to store result.
 * \param precision The truncation level of the series in radians for longitude 
@@ -39339,21 +39341,23 @@ void ln_get_lunar_equ_coords (double JD, struct ln_equ_posn * position)
 * Calculate the lunar longitude and latitude for Julian day JD.
 * Accuracy is better than 10 arcsecs in longitude and 4 arcsecs in latitude.
 */ 
-void ln_get_lunar_ecl_coords (double JD, struct ln_lnlat_posn * position, double precision)
+void ln_get_lunar_ecl_coords(double JD, struct ln_lnlat_posn *position,
+	double precision)
 {
 	struct ln_rect_posn moon;
 	
 	/* get lunar geocentric position */
-	ln_get_lunar_geo_posn (JD, &moon, precision);
+	ln_get_lunar_geo_posn(JD, &moon, precision);
 	
 	/* convert to long and lat */
-	position->lng = atan2 (moon.Y, moon.X);
-	position->lat = atan2 (moon.Z, (sqrt((moon.X * moon.X) + (moon.Y * moon.Y))));
-	position->lng = ln_range_degrees (ln_rad_to_deg (position->lng));
-	position->lat = ln_rad_to_deg (position->lat);
+	position->lng = atan2(moon.Y, moon.X);
+	position->lat = atan2(moon.Z,
+		(sqrt((moon.X * moon.X) + (moon.Y * moon.Y))));
+	position->lng = ln_range_degrees(ln_rad_to_deg(position->lng));
+	position->lat = ln_rad_to_deg(position->lat);
 }
 
-/*! \fn double ln_get_lunar_earth_dist (double JD);
+/*! \fn double ln_get_lunar_earth_dist(double JD);
 * \param JD Julian Day
 * \return The distance between the Earth and Moon in km.
 * \ingroup lunar
@@ -39361,23 +39365,23 @@ void ln_get_lunar_ecl_coords (double JD, struct ln_lnlat_posn * position, double
 * Calculates the distance between the centre of the Earth and the
 * centre of the Moon in km.
 */ 
-double ln_get_lunar_earth_dist (double JD)
+double ln_get_lunar_earth_dist(double JD)
 {
 	struct ln_rect_posn moon;
 		
-	ln_get_lunar_geo_posn (JD, &moon, 0.00001);
-	return sqrt ((moon.X * moon.X) + (moon.Y * moon.Y) + (moon.Z * moon.Z));
+	ln_get_lunar_geo_posn(JD, &moon, 0.00001);
+	return sqrt((moon.X * moon.X) + (moon.Y * moon.Y) + (moon.Z * moon.Z));
 }
 
 
-/*! \fn double ln_get_lunar_phase (double JD);
+/*! \fn double ln_get_lunar_phase(double JD);
 * \param JD Julian Day
 * \return Phase angle. (Value between 0 and 180)
 * \ingroup lunar
 *
 * Calculates the angle Sun - Moon - Earth.
 */ 
-double ln_get_lunar_phase (double JD)
+double ln_get_lunar_phase(double JD)
 {
 	double phase = 0;
 	struct ln_lnlat_posn moon, sunlp;
@@ -39385,21 +39389,22 @@ double ln_get_lunar_phase (double JD)
 	double R, delta;
 		
 	/* get lunar and solar long + lat */
-	ln_get_lunar_ecl_coords (JD, &moon, 0.0001);
-	ln_get_solar_ecl_coords (JD, &sunlp);
+	ln_get_lunar_ecl_coords(JD, &moon, 0.0001);
+	ln_get_solar_ecl_coords(JD, &sunlp);
 	
 	/* calc lunar geocentric elongation equ 48.2 */
-	lunar_elong = acos (cos (ln_deg_to_rad(moon.lat)) * cos (ln_deg_to_rad(sunlp.lng - moon.lng)));
+	lunar_elong = acos(cos(ln_deg_to_rad(moon.lat)) *
+		cos(ln_deg_to_rad(sunlp.lng - moon.lng)));
 	
 	/* now calc phase Equ 48.2 */
-	R = ln_get_earth_solar_dist (JD);
-	delta = ln_get_lunar_earth_dist (JD);
+	R = ln_get_earth_solar_dist(JD);
+	delta = ln_get_lunar_earth_dist(JD);
 	R = R * AU; /* convert R to km */
-	phase = atan2 ((R * sin (lunar_elong)), (delta - R * cos (lunar_elong)));
-	return ln_rad_to_deg (phase);
+	phase = atan2((R * sin(lunar_elong)), (delta - R * cos(lunar_elong)));
+	return ln_rad_to_deg(phase);
 }
 
-/*! \fn double ln_get_lunar_disk (double JD);
+/*! \fn double ln_get_lunar_disk(double JD);
 * \param JD Julian Day
 * \return Illuminated fraction. (Value between 0 and 1)
 * \brief Calculate the illuminated fraction of the moons disk
@@ -39407,16 +39412,16 @@ double ln_get_lunar_phase (double JD)
 *
 * Calculates the illuminated fraction of the Moon's disk. 
 */ 
-double ln_get_lunar_disk (double JD)
+double ln_get_lunar_disk(double JD)
 {
 	double i;
 	
 	/* Equ 48.1 */
-	i = ln_deg_to_rad (ln_get_lunar_phase (JD));
+	i = ln_deg_to_rad(ln_get_lunar_phase(JD));
 	return (1.0 + cos(i)) / 2.0;
 }
 
-/*! \fn double ln_get_lunar_bright_limb (double JD);
+/*! \fn double ln_get_lunar_bright_limb(double JD);
 * \param JD Julian Day
 * \return The position angle in degrees.
 * \brief Calculate the position angle of the Moon's bright limb.
@@ -39428,7 +39433,7 @@ double ln_get_lunar_disk (double JD)
 * The angle is near 270 deg for first quarter and near 90 deg after a full moon.
 * The position angle of the cusps are +90 deg and -90 deg. 
 */ 
-double ln_get_lunar_bright_limb (double JD)
+double ln_get_lunar_bright_limb(double JD)
 {
 	double angle;
 	double x,y;
@@ -39436,22 +39441,22 @@ double ln_get_lunar_bright_limb (double JD)
 	struct ln_equ_posn moon, sunlp;
 		
 	/* get lunar and solar long + lat */
-	ln_get_lunar_equ_coords (JD, &moon);
-	ln_get_solar_equ_coords (JD, &sunlp);
+	ln_get_lunar_equ_coords(JD, &moon);
+	ln_get_solar_equ_coords(JD, &sunlp);
 	
 	/* Equ 48.5 */
-	x = cos (ln_deg_to_rad(sunlp.dec)) * sin (ln_deg_to_rad(sunlp.ra - moon.ra));
-	y = sin ((ln_deg_to_rad(sunlp.dec)) * cos (ln_deg_to_rad(moon.dec))) 
-		- (cos (ln_deg_to_rad(sunlp.dec)) * sin (ln_deg_to_rad(moon.dec)) 
-		* cos (ln_deg_to_rad(sunlp.ra - moon.ra)));
-	angle = atan2 (x,y);
+	x = cos(ln_deg_to_rad(sunlp.dec)) * sin(ln_deg_to_rad(sunlp.ra - moon.ra));
+	y = sin((ln_deg_to_rad(sunlp.dec)) * cos(ln_deg_to_rad(moon.dec))) 
+		- (cos(ln_deg_to_rad(sunlp.dec)) * sin(ln_deg_to_rad(moon.dec)) 
+		* cos(ln_deg_to_rad(sunlp.ra - moon.ra)));
+	angle = atan2(x,y);
 
-	angle = ln_range_radians (angle);
-	return ln_rad_to_deg (angle);
+	angle = ln_range_radians(angle);
+	return ln_rad_to_deg(angle);
 }
 
 
-/*! \fn double ln_get_lunar_rst (double JD, struct ln_lnlat_posn * observer, struct ln_rst_time * rst);
+/*! \fn double ln_get_lunar_rst(double JD, struct ln_lnlat_posn *observer, struct ln_rst_time *rst);
 * \param JD Julian day
 * \param observer Observers position
 * \param rst Pointer to store Rise, Set and Transit time in JD
@@ -39464,12 +39469,14 @@ double ln_get_lunar_bright_limb (double JD)
 * Note: this functions returns 1 if the Moon is circumpolar, that is it remains the whole
 * day either above or below the horizon.
 */
-int ln_get_lunar_rst (double JD, struct ln_lnlat_posn * observer, struct ln_rst_time * rst)
+int ln_get_lunar_rst(double JD, struct ln_lnlat_posn *observer,
+	struct ln_rst_time *rst)
 {
-	return ln_get_body_rst_horizon (JD, observer, ln_get_lunar_equ_coords, LN_LUNAR_STANDART_HORIZON, rst);
+	return ln_get_body_rst_horizon(JD, observer, ln_get_lunar_equ_coords,
+		LN_LUNAR_STANDART_HORIZON, rst);
 }
 
-/*! \fn double ln_get_lunar_sdiam (double JD)
+/*! \fn double ln_get_lunar_sdiam(double JD)
 * \param JD Julian day
 * \return Semidiameter in arc seconds
 * \todo Use Topocentric distance.
@@ -39477,47 +39484,48 @@ int ln_get_lunar_rst (double JD, struct ln_lnlat_posn * observer, struct ln_rst_
 * Calculate the semidiameter of the Moon in arc seconds for the 
 * given julian day.
 */
-double ln_get_lunar_sdiam (double JD)
+double ln_get_lunar_sdiam(double JD)
 {
 	double So = 358473400; 
 	double dist;
 	
-	dist = ln_get_lunar_earth_dist (JD);
+	dist = ln_get_lunar_earth_dist(JD);
 	return So / dist;
 }
 
-/*! \fn double ln_get_lunar_long_asc_node (double JD);
+/*! \fn double ln_get_lunar_long_asc_node(double JD);
 * \param JD Julian Day.
 * \return Longitude of ascending node in degrees.
 *
 * Calculate the mean longitude of the Moons ascening node
 * for the given Julian day.
 */ 
-double ln_get_lunar_long_asc_node (double JD)
+double ln_get_lunar_long_asc_node(double JD)
 {
 	/* calc julian centuries */
-	double T = (JD - 2451545.0) / 36525.0;
+	double T =(JD - 2451545.0) / 36525.0;
 	double omega = 125.0445479;
 	double T2 = T * T;
 	double T3 = T2 * T;
 	double T4 = T3 * T;
 	
 	/* equ 47.7 */
-	omega -= 1934.1362891 * T + 0.0020754 * T2 + T3 / 467441.0 - T4 / 60616000.0;
+	omega -= 1934.1362891 * T + 0.0020754 * T2 + T3 / 467441.0 -
+		T4 / 60616000.0;
 	return omega;
 }
 
 
-/*! \fn double ln_get_lunar_long_perigee (double JD);
+/*! \fn double ln_get_lunar_long_perigee(double JD);
 * \param JD Julian Day
 * \return Longitude of Moons mean perigee in degrees.
 *
 * Calculate the longitude of the Moon's mean perigee.
 */ 
-double ln_get_lunar_long_perigee (double JD)
+double ln_get_lunar_long_perigee(double JD)
 {
 	/* calc julian centuries */
-	double T = (JD - 2451545.0) / 36525.0;
+	double T =(JD - 2451545.0) / 36525.0;
 	double per = 83.3532465;
 	double T2 = T * T;
 	double T3 = T2 * T;

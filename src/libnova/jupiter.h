@@ -33,83 +33,87 @@ extern "C" {
 * All angles are expressed in degrees.
 */
 
-/*! \fn double ln_get_jupiter_equ_sdiam (double JD)
+/*! \fn double ln_get_jupiter_equ_sdiam(double JD)
 * \brief Calculate the equatorial semidiameter of Jupiter in arc seconds.
 * \ingroup jupiter
 */
-double LIBNOVA_EXPORT ln_get_jupiter_equ_sdiam (double JD);
+double LIBNOVA_EXPORT ln_get_jupiter_equ_sdiam(double JD);
 
-/*! \fn double ln_get_jupiter_pol_sdiam (double JD)
+/*! \fn double ln_get_jupiter_pol_sdiam(double JD)
 * \brief Calculate the polar semidiameter of Jupiter in arc seconds.
 * \ingroup jupiter
 */
-double LIBNOVA_EXPORT ln_get_jupiter_pol_sdiam (double JD);
+double LIBNOVA_EXPORT ln_get_jupiter_pol_sdiam(double JD);
 
-/*! \fn double ln_get_jupiter_rst (double JD, struct ln_lnlat_posn * observer, struct ln_rst_time * rst);
+/*! \fn double ln_get_jupiter_rst(double JD, struct ln_lnlat_posn *observer, struct ln_rst_time *rst);
 * \brief Calculate the time of rise, set and transit for Jupiter.
 * \ingroup jupiter
 */
-int LIBNOVA_EXPORT ln_get_jupiter_rst (double JD, struct ln_lnlat_posn * observer, struct ln_rst_time * rst);
+int LIBNOVA_EXPORT ln_get_jupiter_rst(double JD,
+	struct ln_lnlat_posn *observer, struct ln_rst_time *rst);
 
-/*! \fn void ln_get_jupiter_helio_coords (double JD, struct ln_helio_posn * position);
+/*! \fn void ln_get_jupiter_helio_coords(double JD, struct ln_helio_posn *position);
 * \brief Calculate Jupiter's heliocentric coordinates
 * \ingroup jupiter
 */ 
 /* Chapter 31 Pg 206-207 Equ 31.1 31.2 , 31.3 using VSOP 87 */
-void LIBNOVA_EXPORT ln_get_jupiter_helio_coords (double JD, struct ln_helio_posn * position);
+void LIBNOVA_EXPORT ln_get_jupiter_helio_coords(double JD,
+		struct ln_helio_posn *position);
 
-/*! \fn void ln_get_jupiter_equ_coords (double JD, struct ln_equ_posn * position);
+/*! \fn void ln_get_jupiter_equ_coords(double JD, struct ln_equ_posn *position);
 * \brief Calculate Jupiter's equatorial coordinates.
 * \ingroup jupiter
 */ 
 /* Chapter 31 Pg 206-207 Equ 31.1 31.2 , 31.3 using VSOP 87 */
-void LIBNOVA_EXPORT ln_get_jupiter_equ_coords (double JD, struct ln_equ_posn * position);
+void LIBNOVA_EXPORT ln_get_jupiter_equ_coords(double JD,
+	struct ln_equ_posn *position);
 
-/*! \fn double ln_get_jupiter_earth_dist (double JD);
+/*! \fn double ln_get_jupiter_earth_dist(double JD);
 * \brief Calculate the distance between Jupiter and the Earth.
 * \ingroup jupiter
 * \return Distance in AU
 */ 
 /* Chapter ?? */
-double LIBNOVA_EXPORT ln_get_jupiter_earth_dist (double JD);
+double LIBNOVA_EXPORT ln_get_jupiter_earth_dist(double JD);
 	
-/*! \fn double ln_get_jupiter_solar_dist (double JD);
+/*! \fn double ln_get_jupiter_solar_dist(double JD);
 * \brief Calculate the distance between Jupiter and the Sun.
 * \ingroup jupiter
 * \return Distance in AU
 */ 
 /* Chapter ?? */
-double LIBNOVA_EXPORT ln_get_jupiter_solar_dist (double JD);
+double LIBNOVA_EXPORT ln_get_jupiter_solar_dist(double JD);
 	
-/*! \fn double ln_get_jupiter_magnitude (double JD);
+/*! \fn double ln_get_jupiter_magnitude(double JD);
 * \brief Calculate the visible magnitude of Jupiter
 * \ingroup jupiter
 * \return Visible magnitude of Jupiter
 */ 
 /* Chapter ?? */
-double LIBNOVA_EXPORT ln_get_jupiter_magnitude (double JD);
+double LIBNOVA_EXPORT ln_get_jupiter_magnitude(double JD);
 
-/*! \fn double ln_get_jupiter_disk (double JD);
+/*! \fn double ln_get_jupiter_disk(double JD);
 * \brief Calculate the illuminated fraction of Jupiter's disk
 * \ingroup jupiter
 * \return Illuminated fraction of Jupiter's disk
 */ 
 /* Chapter 41 */
-double LIBNOVA_EXPORT ln_get_jupiter_disk (double JD);
+double LIBNOVA_EXPORT ln_get_jupiter_disk(double JD);
 
-/*! \fn double ln_get_jupiter_phase (double JD);
+/*! \fn double ln_get_jupiter_phase(double JD);
 * \brief Calculate the phase angle of Jupiter.
 * \ingroup jupiter
 * \return Phase angle of Jupiter (degrees)
 */ 
 /* Chapter 41 */
-double LIBNOVA_EXPORT ln_get_jupiter_phase (double JD);
+double LIBNOVA_EXPORT ln_get_jupiter_phase(double JD);
 
-/*! \fn void ln_get_jupiter_rect_helio (double JD, struct ln_rect_posn * position)
+/*! \fn void ln_get_jupiter_rect_helio(double JD, struct ln_rect_posn *position)
 * \ingroup jupiter
 * \brief Calculate Jupiters rectangular heliocentric coordinates.
 */
-void LIBNOVA_EXPORT ln_get_jupiter_rect_helio (double JD, struct ln_rect_posn * position);
+void LIBNOVA_EXPORT ln_get_jupiter_rect_helio(double JD,
+	struct ln_rect_posn *position);
 	
 #ifdef __cplusplus
 };

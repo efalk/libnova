@@ -32,16 +32,16 @@
 * Note: Default values for pressure and teperature are 1010 mBar and 10C 
 * respectively.
 */
-double ln_get_refraction_adj (double altitude, double atm_pres, double temp)
+double ln_get_refraction_adj(double altitude, double atm_pres, double temp)
 {
 	long double R;
 
 	/* equ 16.3 */
-	R = 1.0 / tan (ln_deg_to_rad (altitude + (7.31 / (altitude + 4.4))));
-	R -= 0.06 * sin (ln_deg_to_rad (14.7 * (R / 60.0) + 13.0));
+	R = 1.0 / tan(ln_deg_to_rad(altitude + (7.31 / (altitude + 4.4))));
+	R -= 0.06 * sin(ln_deg_to_rad(14.7 * (R / 60.0) + 13.0));
 
 	/* take into account of atm press and temp */
-	R *= ((atm_pres / 1010) * (283 / (273 + temp)));
+	R *= ((atm_pres / 1010.0) * (283.0 / (273.0 + temp)));
 	
 	/* convert from arcminutes to degrees */
 	R /= 60.0;

@@ -35,11 +35,11 @@ extern "C" {
 * All angles are expressed in degrees.
 */
 
-/*! \fn void ln_get_nutation (double JD, struct ln_nutation * nutation);
+/*! \fn void ln_get_nutation(double JD, struct ln_nutation *nutation);
 * \ingroup nutation
 * \brief Calculate nutation. 
 */
-void LIBNOVA_EXPORT ln_get_nutation (double JD, struct ln_nutation * nutation);
+void LIBNOVA_EXPORT ln_get_nutation(double JD, struct ln_nutation *nutation);
 	
 #ifdef __cplusplus
 };

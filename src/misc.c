@@ -67,15 +67,17 @@ typedef int BOOL;
  *
  * Trim from character leading whitespaces.
  */
-static char *trim(char *x)
+static inline char *trim(char *x)
 {
     char *y;
 
     if(!x)
         return(x);
+
     y = x + strlen(x)-1;
     while (y >= x && isspace(*y)) 
         *y-- = 0; /* skip white space */
+
     return x;
 }
 
@@ -85,9 +87,9 @@ static char *trim(char *x)
  *
  * Skip white spaces.
  */
-static void skipwhite(char **s)
+static inline void skipwhite(char **s)
 {
-   while(iswhite(**s))
+   while (iswhite(**s))
         (*s)++;
 }
 
@@ -107,22 +109,22 @@ static void skipwhite(char **s)
 *  to view the degrees separator char '0xba')                              
 *
 *  42.30.35,53                                                             
-*  90º0'0,01 W                                                             
-*  42º30'35.53 N                                                           
-*  42º30'35.53S                                                            
-*  42º30'N                                                                 
+*  90ï¿½0'0,01 W                                                             
+*  42ï¿½30'35.53 N                                                           
+*  42ï¿½30'35.53S                                                            
+*  42ï¿½30'N                                                                 
 *  - 42.30.35.53                                                           
 *   42:30:35.53 S                                                          
 *  + 42.30.35.53                                                           
-*  +42º30 35,53                                                            
+*  +42ï¿½30 35,53                                                            
 *   23h36'45,0                                                             
 *                                                                          
 *                                                                          
-*  42:30:35.53 S = -42º30'35.53"                                           
+*  42:30:35.53 S = -42ï¿½30'35.53"                                           
 *  + 42 30.35.53 S the same previous position, the plus (+) sign is        
 *  considered like an error, the last 'S' has precedence over the sign     
 *                                                                          
-*  90º0'0,01 N ERROR: +- 90º0'00.00" latitude limit                        
+*  90ï¿½0'0,01 N ERROR: +- 90ï¿½0'00.00" latitude limit                        
 *
 */
 double get_dec_location(char *s)
@@ -130,15 +132,15 @@ double get_dec_location(char *s)
 
 	char *ptr, *dec, *hh;
 	BOOL negative = FALSE;
-	char delim1[] = " :.,;ºDdHhMm'\n\t";
+	char delim1[] = " :.,;ï¿½DdHhMm'\n\t";
 	char delim2[] = " NSEWnsew\"\n\t";
 	int dghh = 0, minutes = 0;
 	double seconds = 0.0, pos;
-        short count;
+	short count;
 
-	enum _type{
+	enum _type {
     	    HOURS, DEGREES, LAT, LONG
-	}type;
+	} type;
 
 	if (s == NULL || !*s)
 		return(-0.0);
@@ -149,7 +151,7 @@ double get_dec_location(char *s)
 	trim(ptr);
 	skipwhite(&ptr);
         
-        /* the last letter has precedence over the sign */
+    /* the last letter has precedence over the sign */
 	if (strpbrk(ptr,"SsWw") != NULL) 
 		negative = TRUE;
 
@@ -211,7 +213,7 @@ double get_dec_location(char *s)
 * \param location Location angle in degress
 * \return Angle string
 *
-* Obtains a human readable location in the form: ddºmm'ss.ss"             
+* Obtains a human readable location in the form: ddï¿½mm'ss.ss"             
 */
 char *get_humanr_location(double location)
 {
@@ -219,12 +221,15 @@ char *get_humanr_location(double location)
     double deg = 0.0;
     double min = 0.0;
     double sec = 0.0;
+
     *buf = 0;
     sec = 60.0 * (modf(location, &deg));
     if (sec < 0.0)
         sec *= -1;
+
     sec = 60.0 * (modf(sec, &min));
-    sprintf(buf,"%+dº%d'%.2f\"",(int)deg, (int) min, sec);
+    sprintf(buf,"%+dï¿½%d'%.2f\"",(int)deg, (int) min, sec);
+
     return buf;
 }
 
@@ -240,7 +245,7 @@ char *get_humanr_location(double location)
 */
 double interpolate3 (double n, double y1, double y2, double y3)
 {
-	double y,a,b,c;
+	double y, a, b, c;
 	
 	/* equ 3.2 */
 	a = y2 - y1;
@@ -250,7 +255,7 @@ double interpolate3 (double n, double y1, double y2, double y3)
 	/* equ 3.3 */
 	y = y2 + n / 2.0 * (a + b + n * c);
 	
-	return (y);
+	return y;
 }
 
 
@@ -266,10 +271,11 @@ double interpolate3 (double n, double y1, double y2, double y3)
 * Calculate an intermediate value of the 5 arguments for the given interpolation
 * factor.
 */
-double interpolate5 (double n, double y1, double y2, double y3, double y4, double y5)
+double interpolate5 (double n, double y1, double y2, double y3, double y4,
+		double y5)
 {
-	double y,A,B,C,D,E,F,G,H,J,K;
-	double n2,n3,n4;
+	double y, A, B, C, D, E, F, G, H, J, K;
+	double n2, n3, n4;
 	
 	/* equ 3.8 */
 	A = y2 - y1;
@@ -294,5 +300,5 @@ double interpolate5 (double n, double y1, double y2, double y3, double y4, doubl
 	y += n3 * ((H + J) / 12.0);
 	y += n4 * (K / 24.0);
 	
-	return (y);
+	return y;
 }

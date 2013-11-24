@@ -26,89 +26,89 @@ A simple example showing some lunar calculations.
 #include <libnova/rise_set.h>
 #include <libnova/transform.h>
 
-void print_date (char * title, struct ln_zonedate* date)
+static void print_date(char *title, struct ln_zonedate *date)
 {
-	printf ("\n%s\n",title);
-	printf (" Year    : %d\n", date->years);
-	printf (" Month   : %d\n", date->months);
-	printf (" Day     : %d\n", date->days);
-	printf (" Hours   : %d\n", date->hours);
-	printf (" Minutes : %d\n", date->minutes);
-	printf (" Seconds : %f\n", date->seconds);
+	fprintf(stdout, "\n%s\n",title);
+	fprintf(stdout, " Year    : %d\n", date->years);
+	fprintf(stdout, " Month   : %d\n", date->months);
+	fprintf(stdout, " Day     : %d\n", date->days);
+	fprintf(stdout, " Hours   : %d\n", date->hours);
+	fprintf(stdout, " Minutes : %d\n", date->minutes);
+	fprintf(stdout, " Seconds : %f\n", date->seconds);
 }
 
-int main (int argc, char* argv[])
+int main(int argc, const char *argv[])
 {
-	double JD;
 	struct ln_rect_posn moon;
 	struct ln_equ_posn equ;
 	struct ln_lnlat_posn ecl;
 	struct ln_lnlat_posn observer;
 	struct ln_rst_time rst;
 	struct ln_zonedate rise, transit, set;
-	
+	double JD;
+
 	/* observers location (Edinburgh), used to calc rst */
 	observer.lat = 55.92; /* 55.92 N */
 	observer.lng = -3.18; /* 3.18 W */
 	
 	/* get the julian day from the local system time */
 	JD = ln_get_julian_from_sys();
-	printf ("JD %f\n",JD);
+	fprintf(stdout, "JD %f\n",JD);
 	
 	/* get the lunar geopcentric position in km, earth is at 0,0,0 */
-	ln_get_lunar_geo_posn (JD, &moon, 0);
-	printf ("lunar x %f  y %f  z %f\n",moon.X, moon.Y, moon.Z);
+	ln_get_lunar_geo_posn(JD, &moon, 0);
+	fprintf(stdout, "lunar x %f  y %f  z %f\n", moon.X, moon.Y, moon.Z);
 	
 	/* Long Lat */
-	ln_get_lunar_ecl_coords (JD, &ecl, 0);
-	printf ("lunar long %f  lat %f\n",ecl.lng, ecl.lat);
+	ln_get_lunar_ecl_coords(JD, &ecl, 0);
+	fprintf(stdout, "lunar long %f  lat %f\n", ecl.lng, ecl.lat);
 	
 	/* RA, DEC */
-	ln_get_lunar_equ_coords (JD, &equ);
-	printf ("lunar RA %f  Dec %f\n",equ.ra, equ.dec);
+	ln_get_lunar_equ_coords(JD, &equ);
+	fprintf(stdout, "lunar RA %f  Dec %f\n", equ.ra, equ.dec);
 	
 	/* moon earth distance */
-	printf ("lunar distance km %f\n", ln_get_lunar_earth_dist(JD));
+	fprintf(stdout, "lunar distance km %f\n", ln_get_lunar_earth_dist(JD));
 	
 	/* lunar disk, phase and bright limb */
-	printf ("lunar disk %f\n", ln_get_lunar_disk(JD));
-	printf ("lunar phase %f\n", ln_get_lunar_phase(JD));
-	printf ("lunar bright limb %f\n", ln_get_lunar_bright_limb(JD));
+	fprintf(stdout, "lunar disk %f\n", ln_get_lunar_disk(JD));
+	fprintf(stdout, "lunar phase %f\n", ln_get_lunar_phase(JD));
+	fprintf(stdout, "lunar bright limb %f\n", ln_get_lunar_bright_limb(JD));
 	
 	/* rise, set and transit time */
-	if (ln_get_lunar_rst (JD, &observer, &rst) == 1) 
-		printf ("Moon is circumpolar\n");
+	if (ln_get_lunar_rst(JD, &observer, &rst) != 0)
+		fprintf(stdout, "Moon is circumpolar\n");
 	else {
-		ln_get_local_date (rst.rise, &rise);
-		ln_get_local_date (rst.transit, &transit);
-		ln_get_local_date (rst.set, &set);
-		print_date ("Rise", &rise);
-		print_date ("Transit", &transit);
-		print_date ("Set", &set);
+		ln_get_local_date(rst.rise, &rise);
+		ln_get_local_date(rst.transit, &transit);
+		ln_get_local_date(rst.set, &set);
+		print_date("Rise", &rise);
+		print_date("Transit", &transit);
+		print_date("Set", &set);
 	}
 	
 	/* rise, set and transit time */
-	if (ln_get_lunar_rst (JD - 24, &observer, &rst) == 1) 
-		printf ("Moon is circumpolar\n");
+	if (ln_get_lunar_rst(JD - 24, &observer, &rst) != 0)
+		fprintf(stdout, "Moon is circumpolar\n");
 	else {
-		ln_get_local_date (rst.rise, &rise);
-		ln_get_local_date (rst.transit, &transit);
-		ln_get_local_date (rst.set, &set);
-		print_date ("Rise", &rise);
-		print_date ("Transit", &transit);
-		print_date ("Set", &set);
+		ln_get_local_date(rst.rise, &rise);
+		ln_get_local_date(rst.transit, &transit);
+		ln_get_local_date(rst.set, &set);
+		print_date("Rise", &rise);
+		print_date("Transit", &transit);
+		print_date("Set", &set);
 	}
 	
 	/* rise, set and transit time */
-	if (ln_get_lunar_rst (JD - 25, &observer, &rst) == 1) 
-		printf ("Moon is circumpolar\n");
+	if (ln_get_lunar_rst(JD - 25, &observer, &rst) != 0)
+		fprintf(stdout, "Moon is circumpolar\n");
 	else {
-		ln_get_local_date (rst.rise, &rise);
-		ln_get_local_date (rst.transit, &transit);
-		ln_get_local_date (rst.set, &set);
-		print_date ("Rise", &rise);
-		print_date ("Transit", &transit);
-		print_date ("Set", &set);
+		ln_get_local_date(rst.rise, &rise);
+		ln_get_local_date(rst.transit, &transit);
+		ln_get_local_date(rst.set, &set);
+		print_date("Rise", &rise);
+		print_date("Transit", &transit);
+		print_date("Set", &set);
 	}
 	
 	return 0;

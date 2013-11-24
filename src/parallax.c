@@ -23,23 +23,26 @@
 
 /* Equ on page 77 - chapter 10, The Earth's globe
 */
-void get_topocentric (struct ln_lnlat_posn * observer, double height, double * ro_sin, double * ro_cos)
+static void get_topocentric(struct ln_lnlat_posn *observer, double height,
+	double * ro_sin, double * ro_cos)
 {
 	double u, lat_rad;
-	lat_rad = ln_deg_to_rad (observer->lat);
-	u = atan (0.99664719 * tan (lat_rad));
-	*ro_sin = 0.99664719 * sin (u) + (height / 6378140) * sin (lat_rad);
-	*ro_cos = cos (u) + (height / 6378140) * cos (lat_rad);
+
+	lat_rad = ln_deg_to_rad(observer->lat);
+	u = atan(0.99664719 * tan(lat_rad));
+	*ro_sin = 0.99664719 * sin(u) + (height / 6378140) * sin(lat_rad);
+	*ro_cos = cos(u) + (height / 6378140) * cos(lat_rad);
+
 	// the quantity ro_sin is positive in the northern hemisphere, negative in the southern one
 	if (observer->lat > 0)
-	  *ro_sin = fabs (*ro_sin);
+	  *ro_sin = fabs(*ro_sin);
 	else
-	  *ro_sin = fabs (*ro_sin) * -1;
+	  *ro_sin = fabs(*ro_sin) * -1;
 	// ro_cos is always positive
-	*ro_cos = fabs (*ro_cos);
+	*ro_cos = fabs(*ro_cos);
 }
 
-/*! \fn void ln_get_parallax (struct ln_equ_posn * object, double au_distance, struct ln_lnlat_posn * observer, double height, double JD, struct ln_equ_posn * parallax);
+/*! \fn void ln_get_parallax(struct ln_equ_posn *object, double au_distance, struct ln_lnlat_posn *observer, double height, double JD, struct ln_equ_posn *parallax);
 * \param object Object geocentric coordinates
 * \param au_distance Distance of object from Earth in AU
 * \param observer Geographics observer positions
@@ -51,21 +54,19 @@ void get_topocentric (struct ln_lnlat_posn * observer, double height, double * r
 */
 /* Equ 39.1, 39.2, 39.3 Pg 263 and 264
 */
-void ln_get_parallax
-	(struct ln_equ_posn * object,
-	 double au_distance,
-	 struct ln_lnlat_posn * observer,
-	 double height,
-	 double JD,
-	 struct ln_equ_posn * parallax)
+void ln_get_parallax(struct ln_equ_posn *object, double au_distance,
+	 struct ln_lnlat_posn *observer, double height, double JD,
+	 struct ln_equ_posn *parallax)
 {
   	double H;
-	H = ln_get_apparent_sidereal_time (JD) + (observer->lng - object->ra) / 15.0;
-	ln_get_parallax_ha (object, au_distance, observer, height, H, parallax);
+
+	H = ln_get_apparent_sidereal_time(JD) +
+			(observer->lng - object->ra) / 15.0;
+	ln_get_parallax_ha(object, au_distance, observer, height, H, parallax);
 }
 
 
-/*! \fn void ln_get_parallax_ha (struct ln_equ_posn * object, double au_distance, struct ln_lnlat_posn * observer, double height, double H, struct ln_equ_posn * parallax);
+/*! \fn void ln_get_parallax_ha(struct ln_equ_posn *object, double au_distance, struct ln_lnlat_posn *observer, double height, double H, struct ln_equ_posn *parallax);
 * \param object Object geocentric coordinates
 * \param au_distance Distance of object from Earth in AU
 * \param observer Geographics observer positions
@@ -78,30 +79,29 @@ void ln_get_parallax
 */
 /* Equ 39.1, 39.2, 39.3 Pg 263 and 264
 */
-void ln_get_parallax_ha
-	(struct ln_equ_posn * object,
-	 double au_distance,
-	 struct ln_lnlat_posn * observer,
-	 double height,
-	 double H,
-	 struct ln_equ_posn * parallax)
+void ln_get_parallax_ha(struct ln_equ_posn *object, double au_distance,
+	 struct ln_lnlat_posn *observer, double height, double H,
+	 struct ln_equ_posn *parallax)
 {
 	double sin_pi, ro_sin, ro_cos, sin_H, cos_H, dec_rad, cos_dec;
+
 	get_topocentric (observer, height, &ro_sin, &ro_cos);
-	sin_pi = sin (ln_deg_to_rad ((8.794 / au_distance) / 3600.0));  // (39.1)
+	sin_pi = sin(ln_deg_to_rad((8.794 / au_distance) / 3600.0));  // (39.1)
 
 	/* change hour angle from hours to radians*/
 	H *= M_PI / 12.0;
 
-	sin_H = sin (H);
-	cos_H = cos (H);
+	sin_H = sin(H);
+	cos_H = cos(H);
 
-	dec_rad = ln_deg_to_rad (object->dec);
-	cos_dec = cos (dec_rad);
+	dec_rad = ln_deg_to_rad(object->dec);
+	cos_dec = cos(dec_rad);
 	
-	parallax->ra = atan2 (-ro_cos * sin_pi * sin_H, cos_dec  - ro_cos * sin_pi * cos_H); // (39.2)
-	parallax->dec = atan2 ((sin (dec_rad) - ro_sin * sin_pi) * cos (parallax->ra), cos_dec - ro_cos * sin_pi * cos_H); // (39.3)
+	parallax->ra = atan2(-ro_cos * sin_pi * sin_H, cos_dec  - ro_cos *
+			sin_pi * cos_H); // (39.2)
+	parallax->dec = atan2((sin(dec_rad) - ro_sin * sin_pi) *
+			cos(parallax->ra), cos_dec - ro_cos * sin_pi * cos_H); // (39.3)
 
-	parallax->ra = ln_rad_to_deg (parallax->ra);
-	parallax->dec = ln_rad_to_deg (parallax->dec) - object->dec;
+	parallax->ra = ln_rad_to_deg(parallax->ra);
+	parallax->dec = ln_rad_to_deg(parallax->dec) - object->dec;
 }
