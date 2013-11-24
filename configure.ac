@@ -66,10 +66,23 @@ AC_CHECK_FUNCS([acosl])
 AC_CHECK_FUNCS([asinl])
 AC_CHECK_FUNCS([atan2l])
 
-CFLAGS=-Wall
+AC_ARG_ENABLE(avx, [AC_HELP_STRING([--enable-avx],[enable AVX optimizations])], have_avx=$enableval, have_avx=no)
+if test "$have_avx" = "yes"; then
+        AC_DEFINE(HAVE_AVX,1,[Define to enable AVX optimizations.])
+fi
+AM_CONDITIONAL(HAVE_AVX, test "$have_avx" = "yes")
+
+if test "$have_avx" = "yes" -a "x$AVX_CFLAGS" = x; then
+	AX_CHECK_COMPILE_FLAG(-mavx, [AVX_CFLAGS="-mavx"],
+		[AC_MSG_ERROR([Need a version of gcc with -mavx])])
+fi
+
+AC_SUBST(AVX_CFLAGS)
 
 # Checks for header files.
 AC_HEADER_STDC
+
+CFLAGS=-Wall
 
 # Set LIBNOVA_MACRO_DIR
 if test "x${prefix}" = "xNONE"; then
@@ -88,6 +101,7 @@ lntest/Makefile
 doc/Makefile
 doc/doxyfile
 examples/Makefile
+m4/Makefile
 ])
 
 AC_OUTPUT

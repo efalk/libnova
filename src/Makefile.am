@@ -1,5 +1,7 @@
 ## Process this file with automake to produce Makefile.in
 
+AM_CFLAGS = -Wall -O3 $(AVX_CFLAGS)
+
 SUBDIRS = libnova
 
 lib_LTLIBRARIES = libnova.la
