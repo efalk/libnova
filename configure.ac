@@ -1,6 +1,6 @@
 AC_PREREQ(2.63)
 
-AC_INIT([libsombrero],[m4_esyscmd(./git-version-gen .tarball-version)],[lgirdwood (at) gmail (dot) com])
+AC_INIT([libnovs],[m4_esyscmd(./git-version-gen .tarball-version)],[lgirdwood (at) gmail (dot) com])
 
 AC_CONFIG_MACRO_DIR([m4])
 
@@ -37,35 +37,46 @@ LT_INIT
 dnl Initialize maintainer mode
 AM_MAINTAINER_MODE([enable])
 
-# Checks for programs.
+dnl Checks for programs.
 AC_PROG_CC
 AC_PROG_INSTALL
+
+dnl System functions
+AC_C_CONST
+AC_FUNC_ALLOCA
+AC_CHECK_HEADERS([malloc.h])
+AC_HEADER_STDC
+
+dnl Time and date functions
+AC_CHECK_HEADERS([sys/time.h])
+AC_HEADER_TIME
+AC_STRUCT_TM
 AC_CHECK_FUNCS([gettimeofday])
-AC_CHECK_FUNCS([modf])
-AC_CHECK_FUNCS([pow])
-AC_CHECK_FUNCS([sqrt])
+AC_CHECK_FUNCS([tzset])
+
+dnl String functions
+AC_FUNC_STRTOD
 AC_CHECK_FUNCS([strchr])
 AC_CHECK_FUNCS([strpbrk])
 AC_CHECK_FUNCS([strtol])
-AC_CHECK_FUNCS([tzset])
-AC_CHECK_HEADERS([malloc.h])
-AC_CHECK_HEADERS([sys/time.h])
-AC_C_CONST
-AC_FUNC_ALLOCA
-AC_FUNC_STRTOD
-AC_HEADER_TIME
-AC_STRUCT_TM
+AC_CHECK_FUNCS([strtok_r])
 
-AC_CHECK_LIB(m,pow)
-AC_CHECK_LIB(sunmath,acosl)
-
-AC_CHECK_FUNCS([round])
+dnl Math functions
+AC_CHECK_FUNCS([modf])
+AC_CHECK_FUNCS([pow])
+AC_CHECK_FUNCS([sqrt])
+AC_CHECK_FUNCS([cbrt])
+AC_CHECK_LIB(m, [round], AC_DEFINE([HAVE_ROUND], [1], [Check for round]))
 AC_CHECK_FUNCS([cosl])
 AC_CHECK_FUNCS([sinl])
 AC_CHECK_FUNCS([acosl])
 AC_CHECK_FUNCS([asinl])
 AC_CHECK_FUNCS([atan2l])
+AC_CHECK_LIB(m,pow)
+AC_CHECK_LIB(sunmath,acosl)
 
+
+# AVX support
 AC_ARG_ENABLE(avx, [AC_HELP_STRING([--enable-avx],[enable AVX optimizations])], have_avx=$enableval, have_avx=no)
 if test "$have_avx" = "yes"; then
         AC_DEFINE(HAVE_AVX,1,[Define to enable AVX optimizations.])
@@ -79,11 +90,6 @@ fi
 
 AC_SUBST(AVX_CFLAGS)
 
-# Checks for header files.
-AC_HEADER_STDC
-
-CFLAGS=-Wall
-
 # Set LIBNOVA_MACRO_DIR
 if test "x${prefix}" = "xNONE"; then
   LIBNOVA_MACRO_DIR=${ac_default_prefix}/share/aclocal
@@ -92,6 +98,9 @@ else
   LIBNOVA_MACRO_DIR=\${prefix}/share/aclocal
   AC_SUBST(LIBNOVA_MACRO_DIR)
 fi
+
+dnl Make sure we fail on all warnings
+CFLAGS=-Wall
 
 AC_CONFIG_FILES([
 Makefile

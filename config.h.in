@@ -27,6 +27,9 @@
 /* Define to enable AVX optimizations. */
 #undef HAVE_AVX
 
+/* Define to 1 if you have the `cbrt' function. */
+#undef HAVE_CBRT
+
 /* Define to 1 if you have the `cosl' function. */
 #undef HAVE_COSL
 
@@ -57,7 +60,7 @@
 /* Define to 1 if you have the `pow' function. */
 #undef HAVE_POW
 
-/* Define to 1 if you have the `round' function. */
+/* Check for round */
 #undef HAVE_ROUND
 
 /* Define to 1 if you have the `sinl' function. */
@@ -83,6 +86,9 @@
 
 /* Define to 1 if you have the `strpbrk' function. */
 #undef HAVE_STRPBRK
+
+/* Define to 1 if you have the `strtok_r' function. */
+#undef HAVE_STRTOK_R
 
 /* Define to 1 if you have the `strtol' function. */
 #undef HAVE_STRTOL
