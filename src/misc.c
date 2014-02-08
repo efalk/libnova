@@ -188,7 +188,7 @@ double get_dec_location(char *s)
 	
 	if ((ptr = strtok(NULL," \n\t")) != NULL) {
 		skipwhite(&ptr);
-		if (*ptr == 'S' || *ptr == 'W' || *ptr == 's' || *ptr == 'W')
+		if (*ptr == 'S' || *ptr == 'W' || *ptr == 's' || *ptr == 'w')
 			    negative = TRUE;
 	}
         pos = dghh + minutes /60.0 + seconds / 3600.0;

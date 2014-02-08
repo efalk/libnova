@@ -571,7 +571,7 @@ double ln_get_dec_location(char *s)
 
 	if ((ptr = strtok(NULL," \n\t")) != NULL) {
 		skipwhite(&ptr);
-		if (*ptr == 'S' || *ptr == 'W' || *ptr == 's' || *ptr == 'W')
+		if (*ptr == 'S' || *ptr == 'W' || *ptr == 's' || *ptr == 'w')
 			negative = TRUE;
 	}
 
