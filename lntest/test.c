@@ -21,6 +21,7 @@ Copyright 2008-2009 Petr Kubanek*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <libnova/libnova.h>
+#include <sys/time.h>
 #ifndef __WIN32__
     #include <unistd.h>
 #endif 
