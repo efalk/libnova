@@ -18,6 +18,10 @@ Copyright 2008-2009 Petr Kubanek*/
 
 #define _GNU_SOURCE
 
+#if defined(__MINGW__) || defined(__MINGW32__) || defined(__MINGW64__)
+#define _USE_32BIT_TIME_T
+#endif	//__MINGW__
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <libnova/libnova.h>

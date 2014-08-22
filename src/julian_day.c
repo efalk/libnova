@@ -15,7 +15,11 @@
  *  
  *  Copyright (C) 2000 - 2005 Liam Girdwood <lgirdwood@gmail.com>
  */
- 
+
+#if defined(__MINGW__) || defined(__MINGW32__) || defined(__MINGW64__)
+#define _USE_32BIT_TIME_T
+#endif	//__MINGW__
+
 #include <time.h>
 #include <string.h>
 #include <stdlib.h>
