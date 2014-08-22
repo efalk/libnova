@@ -16,7 +16,7 @@
  *  Copyright (C) 2000 - 2005 Liam Girdwood <lgirdwood@gmail.com>
  */
 
-#define LIBNOVA_VERSION "0.14.0"
+#define LIBNOVA_VERSION "0.15.0"
 
 /*! \mainpage libnova
 * \image html libnova-logo.jpg
@@ -59,11 +59,11 @@
 * API documentation for libnova is included in the source. It can also be found in this website and an offline tarball is available <A href="http://libnova.sf.net/libnovadocs.tar.gz">here</A>.
 *
 * \section download Download
-* The latest released version of libnova is 0.13.0
+* The latest released version of libnova is 0.15.0
 * It is available for download <A href="http://sourceforge.net/projects/libnova/files/libnova/">here.</A>
 *
-* \section cvs CVS
-* The latest CVS version of libnova is available via CVS <A href="http://sf.net/cvs/?group_id=57697">here.</A>
+* \section git GIT
+* The latest GIT version of libnova is available via GIT <A href="http://sourceforge.net/p/libnova/libnova/">here.</A>
 *
 * \section licence Licence
 * libnova is released under the <A href="http://www.gnu.org">GNU</A> LGPL.

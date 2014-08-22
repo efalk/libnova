@@ -1,5 +1,12 @@
 ChangeLog
 
+*********** release of 0.15.0
+
+20140822
+	Compiles under MinGWin
+
+	Petr Kubanek
+
 20130324
 	Fixed configure.in for automake-1.13
 
