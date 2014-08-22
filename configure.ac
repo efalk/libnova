@@ -1,6 +1,6 @@
 AC_PREREQ(2.63)
 
-AC_INIT([libnovs],[m4_esyscmd(./git-version-gen .tarball-version)],[lgirdwood (at) gmail (dot) com])
+AC_INIT([libnova],m4_esyscmd([./git-version-gen .tarball-version]),[lgirdwood (at) gmail (dot) com])
 
 AC_CONFIG_MACRO_DIR([m4])
 
