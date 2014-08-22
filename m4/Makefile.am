@@ -1,1 +1,1 @@
-EXTRA_DIST = ax_check_compiler_flags.m4
+EXTRA_DIST = ax_check_compile_flag.m4
