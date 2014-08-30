@@ -77,7 +77,7 @@ AC_CHECK_LIB(sunmath,acosl)
 
 
 # AVX support
-AC_ARG_ENABLE(avx, [AC_HELP_STRING([--enable-avx],[enable AVX optimizations])], have_avx=$enableval, have_avx=no)
+AC_ARG_ENABLE(avx, [AS_HELP_STRING([--enable-avx],[enable AVX optimizations])], have_avx=$enableval, have_avx=no)
 if test "$have_avx" = "yes"; then
         AC_DEFINE(HAVE_AVX,1,[Define to enable AVX optimizations.])
 fi
