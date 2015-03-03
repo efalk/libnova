@@ -23,6 +23,8 @@ Makefile.in
 configure
 config.*
 
+compile
+
 autom4te*
 missing
 stamp-h1
@@ -45,3 +47,4 @@ lntest/lntest
 doxyfile
 doc/man/*
 doc/html/*
+doc/doxygen_sqlite3.db
