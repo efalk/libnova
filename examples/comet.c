@@ -49,7 +49,9 @@ int main (int argc, const char *argv[])
 	struct ln_equ_posn equ;
 	struct ln_rst_time rst;
 	struct ln_zonedate rise, set, transit;
+#if MEEUS
 	struct ln_date epoch_date, date;
+#endif
 	struct ln_lnlat_posn observer;
 	struct ln_ell_orbit orbit;
 	struct ln_rect_posn posn;

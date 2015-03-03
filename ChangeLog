@@ -1,5 +1,11 @@
 ChangeLog
 
+*********** release of 0.16.0
+
+20150303
+	Added ln_get_constellation
+	Lukasz Komsta, Petr Kubanek
+
 *********** release of 0.15.0
 
 20140822

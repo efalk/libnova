@@ -35,4 +35,5 @@ include_HEADERS = \
 	hyperbolic_motion.h \
 	parallax.h \
 	airmass.h \
-	heliocentric_time.h
+	heliocentric_time.h \
+	constellation.h

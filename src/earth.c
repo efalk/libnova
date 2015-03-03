@@ -2749,7 +2749,7 @@ void ln_get_earth_helio_coords(double JD, struct ln_helio_posn *position)
 	
 	/* change to degrees in correct quadrant */
 	position->L = ln_rad_to_deg(position->L);
-	position->B = ln_rad_to_deg(position->B) * -1.0;
+	position->B = ln_rad_to_deg(position->B);
 	position->L = ln_range_degrees(position->L);
 	
 	/* change to fk5 reference frame */

@@ -39,7 +39,8 @@ libnova_la_SOURCES = \
 	hyperbolic_motion.c \
 	parallax.c \
 	airmass.c \
-	heliocentric_time.c
+	heliocentric_time.c \
+	constellation.c
 
 libnova_la_LDFLAGS = \
 	-version-info $(LT_VERSION) \

@@ -52,7 +52,7 @@ int main(int argc, const char *argv[])
 	struct ln_equ_posn equ_posn;
 	double H, G;
 	double mag, elong, ph;
-	const char *M_epoch = "K036A";
+	char *M_epoch = "K036A";
 	
 	/* observers location (Edinburgh), used to calc rst */
 	observer.lat = 55.92; /* 55.92 N */

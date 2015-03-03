@@ -129,5 +129,6 @@
 #include <libnova/parallax.h>
 #include <libnova/airmass.h>
 #include <libnova/heliocentric_time.h>
+#include <libnova/constellation.h>
 
 #endif
