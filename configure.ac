@@ -107,6 +107,7 @@ Makefile
 tools/Makefile
 src/Makefile
 src/libnova/Makefile
+src/elp/Makefile
 lntest/Makefile
 doc/Makefile
 doc/doxyfile

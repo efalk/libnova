@@ -2,7 +2,7 @@
 
 AM_CFLAGS = -Wall -O3 $(AVX_CFLAGS)
 
-SUBDIRS = libnova
+SUBDIRS = libnova elp
 
 lib_LTLIBRARIES = libnova.la
 
@@ -41,6 +41,13 @@ libnova_la_SOURCES = \
 	airmass.c \
 	heliocentric_time.c \
 	constellation.c
+
+noinst_HEADERS = \
+	lunar-priv.h
+
+libnova_la_LIBADD = \
+	-Lelp/ \
+	-lelp
 
 libnova_la_LDFLAGS = \
 	-version-info $(LT_VERSION) \
