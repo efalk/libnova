@@ -104,6 +104,7 @@ CFLAGS=-Wall
 
 AC_CONFIG_FILES([
 Makefile
+tools/Makefile
 src/Makefile
 src/libnova/Makefile
 lntest/Makefile

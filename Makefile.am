@@ -4,4 +4,4 @@ ACLOCAL_AMFLAGS = -I m4
 
 EXTRA_DIST = libnova.proj
 
-SUBDIRS = src lntest doc examples m4
+SUBDIRS = tools src lntest doc examples m4
