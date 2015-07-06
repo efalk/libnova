@@ -1,7 +1,6 @@
 noinst_LTLIBRARIES = libelp.la
 
-AM_CFLAGS =\
-	-I ../
+AM_CFLAGS = -I ../ -Wall -O3 $(AVX_CFLAGS)
 
 libelp_la_SOURCES = \
 	elp1.c \
