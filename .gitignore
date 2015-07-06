@@ -49,3 +49,5 @@ doxyfile
 doc/man/*
 doc/html/*
 doc/doxygen_sqlite3.db
+
+tools/elp82
