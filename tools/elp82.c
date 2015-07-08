@@ -40,7 +40,8 @@ struct elp {
 static void main_parse(struct elp *elp, const char *prefix)
 {
 	char line[1024], out[256], hdr[256];
-	double d[10];
+	double d[11];
+	int match;
 
 	/* ignore first line of inpput */
 	fgets(line, 1024, elp->fdi);
@@ -53,16 +54,19 @@ static void main_parse(struct elp *elp, const char *prefix)
 	elp->size = 0;
 
 	/* read input line by line for coefficients */
-	while (fgets(line, 1024, elp->fdi)) {
-		fscanf(elp->fdi, "%lf %lf %lf %lf %lf %lf %lf %lf %lf %lf",
+	match = fscanf(elp->fdi, "%lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf",
 			&d[0], &d[1], &d[2], &d[3], &d[4],
-			&d[5], &d[6], &d[7], &d[8], &d[9]);
-
-		sprintf(out, "{{%f, %f, %f, %f}, %f, {%f, %f, %f, %f, %f}},\n",
+			&d[5], &d[6], &d[7], &d[8], &d[9], &d[10]);
+	while (match == 11) {
+		sprintf(out, "{{%f, %f, %f, %f}, %f, {%f, %f, %f, %f, %f, %f}},\n",
 			d[0], d[1], d[2], d[3], d[4], d[5], d[6],
-			d[7], d[8], d[9]);
+			d[7], d[8], d[9], d[10]);
 		fputs(out, elp->fdo);
 		elp->size++;
+
+		match = fscanf(elp->fdi, "%lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf",
+			&d[0], &d[1], &d[2], &d[3], &d[4],
+			&d[5], &d[6], &d[7], &d[8], &d[9], &d[10]);
 	}
 
 	fputs("};\n", elp->fdo);
@@ -73,6 +77,7 @@ static void earth_parse(struct elp *elp, const char *prefix)
 {
 	char line[1024], out[256], hdr[256];
 	double d[8];
+	int match;
 
 	/* ignore first line of inpput */
 	fgets(line, 1024, elp->fdi);
@@ -84,17 +89,22 @@ static void earth_parse(struct elp *elp, const char *prefix)
 
 	elp->size = 0;
 
-	/* read input line by line for coefficients */
-	while (fgets(line, 1024, elp->fdi)) {
-		fscanf(elp->fdi, "%lf %lf %lf %lf %lf %lf %lf %lf",
+	match = fscanf(elp->fdi, "%lf %lf %lf %lf %lf %lf %lf %lf",
 			&d[0], &d[1], &d[2], &d[3], &d[4],
 			&d[5], &d[6], &d[7]);
+
+	/* read input line by line for coefficients */
+	while (match == 8) {
 
 		sprintf(out, "{%f, {%f, %f, %f, %f}, %f, %f, %f},\n",
 			d[0], d[1], d[2], d[3], d[4], d[5], d[6],
 			d[7]);
 		fputs(out, elp->fdo);
 		elp->size++;
+
+		match = fscanf(elp->fdi, "%lf %lf %lf %lf %lf %lf %lf %lf",
+			&d[0], &d[1], &d[2], &d[3], &d[4],
+			&d[5], &d[6], &d[7]);
 	}
 
 	fputs("};\n", elp->fdo);
@@ -105,6 +115,7 @@ static void planet_parse(struct elp *elp, const char *prefix)
 {
 	char line[1024], out[256], hdr[256];
 	double d[14];
+	int match;
 
 	/* ignore first line of inpput */
 	fgets(line, 1024, elp->fdi);
@@ -116,13 +127,14 @@ static void planet_parse(struct elp *elp, const char *prefix)
 
 	elp->size = 0;
 
-	/* read input line by line for coefficients */
-	while (fgets(line, 1024, elp->fdi)) {
-		fscanf(elp->fdi,
+	match = fscanf(elp->fdi,
 			"%lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf",
 			&d[0], &d[1], &d[2], &d[3], &d[4],
 			&d[5], &d[6], &d[7], &d[8], &d[9],
 			&d[10], &d[11], &d[12], &d[13]);
+
+	/* read input line by line for coefficients */
+	while (match == 14) {
 
 		sprintf(out,
 			"{{%f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f}, %f, %f, %f},\n",
@@ -130,6 +142,12 @@ static void planet_parse(struct elp *elp, const char *prefix)
 			d[7], d[8], d[9], d[10], d[11], d[12], d[13]);
 		fputs(out, elp->fdo);
 		elp->size++;
+
+		match = fscanf(elp->fdi,
+			"%lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf",
+			&d[0], &d[1], &d[2], &d[3], &d[4],
+			&d[5], &d[6], &d[7], &d[8], &d[9],
+			&d[10], &d[11], &d[12], &d[13]);
 	}
 
 	fputs("};\n", elp->fdo);
