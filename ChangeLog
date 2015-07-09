@@ -1,5 +1,10 @@
 ChangeLog
 
+20150708
+	Added alternative calculation to ln_get_equ_aber for declination
+	values approaching 90 degrees.
+	Jeroen Vreeken
+
 *********** release of 0.16.0
 
 20150303
