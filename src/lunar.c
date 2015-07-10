@@ -1127,7 +1127,7 @@ void ln_get_lunar_geo_posn(double JD, struct ln_rect_posn *moon, double precisio
 	/* Laskars series */
 	pw = (P1 + P2 * t[1] + P3 * t[2] + P4 * t[3] + P5 * t[4]) * t[1];
 	qw = (Q1 + Q2 * t[1] + Q3 * t[2] + Q4 * t[3] + Q5 * t[4]) * t[1];
-	ra = 2.0 * sqrt(1 - pw * pw - qw * qw);
+	ra = 2.0 * sqrt(1.0 - pw * pw - qw * qw);
 	pwqw = 2.0 * pw * qw;
 	pw2 = 1.0 - 2.0 * pw * pw;
 	qw2 = 1.0 - 2.0 * qw * qw;
@@ -1135,7 +1135,7 @@ void ln_get_lunar_geo_posn(double JD, struct ln_rect_posn *moon, double precisio
 	qw = qw * ra;
 	a = pw2 * x + pwqw * y + pw * z;
 	b = pwqw * x + qw2 * y - qw * z;
-	c = -pw * x + qw * y + (pw2 + qw2 -1) * z;
+	c = -pw * x + qw * y + (pw2 + qw2 - 1.0) * z;
 
 	/* save result */
 	moon->X = a;
