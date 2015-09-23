@@ -39536,6 +39536,27 @@ double ln_get_lunar_long_perigee(double JD)
 	return per;
 }
 
+/*! \fn double ln_get_lunar_arg_latitude(double JD);
+* \param JD Julian Day
+* \return Moon's argument of latitude
+*
+* Calculate the Moon's argument of latitude (mean distance of the Moon from its ascending node)
+*/
+double ln_get_lunar_arg_latitude(double JD)
+{
+	/* calc julian centuries */
+	double T =(JD - 2451545.0) / 36525.0;
+	double arg = 93.2720993;
+	double T2 = T * T;
+	double T3 = T2 * T;
+	double T4 = T3 * T;
+
+	/* equ 45.5 */
+	arg += 483202.0175273 * T - 0.0034029 * T2 - T3 / 3526000 + T4 / 863310000;
+
+	return arg;
+}
+
 /*! \example lunar.c
  * 
  * Examples of how to use Lunar functions. 

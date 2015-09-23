@@ -113,6 +113,12 @@ double LIBNOVA_EXPORT ln_get_lunar_long_asc_node(double JD);
 */ 
 double LIBNOVA_EXPORT ln_get_lunar_long_perigee(double JD);
 
+/*! \fn double ln_get_lunar_arg_latitude(double JD);
+* \brief Calculate the Moon's argument of latitude (mean distance of the Moon from its ascending node)
+* \ingroup lunar
+*/
+double LIBNOVA_EXPORT ln_get_lunar_arg_latitude(double JD);
+
 #ifdef __cplusplus
 };
 #endif
