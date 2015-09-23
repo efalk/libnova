@@ -74,6 +74,12 @@ int main(int argc, const char *argv[])
 	fprintf(stdout, "lunar disk %f\n", ln_get_lunar_disk(JD));
 	fprintf(stdout, "lunar phase %f\n", ln_get_lunar_phase(JD));
 	fprintf(stdout, "lunar bright limb %f\n", ln_get_lunar_bright_limb(JD));
+
+	ln_get_lunar_opt_libr_coords(JD, &ecl);
+	fprintf(stdout, "lunar libration point long %f  lat %f\n", ecl.lng, ecl.lat);
+
+	ln_get_lunar_subsolar_coords(JD, &ecl);
+	fprintf(stdout, "lunar subsolar point long %f  lat %f\n", ecl.lng, ecl.lat);
 	
 	/* rise, set and transit time */
 	if (ln_get_lunar_rst(JD, &observer, &rst) != 0)
