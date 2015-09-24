@@ -113,6 +113,24 @@ double LIBNOVA_EXPORT ln_get_lunar_long_asc_node(double JD);
 */ 
 double LIBNOVA_EXPORT ln_get_lunar_long_perigee(double JD);
 
+/*! \fn double ln_get_lunar_arg_latitude(double JD);
+* \brief Calculate the Moon's argument of latitude (mean distance of the Moon from its ascending node)
+* \ingroup lunar
+*/
+double LIBNOVA_EXPORT ln_get_lunar_arg_latitude(double JD);
+
+/*! \fn void ln_get_lunar_opt_libr_coords(double JD, struct ln_lnlat_posn *position);
+* \brief Calculate selenographic optical libration coordinates.
+* \ingroup lunar
+*/
+void LIBNOVA_EXPORT ln_get_lunar_opt_libr_coords(double JD, struct ln_lnlat_posn *position);
+
+/*! \fn void ln_get_lunar_subsolar(double JD, struct ln_lnlat_posn *position);
+* \brief Calculate selenographic subsolar point coordinates.
+* \ingroup lunar
+*/
+void LIBNOVA_EXPORT ln_get_lunar_subsolar_coords(double JD, struct ln_lnlat_posn *position);
+
 #ifdef __cplusplus
 };
 #endif

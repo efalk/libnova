@@ -1380,6 +1380,81 @@ double ln_get_lunar_long_perigee(double JD)
 	return per;
 }
 
+/*! \fn double ln_get_lunar_arg_latitude(double JD);
+* \param JD Julian Day
+* \return Moon's argument of latitude
+*
+* Calculate the Moon's argument of latitude (mean distance of the Moon from its ascending node)
+*/
+double ln_get_lunar_arg_latitude(double JD)
+{
+	/* calc julian centuries */
+	double T =(JD - 2451545.0) / 36525.0;
+	double arg = 93.2720993;
+	double T2 = T * T;
+	double T3 = T2 * T;
+	double T4 = T3 * T;
+
+	/* equ 45.5 */
+	arg += 483202.0175273 * T - 0.0034029 * T2 - T3 / 3526000 + T4 / 863310000;
+
+	return arg;
+}
+
+void ln_get_lunar_selenographic_coords(double JD, struct ln_lnlat_posn *moon, struct ln_lnlat_posn *position)
+{
+	/* equ 51.1 */
+	static const double I = 0.02692030744861093755; // 1.54242 deg in radians
+	double Omega = ln_get_lunar_long_asc_node(JD);
+	double W = ln_deg_to_rad(moon->lng - Omega);
+	double F = ln_get_lunar_arg_latitude(JD);
+
+	double tan_Ay = sin(W)*cos(ln_deg_to_rad(moon->lat))*cos(I) - sin(ln_deg_to_rad(moon->lat))*sin(I);
+	double tan_Ax = cos(W)*cos(ln_deg_to_rad(moon->lat));
+
+	position->lng = ln_range_degrees(ln_rad_to_deg(atan2(tan_Ay, tan_Ax)) - F);
+	position->lng = (position->lng > 180 ? position->lng - 360 : position->lng);
+	position->lat = ln_rad_to_deg(asin(-sin(W)*cos(ln_deg_to_rad(moon->lat))*sin(I) - sin(ln_deg_to_rad(moon->lat))*cos(I)));
+}
+
+/*! \fn void ln_get_lunar_opt_libr_coords(double JD, struct ln_lnlat_posn *position)
+* \param JD Julian Day
+* \param position Pointer to a struct ln_lnlat_posn to store result.
+*
+* Calculate Lunar optical libration coordinates, also known as selenographic Earth coordinates.
+* This is a point on the surface of the Moon where the Earth is in the zenith.
+*/
+void ln_get_lunar_opt_libr_coords(double JD, struct ln_lnlat_posn *position)
+{
+	struct ln_lnlat_posn moon;
+	ln_get_lunar_ecl_coords(JD, &moon, 0);
+	ln_get_lunar_selenographic_coords(JD, &moon, position);
+}
+
+/*! \fn void ln_get_lunar_subsolar_coords(double JD, struct ln_lnlat_posn *position)
+* \param JD Julian Day
+* \param position Pointer to a struct ln_lnlat_posn to store result.
+*
+* Calculate coordinates of the subsolar point, aslo known as selenographic coordinates of the Sun.
+* This is a point on the surface of the Moon where the Sun is in the zenith.
+*/
+void ln_get_lunar_subsolar_coords(double JD, struct ln_lnlat_posn *position)
+{
+	struct ln_lnlat_posn moon;
+	struct ln_lnlat_posn sun;
+	double EM_dist = ln_get_lunar_earth_dist(JD);
+	double ES_dist = ln_get_earth_solar_dist(JD) * AU;
+	double dist_ratio = EM_dist / ES_dist;
+
+	ln_get_solar_ecl_coords(JD, &sun);
+	ln_get_lunar_ecl_coords(JD, &moon, 0);
+
+	moon.lng = sun.lng + 180 + 57.296*dist_ratio*cos(ln_deg_to_rad(moon.lat))*sin(ln_deg_to_rad(sun.lng - moon.lng));
+	moon.lat = dist_ratio * moon.lat;
+
+	ln_get_lunar_selenographic_coords(JD, &moon, position);
+}
+
 /*! \example lunar.c
  *
  * Examples of how to use Lunar functions.
