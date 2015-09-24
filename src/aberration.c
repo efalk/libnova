@@ -14,6 +14,7 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  *  
  *  Copyright (C) 2000 - 2005 Liam Girdwood  
+ *  Copyright (C) 2015 Jeroen Vreeken (jeroen@vreeken.net)
  */
 
 #include <math.h>
@@ -227,7 +228,7 @@ void ln_get_equ_aber(struct ln_equ_posn *mean_position, double JD,
 	c = 17314463350.0;
 
 	/* calc T */
-	T =(JD - 2451545.0) / 36525.0;
+	T = (JD - 2451545.0) / 36525.0;
 
 	/* calc planetary perturbutions */
 	L2 = 3.1761467 + 1021.3285546 * T;
@@ -270,13 +271,43 @@ void ln_get_equ_aber(struct ln_equ_posn *mean_position, double JD,
 	mean_ra = ln_deg_to_rad(mean_position->ra);
 	mean_dec = ln_deg_to_rad(mean_position->dec);
 	
-	delta_ra = (Y * cos(mean_ra) - X * sin(mean_ra)) / (c * cos(mean_dec));
-	delta_dec = (X * cos(mean_ra) + Y * sin(mean_ra)) *
-		sin(mean_dec) - Z * cos(mean_dec);
-	delta_dec /= -c;
+	if (mean_dec < M_PI * 0.4999 ) {
+		delta_ra = (Y * cos(mean_ra) - X * sin(mean_ra)) / cos(mean_dec);
+		delta_ra /= c;
+		delta_dec = (X * cos(mean_ra) + Y * sin(mean_ra)) * sin(mean_dec) - Z * cos(mean_dec);
+		delta_dec /= -c;
 	
-	position->ra = ln_rad_to_deg(mean_ra + delta_ra);
-	position->dec = ln_rad_to_deg(mean_dec + delta_dec);
+		position->ra = ln_rad_to_deg(mean_ra + delta_ra);
+		position->dec = ln_rad_to_deg(mean_dec + delta_dec);
+	} else {
+		/* cos(mean_dec) gets to small when approaching (or at) 90.0 degrees
+		   Use an alternative method:
+		    - First transform mean position to x,y
+		    - Apply offset
+		    - Transform back to ra/dec
+		 */
+		long double px, py, ra, dec;
+		double cos_dec;
+
+		X /= c;
+		Y /= c;
+		Z /= c;
+		cos_dec = cos(mean_dec);
+
+		px = cos_dec * cos(mean_ra);
+		py = cos_dec * sin(mean_ra);
+
+		px += X;
+		py += Y;
+
+		ra = atan2(py, px);
+		dec = acos(sqrt(px * px + py * py));
+
+		dec += cos_dec * Z;
+
+		position->ra = ln_rad_to_deg(ra);
+		position->dec = ln_rad_to_deg(dec);
+	}
 }
 
 /*! \fn void ln_get_ecl_aber(struct ln_lnlat_posn *mean_position, double JD, struct ln_lnlat_posn *position)
