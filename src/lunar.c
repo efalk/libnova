@@ -1376,7 +1376,8 @@ double ln_get_lunar_long_perigee(double JD)
 	double T4 = T3 * T;
 
 	/* equ 47.7 */
-	per += 4069.0137287 * T - 0.0103200 * T2 - T3 / 80053.0 + T4 / 18999000.0;
+	per += 4069.0137287 * T - 0.0103200 * T2 -
+		T3 / 80053.0 + T4 / 18999000.0;
 	return per;
 }
 
@@ -1396,12 +1397,14 @@ double ln_get_lunar_arg_latitude(double JD)
 	double T4 = T3 * T;
 
 	/* equ 45.5 */
-	arg += 483202.0175273 * T - 0.0034029 * T2 - T3 / 3526000 + T4 / 863310000;
+	arg += 483202.0175273 * T - 0.0034029 * T2 -
+		T3 / 3526000.0 + T4 / 863310000.0;
 
 	return arg;
 }
 
-void ln_get_lunar_selenographic_coords(double JD, struct ln_lnlat_posn *moon, struct ln_lnlat_posn *position)
+void ln_get_lunar_selenographic_coords(double JD, struct ln_lnlat_posn *moon,
+	struct ln_lnlat_posn *position)
 {
 	/* equ 51.1 */
 	static const double I = 0.02692030744861093755; // 1.54242 deg in radians
@@ -1409,12 +1412,17 @@ void ln_get_lunar_selenographic_coords(double JD, struct ln_lnlat_posn *moon, st
 	double W = ln_deg_to_rad(moon->lng - Omega);
 	double F = ln_get_lunar_arg_latitude(JD);
 
-	double tan_Ay = sin(W)*cos(ln_deg_to_rad(moon->lat))*cos(I) - sin(ln_deg_to_rad(moon->lat))*sin(I);
-	double tan_Ax = cos(W)*cos(ln_deg_to_rad(moon->lat));
+	double tan_Ay = sin(W) * cos(ln_deg_to_rad(moon->lat)) * cos(I) -
+		sin(ln_deg_to_rad(moon->lat)) * sin(I);
+	double tan_Ax = cos(W) * cos(ln_deg_to_rad(moon->lat));
 
-	position->lng = ln_range_degrees(ln_rad_to_deg(atan2(tan_Ay, tan_Ax)) - F);
-	position->lng = (position->lng > 180 ? position->lng - 360 : position->lng);
-	position->lat = ln_rad_to_deg(asin(-sin(W)*cos(ln_deg_to_rad(moon->lat))*sin(I) - sin(ln_deg_to_rad(moon->lat))*cos(I)));
+	position->lng =
+		ln_range_degrees(ln_rad_to_deg(atan2(tan_Ay, tan_Ax)) - F);
+	position->lng =
+		(position->lng > 180.0 ? position->lng - 360.0 : position->lng);
+	position->lat =
+		ln_rad_to_deg(asin(-sin(W) * cos(ln_deg_to_rad(moon->lat)) * sin(I) -
+		sin(ln_deg_to_rad(moon->lat))*cos(I)));
 }
 
 /*! \fn void ln_get_lunar_opt_libr_coords(double JD, struct ln_lnlat_posn *position)
@@ -1449,7 +1457,9 @@ void ln_get_lunar_subsolar_coords(double JD, struct ln_lnlat_posn *position)
 	ln_get_solar_ecl_coords(JD, &sun);
 	ln_get_lunar_ecl_coords(JD, &moon, 0);
 
-	moon.lng = sun.lng + 180 + 57.296*dist_ratio*cos(ln_deg_to_rad(moon.lat))*sin(ln_deg_to_rad(sun.lng - moon.lng));
+	moon.lng = sun.lng + 180.0 + 57.296 * dist_ratio *
+		cos(ln_deg_to_rad(moon.lat)) *
+		sin(ln_deg_to_rad(sun.lng - moon.lng));
 	moon.lat = dist_ratio * moon.lat;
 
 	ln_get_lunar_selenographic_coords(JD, &moon, position);
