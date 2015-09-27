@@ -63,6 +63,9 @@
 #define R2S  (2.0626480624709635516e5)   /* arc seconds per radian */
 #define S2R  (4.8481368110953599359e-6)  /* radians per arc second */
 
+/* Golden ratio */
+#define GOLDEN	1.61803398875
+
 #define DM_PI (2*M_PI)
 #define RADIAN (180.0 / M_PI)
 
@@ -678,6 +681,72 @@ double ln_interpolate5(double n, double y1, double y2, double y3,
 	y += n4 * (K / 24.0);
 	
 	return y;
+}
+
+
+/*! \fn double ln_find_zero(double (*f) (double, double *), double from, double to, double *arg)
+* \param f Function to find zero (root place)
+* \param from Lower bound of search interval
+* \param to Upper bound of search interval
+* \param arg Pointer to the other parameters of the function f
+*
+* Find zero of function f() at given interval by Newton method.
+*
+*/
+double ln_find_zero(double (*func) (double, double *),
+	double from, double to, double *arg)
+{
+	double x, x1, x2, f;
+	int i = 0;
+
+	x1 = to;
+	x = from;
+
+	do {
+		f = func(x1, arg);
+		x2 = x1 - f * (x1 - x) / (f - func(x, arg));
+		x = x1;
+		x1 = x2;
+	} while ((fabs(x - x1) > 1e-6) && (i++ < 1000));
+
+	return x2;
+}
+
+/*! \fn double ln_find_max(double (*f) (double, double *), double from, double to, double *arg)
+* \param f Function to find maximum
+* \param from Lower bound of search interval
+* \param to Upper bound of search interval
+* \param arg Pointer to the other parameters of the function f
+*
+* Find local maximum of function f() at given interval by Golden Section method.
+*
+*/
+double ln_find_max(double (*func) (double, double *),
+	double from, double to, double *arg)
+{
+	double	a, b, xl, xu, eps;
+
+	a = from;
+	b = to;
+	xl = b - (b - a) / GOLDEN;
+	xu = a + (b - a) / GOLDEN;
+	eps = fabs(b - a);
+
+	do {
+		if (func(xl, arg) > func(xu, arg)) {
+			b = xu;
+			xu = xl;
+			xl = b - (b - a) / GOLDEN;
+		} else {
+			a = xl;
+			xl = xu;
+			xu = a + (b - a) / GOLDEN;
+		}
+		eps = fabs(b - a);
+
+	} while (eps > 1e-6);
+
+	return (xu + xl) * 0.5;
 }
 
 /* This section is for Win32 substitutions. */

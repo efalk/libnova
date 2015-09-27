@@ -224,6 +224,20 @@ double LIBNOVA_EXPORT ln_interpolate3(double n, double y1, double y2, double y3)
 double LIBNOVA_EXPORT ln_interpolate5(double n, double y1, double y2, double y3,
 	double y4, double y5);
 
+/*! \fn double ln_find_max(double (*f) (double, double *), double from, double to, double *arg)
+* \brief Find local maximum of function f() at given interval by Golden Section method.
+* \ingroup misc
+*/
+double LIBNOVA_EXPORT ln_find_max(double (*func) (double, double *),
+	double from, double to, double *arg);
+
+/*! \fn double ln_find_zero(double (*f) (double, double *), double from, double to, double *arg)
+* \brief Find zero of function f() at given interval by Newton method.
+* \ingroup misc
+*/
+double LIBNOVA_EXPORT ln_find_zero(double (*func) (double, double *),
+	double from, double to, double *arg);
+
 #ifdef __WIN32__
 
 /* Catches calls to the POSIX gmtime_r and converts them to a related WIN32 version. */
