@@ -131,6 +131,42 @@ void LIBNOVA_EXPORT ln_get_lunar_opt_libr_coords(double JD, struct ln_lnlat_posn
 */
 void LIBNOVA_EXPORT ln_get_lunar_subsolar_coords(double JD, struct ln_lnlat_posn *position);
 
+/*! \fn double ln_lunar_next_phase(double jd, double phase)
+* \brief Find next moon phase relative to given time expressed as Julian Day.
+* \ingroup lunar
+*/
+double LIBNOVA_EXPORT ln_lunar_next_phase(double jd, double phase);
+
+/*! \fn double ln_lunar_previous_phase(double jd, double phase)
+* \brief Find previous moon phase relative to given time expressed as Julian Day.
+* \ingroup lunar
+*/
+double LIBNOVA_EXPORT ln_lunar_previous_phase(double jd, double phase);
+
+/*! \fn double ln_lunar_next_apsis(double jd, int mode)
+* \brief Find next moon apogee or perigee relative to given time expressed as Julian Day.
+* \ingroup lunar
+*/
+double LIBNOVA_EXPORT ln_lunar_next_apsis(double jd, int apogee);
+
+/*! \fn double ln_lunar_previous_apsis(double jd, int mode)
+* \brief Find previous moon apogee or perigee relative to given time expressed as Julian Day.
+* \ingroup lunar
+*/
+double LIBNOVA_EXPORT ln_lunar_previous_apsis(double jd, int apogee);
+
+/*! \fn double ln_lunar_next_node(double jd, int mode)
+* \brief Find next moon node relative to given time expressed as Julian Day.
+* \ingroup lunar
+*/
+double LIBNOVA_EXPORT ln_lunar_next_node(double jd, int mode);
+
+/*! \fn double ln_lunar_previous_node(double jd, int mode)
+* \brief Find previous lunar node relative to given time expressed as Julian Day.
+* \ingroup lunar
+*/
+double LIBNOVA_EXPORT ln_lunar_previous_node(double jd, int mode);
+
 #ifdef __cplusplus
 };
 #endif

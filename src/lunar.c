@@ -20,6 +20,7 @@
  */
 
 #include <math.h>
+#include <stdlib.h>
 #include <libnova/lunar.h>
 #include <libnova/vsop87.h>
 #include <libnova/solar.h>
@@ -1034,6 +1035,44 @@ static double sum_series_elp36(double *t)
 	return result;
 }
 
+/* internal function used for find_max/find zero lunar phase calculations */
+static double lunar_phase(double jd, double *arg)
+{
+	struct ln_lnlat_posn moon;
+	struct ln_helio_posn sol;
+	double phase;
+
+	ln_get_lunar_ecl_coords(jd, &moon, 0);
+	ln_get_solar_geom_coords(jd, &sol);
+
+	phase = fmod((ln_rad_to_deg(moon.lng - sol.L))
+		+ 3.0 * M_PI - arg[0], 2.0 * M_PI) - M_PI;
+
+	return phase;
+}
+
+/* internal function used for find_max/find zero lunar phase calculations */
+static double lunar_distance(double jd, double *arg)
+{
+	return ln_get_lunar_earth_dist(jd);
+}
+
+/* internal function used for find_max/find zero lunar phase calculations */
+static double lunar_neg_distance(double jd, double *arg)
+{
+	return -ln_get_lunar_earth_dist(jd);
+}
+
+/* internal function used for find_max/find zero lunar phase calculations */
+static double _lunar_ecl_lat(double jd, double *arg)
+{
+	struct ln_lnlat_posn pos;
+
+	ln_get_lunar_ecl_coords(jd, &pos, 0);
+
+	return pos.lat;
+}
+
 /*! \fn void ln_get_lunar_geo_posn(double JD, struct ln_rect_posn *pos, double precision);
 * \param JD Julian day.
 * \param pos Pointer to a geocentric position structure to held result.
@@ -1463,6 +1502,170 @@ void ln_get_lunar_subsolar_coords(double JD, struct ln_lnlat_posn *position)
 	moon.lat = dist_ratio * moon.lat;
 
 	ln_get_lunar_selenographic_coords(JD, &moon, position);
+}
+
+/*
+ * Notes on phase calculations.
+ * In general, exact k cannot be easily computed (Meeus chapter 46 gives
+ * approximation formula) and there is no guarantee that you can compute
+ * exactly k for *next* (not accidentally previous) phase (or opposite -
+ * previous, not accidentally next).
+
+ * Therefore k is firstly approximated and decreased (or increased) by 2
+ * and then while loop increase this k until nd (JD of mean phase) is fisrt
+ * one below or above given JD. This loop runs several times (1-3) only.
+ */
+
+/*! \fn double ln_lunar_next_phase(double jd, double phase)
+* \param jd Julian Day
+* \param phase 0 for new moon, 0.25 for first quarter, 0.5 for full moon, 0.75 for last quarter
+*
+* Find next moon phase relative to given time expressed as Julian Day.
+*
+*/
+double ln_lunar_next_phase(double jd, double phase)
+{
+	double ph, k, angle;
+
+	k = floor((jd - 2451550.09766) / 29.530588861) + phase - 2.0;
+
+	while ((ph = 2451550.09766 + 29.530588861 * k + 0.00015437 *
+		(k / 1236.85) * (k / 1236.85)) < jd)
+			k += 1.0;
+
+	angle = 2.0 * M_PI * phase;
+
+	while ((ph = ln_find_zero(lunar_phase, ph, ph + 0.01, &angle)) < jd)
+		ph += 29.530588861;
+
+	return ph;
+}
+
+/*! \fn double ln_lunar_previous_phase(double jd, double phase)
+* \param jd Julian Day
+* \param phase 0 for new moon, 0.25 for first quarter, 0.5 for full moon, 0.75 for last quarter
+*
+* Find previous moon phase relative to given time expressed as Julian Day.
+*
+*/
+double ln_lunar_previous_phase(double jd, double phase)
+{
+	double ph, k, angle;
+
+	k = floor((jd - 2451550.09766) / 29.530588861) + phase + 2.0;
+
+	while ((ph = 2451550.09766 + 29.530588861 * k + 0.00015437 *
+		(k / 1236.85) * (k / 1236.85)) > jd)
+			k -= 1.0;
+
+	angle = 2.0 * M_PI * phase;
+
+	while ((ph = ln_find_zero(lunar_phase, ph, ph + 0.01, &angle)) > jd)
+		ph -= 29.530588861;
+
+	return ph;
+}
+
+/*! \fn double ln_lunar_next_apsis(double jd, int mode)
+* \param jd Julian Day
+* \param apogee 0 for perigee, 1 for apogee
+*
+* Find next moon apogee or perigee relative to given time expressed as Julian Day.
+*
+*/
+double ln_lunar_next_apsis(double jd, int apogee)
+{
+	double ap, k;
+
+	k = floor((jd - 2451534.6698) / 27.55454989) + (0.5 * apogee) - 2.0;
+
+	while ((ap = 2451534.6698 + 27.55454989 * k + 0.0006691 *
+		(k / 1325.55) * (k / 1325.55)) < jd)
+			k += 1.0;
+
+	if (apogee) {
+		while ((ap = ln_find_max(lunar_distance, ap - 3.0, ap + 3.0, NULL)) < jd)
+			ap += 27.55454989;
+	} else {
+		while ((ap = ln_find_max(lunar_neg_distance, ap - 3.0, ap + 3.0, NULL)) < jd)
+			ap += 27.55454989;
+	}
+
+	return ap;
+}
+
+/*! \fn double ln_lunar_previous_apsis(double jd, int mode)
+* \param jd Julian Day
+* \param apogee 0 for perigee, 1 for apogee
+*
+* Find previous moon apogee or perigee relative to given time expressed as Julian Day.
+*
+*/
+double ln_lunar_previous_apsis(double jd, int apogee)
+{
+	double ap, k;
+
+	k = floor((jd - 2451534.6698) / 27.55454989) + (0.5 * apogee) + 2.0;
+
+	while ((ap = 2451534.6698 + 27.55454989 * k + 0.0006691 *
+		(k / 1325.55) * (k / 1325.55)) > jd)
+		k -= 1.0;
+
+	if (apogee) {
+		while ((ap = ln_find_max(lunar_distance, ap - 3.0, ap + 3.0, NULL)) > jd)
+			ap -= 27.55454989;
+	} else {
+		while ((ap = ln_find_max(lunar_neg_distance, ap - 3.0, ap + 3.0, NULL)) > jd)
+			ap -= 27.55454989;
+	}
+
+	return ap;
+}
+
+/*! \fn double ln_lunar_next_node(double jd, int mode)
+* \param jd Julian Day
+* \param mode 0 for ascending, 1 for descending
+*
+* Find next moon node relative to given time expressed as Julian Day.
+*
+*/
+double ln_lunar_next_node(double jd, int mode)
+{
+	double nd, k;
+
+	k = floor((jd - 2451565.1619) / 27.212220817) + (0.5 * mode) - 2.0;
+
+	while ((nd = 2451565.1619 + 27.212220817 * k) < jd)
+		k += 1.0;
+
+	while ((nd = ln_find_zero(_lunar_ecl_lat, nd - 3.0,
+		nd + 3.0, NULL)) < jd)
+			nd += 27.212220817;
+
+	return nd;
+}
+
+/*! \fn double ln_lunar_previous_node(double jd, int mode)
+* \param jd Julian Day
+* \param mode 0 for ascending, 1 for descending
+*
+* Find previous lunar node relative to given time expressed as Julian Day.
+*
+*/
+double ln_lunar_previous_node(double jd, int mode)
+{
+	double nd, k;
+
+	k = floor((jd - 2451565.1619) / 27.212220817) + (0.5 * mode) + 2.0;
+
+	while ((nd = 2451565.1619 + 27.212220817 * k) > jd)
+		k -= 1.0;
+
+	while ((nd = ln_find_zero(_lunar_ecl_lat, nd - 3.0,
+		nd + 3.0, NULL)) > jd)
+			nd -= 27.212220817 ;
+
+	return nd;
 }
 
 /*! \example lunar.c
