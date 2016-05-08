@@ -594,7 +594,8 @@ double ln_get_dec_location(char *s)
 * \param location Location angle in degress
 * \return Angle string
 *
-* Obtains a human readable location in the form: ddºmm'ss.ss"             
+* Obtains a human readable location in the form: ddºmm'ss.ss"
+* String must be freed after use.
 */
 const char *ln_get_humanr_location(double location)
 {
@@ -610,7 +611,7 @@ const char *ln_get_humanr_location(double location)
 	sec = 60.0 * (modf(sec, &min));
 	sprintf(buf,"%+dº%d'%.2f\"",(int)deg, (int) min, sec);
 
-	return buf;
+	return strdup(buf);
 }
 
 /*! \fn double ln_interpolate3 (double n, double y1, double y2, double y3)
