@@ -1838,10 +1838,10 @@ static int parallax_test(void)
 			&observer, 1706, jd, &parallax);
 
 	/* parallax is hard to calculate, so we allow relatively big error */
-	failed += test_result("Mars RA parallax for Palomar observatory at"
-		"2003/08/28 3:17 UT  ", parallax.ra, 0.0053917, 0.00001);
-	failed += test_result("Mars DEC parallax for Palomar observatory at"
-		"2003/08/28 3:17 UT  ", parallax.dec, -14.1 / 3600.0, 0.00002);
+	failed += test_result("Mars RA parallax for Palomar observatory at "
+		"2003/08/28 3:17 UT  ", parallax.ra, 0.003552, 0.00001);
+	failed += test_result("Mars DEC parallax for Palomar observatory at "
+		"2003/08/28 3:17 UT  ", parallax.dec, -20.01 / 3600.0, 0.00002);
 
 	return failed;
 }

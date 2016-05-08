@@ -2794,14 +2794,16 @@ void ln_get_earth_centre_dist (float height, double latitude, double *p_sin_o,
 	double *p_cos_o)
 {
      double a,b,f,u;
+
+     double lat_rad = ln_deg_to_rad(latitude);
      
      a = 6378.14;
      f = 1.0 / 298.257;
      b = a * (1.0 - f);
      
-     u = atan2(b, a * tan(ln_deg_to_rad(latitude)));
-     *p_sin_o = b / a * sin(u) + (height / 6378140.0) * sin(latitude);
-     *p_cos_o = cos(u) + (height / 6378140.0) * cos(latitude);
+     u = atan2(b, a * tan(lat_rad));
+     *p_sin_o = b / a * sin(u) + (height / 6378140.0) * sin(lat_rad);
+     *p_cos_o = cos(u) + (height / 6378140.0) * cos(lat_rad);
 }
      
 /*! \fn void ln_get_earth_rect_helio(double JD, struct ln_rect_posn *position)
