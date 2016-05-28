@@ -599,15 +599,10 @@ double ln_get_dec_location(char *s)
 */
 const char *ln_get_humanr_location(double location)
 {
-	static char buf[16];
-	double deg = 0.0;
-	double min = 0.0;
-	double sec = 0.0;
+	char buf[32];
+	double deg, min, sec;
 
-	*buf = 0;
-	sec = 60.0 * (modf(location, &deg));
-	if (sec < 0.0)
-		sec *= -1.0;
+	sec = fabs(60.0 * (modf(location, &deg)));
 	sec = 60.0 * (modf(sec, &min));
 	sprintf(buf,"%+dº%d'%.2f\"",(int)deg, (int) min, sec);
 
