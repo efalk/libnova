@@ -290,19 +290,100 @@ static int nutation_test(void)
 {
 	double JD;
 	struct ln_nutation nutation;
+	struct ln_date date;
+
 	int failed = 0;
 		
 	JD = 2446895.5;
 
 	ln_get_nutation(JD, &nutation);
 	failed += test_result("(Nutation) longitude (deg) for JD 2446895.5",
-		nutation.longitude, -0.00100561, 0.00000001);
+		nutation.longitude, -3.788 / 3600.0, 0.0000001);
 	
 	failed += test_result("(Nutation) obliquity (deg) for JD 2446895.5",
-		nutation.obliquity, 0.00273297, 0.00000001);
+		nutation.obliquity, 9.443 / 3600.0, 0.000001);
 	
 	failed += test_result("(Nutation) ecliptic (deg) for JD 2446895.5",
-		nutation.ecliptic, 23.44367936, 0.00000001);
+		nutation.ecliptic, 23 + 26 / 60.0 + 27.407 / 3600.0, 0.000001);
+
+	date.years = 2028;
+	date.months = 11;
+	date.days = 13;
+	date.hours = 4;
+	date.minutes = 33;
+	date.seconds = 36;
+
+	JD = ln_get_julian_day(&date);
+
+	ln_get_nutation(JD, &nutation);
+
+	failed += test_result("(Nutation) longitude (deg) for JD 2446895.5",
+		nutation.longitude, 14.861 / 3600.0, 0.0000001);
+
+	failed += test_result("(Nutation) obliquity (deg) for JD 2446895.5",
+		nutation.obliquity, 2.705 / 3600.0, 0.000001);
+
+	failed += test_result("(Nutation) ecliptic (deg) for JD 2446895.5",
+		nutation.ecliptic, 23.436, 0.001);
+
+	return failed;
+}
+
+static int aber_prec_nut_test()
+{
+	double JD;
+	struct ln_date date;
+	struct ln_equ_posn mean_position, nutated, precessed, aberated;
+	struct lnh_equ_posn hmean_position;
+
+	int failed = 0;
+
+	date.years = 2028;
+	date.months = 11;
+	date.days = 13;
+	date.hours = 4;
+	date.minutes = 33;
+	date.seconds = 36;
+
+	JD = ln_get_julian_day(&date);
+
+	hmean_position.ra.hours = 2;
+	hmean_position.ra.minutes = 44;
+	hmean_position.ra.seconds = 12.9747;
+
+	hmean_position.dec.neg = 0;
+	hmean_position.dec.degrees = 49;
+	hmean_position.dec.minutes = 13;
+	hmean_position.dec.seconds = 39.896;
+
+	ln_hequ_to_equ(&hmean_position, &mean_position);
+
+	failed += test_result("(Nutation) Theta Persei RA",
+		mean_position.ra, 41.0540613, 0.00001);
+	failed += test_result("(Nutation) Theta Persei DEC",
+		mean_position.dec, 49.2277489, 0.00001);
+
+	ln_get_equ_aber(&mean_position, JD, &aberated);
+
+	failed += test_result ("(Aberation) Theta Persei position on 13th November 2028 RA",
+		aberated.ra, 41.0623836, 0.0001);
+	failed += test_result ("(Aberation) Theta Persei position on 13th November 2028 DEC",
+		aberated.dec, 49.2296238, 0.00001);
+
+	ln_get_equ_prec(&aberated, JD, &precessed);
+
+	failed += test_result ("(Aberation + Precession) Theta Persei position on 13th November 2028 RA",
+		precessed.ra, 41.5555635, 0.0001);
+	failed += test_result ("(Aberation + Precession) Theta Persei position on 13th November 2028 DEC",
+		precessed.dec, 49.3503415, 0.00001);
+
+	ln_get_equ_nut(&precessed, JD, &nutated);
+
+	failed += test_result ("(Aberation + Precession + Nutation) Theta Persei position on 13th November 2028 RA",
+		nutated.ra, 41.5599646, 0.0001);
+	failed += test_result ("(Aberation + Precession + Nutation) Theta Persei position on 13th November 2028 DEC",
+		nutated.dec, 49.3520685, 0.00001);
+
 	return failed;
 }
 
@@ -317,7 +398,7 @@ static int transform_test(void)
 	double JD;
 	struct ln_date date;
 	int failed = 0;
-	
+
 	/* observers position */
 	hobserver.lng.neg = 0;
 	hobserver.lng.degrees = 282;
@@ -549,14 +630,14 @@ static int precession_test(void)
 
 	ln_get_equ_prec(&object, JD, &pos);
 	failed += test_result("(Precession) RA on JD 2462088.69  ",
-		pos.ra, 41.547214, 0.00003);
+		pos.ra, 41.547212, 0.00003);
 	failed += test_result("(Precession) DEC on JD 2462088.69  ",
 		pos.dec, 49.348483, 0.00001);
 
 	ln_get_equ_prec2(&object, JD2000, JD, &pos);
 
 	failed += test_result("(Precession 2) RA on JD 2462088.69  ",
-		pos.ra, 41.547214, 0.00003);
+		pos.ra, 41.547212, 0.00001);
 	failed += test_result("(Precession 2) DEC on JD 2462088.69  ",
 		pos.dec, 49.348483, 0.00001);
 
@@ -611,18 +692,18 @@ static int precession_test(void)
 	// I checked results agains SLAlib on-line calculator and SLAlib performs
 	// even worse then we
 	
-	failed += test_result ("(Precision 2) RA on B1900  ", pos2.ra,
+	failed += test_result ("(Precession 2) RA on B1900  ", pos2.ra,
 		20.6412499980, 0.002);
-	failed += test_result ("(Precision 2) DEC on B1900  ", pos2.dec,
+	failed += test_result ("(Precession 2) DEC on B1900  ", pos2.dec,
 		88.7739388888, 0.0001);
 
 	ln_get_equ_pm(&object, &pm, JD2050, &pos);
 
 	ln_get_equ_prec2(&pos, JD2000, JD2050, &pos2);
 
-	failed += test_result("(Precision 2) RA on J2050  ",
+	failed += test_result("(Precession 2) RA on J2050  ",
 		pos2.ra, 57.0684583320, 0.003);
-	failed += test_result("(Precision 2) DEC on J2050  ",
+	failed += test_result("(Precession 2) DEC on J2050  ",
 		pos2.dec, 89.4542722222, 0.0001);
 
 	return failed;
@@ -659,9 +740,9 @@ static int apparent_position_test(void)
 	ln_get_apparent_posn(&object, &pm, JD, &pos);
 
 	failed += test_result("(Apparent Position) RA on JD 2462088.69  ",
-		pos.ra, 41.55966517, 0.00000001);
+		pos.ra, 41.56406641, 0.00000001);
 	failed += test_result("(Apparent Position) DEC on JD 2462088.69  ",
-		pos.dec, 49.34962340, 0.00000001);
+		pos.dec, 49.35135029, 0.0000001);
 	return failed;
 }
 
@@ -1984,6 +2065,7 @@ int main(int argc, const char *argv[])
 	failed += heliocentric_test ();
 	failed += sidereal_test();
 	failed += nutation_test();
+	failed += aber_prec_nut_test();
 	failed += transform_test();
 	failed += solar_coord_test ();
 	failed += aberration_test();

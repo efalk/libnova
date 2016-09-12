@@ -40,6 +40,12 @@ extern "C" {
 * \brief Calculate nutation. 
 */
 void LIBNOVA_EXPORT ln_get_nutation(double JD, struct ln_nutation *nutation);
+
+/*! \fn void ln_get_equ_nut(struct ln_equ_posn *mean_position, double JD, struct ln_equ_posn *position);
+* \brief Calculate equatorial coordinates with the effects of nutation.
+* \ingroup nutation
+*/
+void LIBNOVA_EXPORT ln_get_equ_nut(struct ln_equ_posn *mean_position, double JD, struct ln_equ_posn *position);
 	
 #ifdef __cplusplus
 };

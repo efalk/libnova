@@ -1,5 +1,9 @@
 ChangeLog
 
+20160912
+	Added ln_get_equ_nut method and tests for nutation.
+	Petr Kubanek
+
 20150708
 	Added alternative calculation to ln_get_equ_aber for declination
 	values approaching 90 degrees.

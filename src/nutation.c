@@ -198,6 +198,8 @@ void ln_get_nutation(double JD, struct ln_nutation *nutation)
 	if (fabs(JD - c_JD) > LN_NUTATION_EPOCH_THRESHOLD) {
 		/* set the new epoch */
 		c_JD = JD;
+		c_longitude = 0;
+		c_obliquity = 0;
 
 		/* get julian ephemeris day */
 		JDE = (long double)ln_get_jde(JD);
@@ -235,8 +237,8 @@ void ln_get_nutation(double JD, struct ln_nutation *nutation)
 				+ arguments[i].F * F
 				+ arguments[i].O * O;
             
-			c_longitude += coeff_sine * sin(argument);
-			c_obliquity += coeff_cos * cos(argument);
+			c_longitude += coeff_sine * sinl(argument);
+			c_obliquity += coeff_cos * cosl(argument);
 		}
 
 		/* change to arcsecs */
@@ -262,4 +264,42 @@ void ln_get_nutation(double JD, struct ln_nutation *nutation)
 	nutation->longitude = c_longitude;
 	nutation->obliquity = c_obliquity;
 	nutation->ecliptic = c_ecliptic;
+}
+
+/*! \fn void ln_get_equ_nut(struct ln_equ_posn *mean_position, double JD, struct ln_equ_posn *position)
+* \param mean_position Mean position of object
+* \param JD Julian Day.
+* \param position Pointer to store new object position.
+*
+* Calculate a stars equatorial coordinates from it's mean equatorial coordinates
+* with the effects of nutation for a given Julian Day.
+*/
+/* Equ 22.1
+*/
+void ln_get_equ_nut(struct ln_equ_posn *mean_position, double JD,
+	struct ln_equ_posn *position)
+{
+	struct ln_nutation nut;
+	ln_get_nutation (JD, &nut);
+
+	long double mean_ra, mean_dec, delta_ra, delta_dec;
+
+	mean_ra = ln_deg_to_rad(mean_position->ra);
+	mean_dec = ln_deg_to_rad(mean_position->dec);
+
+	// Equ 22.1
+
+	long double nut_ecliptic = ln_deg_to_rad(nut.ecliptic + nut.obliquity);
+	long double sin_ecliptic = sin(nut_ecliptic);
+
+	long double sin_ra = sin(mean_ra);
+	long double cos_ra = cos(mean_ra);
+
+	long double tan_dec = tan(mean_dec);
+
+	delta_ra = (cos (nut_ecliptic) + sin_ecliptic * sin_ra * tan_dec) * nut.longitude - cos_ra * tan_dec * nut.obliquity;
+	delta_dec = (sin_ecliptic * cos_ra) * nut.longitude + sin_ra * nut.obliquity;
+
+	position->ra = mean_position->ra + delta_ra;
+	position->dec = mean_position->dec + delta_dec;
 }
