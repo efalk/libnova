@@ -20,6 +20,7 @@
 #include <libnova/proper_motion.h>
 #include <libnova/aberration.h>
 #include <libnova/precession.h>
+#include <libnova/nutation.h>
 
 /*
 ** Apparent place of an Object 
