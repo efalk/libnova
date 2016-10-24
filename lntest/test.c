@@ -391,7 +391,7 @@ static int transform_test(void)
 {
 	struct lnh_equ_posn hobject, hpollux;
 	struct lnh_lnlat_posn hobserver, hecl;
-	struct ln_equ_posn object, pollux, equ;
+	struct ln_equ_posn object, object_hrz, pollux, equ;
 	struct ln_hrz_posn hrz;
 	struct ln_lnlat_posn observer, ecl;
 	struct ln_gal_posn gal;
@@ -435,6 +435,13 @@ static int transform_test(void)
 		hrz.alt, 15.12426274, 0.00000001);
 	failed += test_result("(Transforms) Equ to Horiz AZ ",
 		hrz.az, 68.03429264, 0.00000001);
+
+	ln_get_hrz_from_equ_sidereal_time(&object, &observer, ln_get_apparent_sidereal_time(JD), &hrz);
+	ln_get_equ_from_hrz(&hrz, &observer, JD, &object_hrz);
+	failed += test_result("(Transforms) Horiz to Equ RA ",
+		object_hrz.ra, object.ra, 0.00000001);
+	failed += test_result("(Transforms) Horiz to Equ DEC ",
+		object_hrz.dec, object.dec, 0.00000001);
 
 	/* try something close to the pole */
 	object.dec = 90.0;
