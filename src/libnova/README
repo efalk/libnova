@@ -1,0 +1,3 @@
+
+This directory includes the public headers, which would be presumably
+be installed in /usr/include/libnova

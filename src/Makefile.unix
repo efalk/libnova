@@ -1,0 +1,89 @@
+# Basic Makefile for Unix, for if you don't like autoconf
+# or can't get it to work.
+
+prefix = /usr/local
+libdir = ${prefix}/lib
+
+INC = -I. -I..
+
+CFLAGS = -Wall -O3 $(AVX_CFLAGS) ${INC}
+
+SUBDIRS = libnova elp
+
+all: libnova.a
+
+SOURCES = \
+	julian_day.c \
+	dynamical_time.c \
+	sidereal_time.c \
+	transform.c \
+	nutation.c \
+	aberration.c   \
+	apparent_position.c \
+	solar.c \
+	precession.c  \
+	proper_motion.c \
+	mercury.c \
+	venus.c  \
+	earth.c  \
+	mars.c   \
+	jupiter.c \
+	saturn.c  \
+	uranus.c  \
+	neptune.c  \
+	pluto.c \
+	vsop87.c \
+	lunar.c  \
+	elliptic_motion.c \
+	asteroid.c \
+	comet.c \
+	parabolic_motion.c \
+	utility.c \
+	refraction.c \
+	rise_set.c \
+	angular_separation.c \
+	hyperbolic_motion.c \
+	parallax.c \
+	airmass.c \
+	heliocentric_time.c \
+	constellation.c
+
+OBJS = $(SOURCES:.c=.o)
+
+noinst_HEADERS = \
+	lunar-priv.h
+
+libnova_la_LIBADD = \
+	-Lelp/ \
+	-lelp
+
+libnova_la_LDFLAGS = \
+	-version-info $(LT_VERSION) \
+	-release $(LT_RELEASE) \
+	-no-undefined \
+	-export-dynamic
+
+libnova.a: ../config.h elp/libelp.a ${OBJS} ${noinst_HEADERS}
+	libtool -sD -o $@ ${OBJS} elp/libelp.a
+
+elp/libelp.a:
+	cd elp; make -f Makefile.unix
+
+../config.h:
+	echo '/* config file */' > $@
+	echo '#define HAVE_ROUND 1' >> $@
+
+install: libnova.a ${PROTODIR}${libdir}
+	cd libnova; make -f Makefile.unix install
+	install -m 644 libnova.a ${PROTODIR}${libdir}
+
+${PROTODIR}${libdir}:
+	mkdir -p $@
+
+clean:
+	cd elp; make -f Makefile.unix clean
+	rm -f *.o elp/libelp.a
+
+spotless: clean
+	cd elp; make -f Makefile.unix spotless
+	rm -f *.a ../config.h

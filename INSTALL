@@ -180,3 +180,18 @@ operates.
      script, and exit.
 
 `configure' also accepts some other, not widely useful, options.
+
+Build without autoconf
+======================
+
+Build:
+  cd src
+  make -f Makefile.unix
+
+Build & install to /usr/local:
+  cd src
+  make -f Makefile.unix install
+
+Build & install elsewhere:
+  cd src
+  make -f Makefile.unix prefix=/var/libnova install
