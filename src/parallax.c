@@ -17,6 +17,7 @@
  */
 
 #include <math.h>
+#include <libnova/earth.h>
 #include <libnova/parallax.h>
 #include <libnova/utility.h>
 #include <libnova/sidereal_time.h>

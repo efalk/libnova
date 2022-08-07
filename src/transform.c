@@ -116,7 +116,7 @@ void ln_get_hrz_from_equ_sidereal_time(struct ln_equ_posn *object,
 	Zs = sin(Z);
 
 	/* sane check for zenith distance; don't try to divide by 0 */
-	if (fabs(Zs) < 1e-5) {
+	if (fabsl(Zs) < 1e-5) {
 		if (object->dec > 0.0)
 			position->az = 180.0;
 		else

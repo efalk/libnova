@@ -123,6 +123,8 @@ static const double W1[5] =
 	-0.00003169 / RAD
 };
 
+#if 0
+/* These arrays not currently used */
 static const double W2[5] =
 {
 	((83.0 + (21.0 / 60.0) + (11.67475 / 3600.0))) * DEG,
@@ -158,6 +160,7 @@ static const double peri[5] =
 	-0.000138 / RAD,
 	0.0
 };
+#endif
 
 /* Delaunay's arguments.*/
 static const double del[4][5] = {
