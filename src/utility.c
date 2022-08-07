@@ -96,7 +96,7 @@ double ln_deg_to_rad(double degrees)
 }    
 
 /* convert hours:mins:secs to degrees */
-double ln_hms_to_deg(struct ln_hms *hms)
+double ln_hms_to_deg(const struct ln_hms *hms)
 {
     double degrees;
     
@@ -108,7 +108,7 @@ double ln_hms_to_deg(struct ln_hms *hms)
 }
 
 /* convert hours:mins:secs to radians */
-double ln_hms_to_rad(struct ln_hms *hms)
+double ln_hms_to_rad(const struct ln_hms *hms)
 {
     double radians;
   
@@ -162,7 +162,7 @@ void ln_rad_to_hms (double radians, struct ln_hms *hms)
 
 
 /* convert dms to degrees */
-double ln_dms_to_deg(struct ln_dms *dms)
+double ln_dms_to_deg(const struct ln_dms *dms)
 {
     double degrees;
     
@@ -178,7 +178,7 @@ double ln_dms_to_deg(struct ln_dms *dms)
 }
 
 /* convert dms to radians */
-double ln_dms_to_rad(struct ln_dms *dms)
+double ln_dms_to_rad(const struct ln_dms *dms)
 {
     double radians;
  
@@ -297,30 +297,30 @@ void ln_add_secs_hms(struct ln_hms *hms, double seconds)
 
 
 /* add hms to hms */
-void ln_add_hms(struct ln_hms *source, struct ln_hms *dest)
+void ln_add_hms(const struct ln_hms *source, struct ln_hms *dest)
 {
     dest->seconds += source->seconds;
     if (dest->seconds >= 60.0) {
         /* carry */
-	    source->minutes ++;
+	    dest->minutes ++;
 	    dest->seconds -= 60.0;
 	} else {
 	    if (dest->seconds < 0.0) {
 	        /* carry */
-		    source->minutes --;
+		    dest->minutes --;
 		    dest->seconds += 60.0;
 		}
 	}
 	
-	dest->minutes += source->minutes;
+    dest->minutes += source->minutes;
     if (dest->minutes >= 60) {
         /* carry */
-	    source->hours ++;
+	    dest->hours ++;
 	    dest->minutes -= 60;
 	} else {
 	    if (dest->seconds < 0.0) {
 	        /* carry */
-		    source->hours --;
+		    dest->hours --;
 		    dest->minutes += 60;
 		}
 	}
@@ -332,7 +332,7 @@ void ln_add_hms(struct ln_hms *source, struct ln_hms *dest)
 * \brief human readable equatorial position to double equatorial position
 * \ingroup conversion
 */
-void ln_hequ_to_equ(struct lnh_equ_posn *hpos, struct ln_equ_posn *pos)
+void ln_hequ_to_equ(const struct lnh_equ_posn *hpos, struct ln_equ_posn *pos)
 {
 	pos->ra = ln_hms_to_deg(&hpos->ra);
 	pos->dec = ln_dms_to_deg(&hpos->dec);
@@ -342,7 +342,7 @@ void ln_hequ_to_equ(struct lnh_equ_posn *hpos, struct ln_equ_posn *pos)
 * \brief human double equatorial position to human readable equatorial position
 * \ingroup conversion
 */
-void ln_equ_to_hequ(struct ln_equ_posn *pos, struct lnh_equ_posn *hpos)
+void ln_equ_to_hequ(const struct ln_equ_posn *pos, struct lnh_equ_posn *hpos)
 {
 	ln_deg_to_hms(pos->ra, &hpos->ra);
 	ln_deg_to_dms(pos->dec, &hpos->dec);
@@ -352,7 +352,7 @@ void ln_equ_to_hequ(struct ln_equ_posn *pos, struct lnh_equ_posn *hpos)
 * \brief human readable horizontal position to double horizontal position
 * \ingroup conversion
 */
-void ln_hhrz_to_hrz(struct lnh_hrz_posn *hpos, struct ln_hrz_posn *pos)
+void ln_hhrz_to_hrz(const struct lnh_hrz_posn *hpos, struct ln_hrz_posn *pos)
 {
 	pos->alt = ln_dms_to_deg(&hpos->alt);
 	pos->az = ln_dms_to_deg(&hpos->az);
@@ -362,7 +362,7 @@ void ln_hhrz_to_hrz(struct lnh_hrz_posn *hpos, struct ln_hrz_posn *pos)
 * \brief double horizontal position to human readable horizontal position
 * \ingroup conversion
 */
-void ln_hrz_to_hhrz(struct ln_hrz_posn *pos, struct lnh_hrz_posn *hpos)
+void ln_hrz_to_hhrz(const struct ln_hrz_posn *pos, struct lnh_hrz_posn *hpos)
 {
 	ln_deg_to_dms(pos->alt, &hpos->alt);
 	ln_deg_to_dms(pos->az, &hpos->az);
@@ -372,7 +372,7 @@ void ln_hrz_to_hhrz(struct ln_hrz_posn *pos, struct lnh_hrz_posn *hpos)
  * \brief returns direction of given azimuth - like N,S,W,E,NSW,...
  * \ingroup conversion
  */ 
-const char *ln_hrz_to_nswe(struct ln_hrz_posn *pos)
+const char *ln_hrz_to_nswe(const struct ln_hrz_posn *pos)
 {
 	const char *directions[] =
 		{"S", "SSW", "SW", "SWW", "W", "NWW", "NW", "NNW",
@@ -385,7 +385,7 @@ const char *ln_hrz_to_nswe(struct ln_hrz_posn *pos)
 * \brief human readable long/lat position to double long/lat position
 * \ingroup conversion
 */
-void ln_hlnlat_to_lnlat(struct lnh_lnlat_posn *hpos, struct ln_lnlat_posn *pos)
+void ln_hlnlat_to_lnlat(const struct lnh_lnlat_posn *hpos, struct ln_lnlat_posn *pos)
 {
 	pos->lng = ln_dms_to_deg(&hpos->lng);
 	pos->lat = ln_dms_to_deg(&hpos->lat);
@@ -395,7 +395,7 @@ void ln_hlnlat_to_lnlat(struct lnh_lnlat_posn *hpos, struct ln_lnlat_posn *pos)
 * \brief double long/lat position to human readable long/lat position
 * \ingroup conversion
 */
-void ln_lnlat_to_hlnlat(struct ln_lnlat_posn *pos, struct lnh_lnlat_posn *hpos)
+void ln_lnlat_to_hlnlat(const struct ln_lnlat_posn *pos, struct lnh_lnlat_posn *hpos)
 {
 	ln_deg_to_dms(pos->lng, &hpos->lng);
 	ln_deg_to_dms(pos->lat, &hpos->lat);
@@ -409,7 +409,7 @@ void ln_lnlat_to_hlnlat(struct ln_lnlat_posn *pos, struct lnh_lnlat_posn *hpos)
 *
 * Calculate the distance between rectangular points a and b.
 */
-double ln_get_rect_distance(struct ln_rect_posn *a, struct ln_rect_posn *b)
+double ln_get_rect_distance(const struct ln_rect_posn *a, const struct ln_rect_posn *b)
 {
 	double x,y,z;
 
@@ -479,7 +479,7 @@ static void skipwhite(char **s)
 }
 
 
-/*! \fn double ln_get_dec_location(char * s)
+/*! \fn double ln_get_dec_location(const char * s)
 * \param s Location string
 * \return angle in degrees
 *
@@ -512,7 +512,7 @@ static void skipwhite(char **s)
 *  90º0'0,01 N ERROR: +- 90º0'00.00" latitude limit                        
 *
 */
-double ln_get_dec_location(char *s)
+double ln_get_dec_location(const char *s)
 {
 	char *ptr, *dec, *hh, *ame, *tok_ptr;
 	BOOL negative = FALSE;

@@ -50,7 +50,7 @@ const char LIBNOVA_EXPORT *ln_get_version(void);
 * \ingroup misc
 * \brief Obtains Latitude, Longitude, RA or Declination from a string.                     
 */
-double LIBNOVA_EXPORT ln_get_dec_location(char *s);
+double LIBNOVA_EXPORT ln_get_dec_location(const char *s);
 
 
 /*! \fn char * ln_get_humanr_location(double location)    
@@ -63,8 +63,8 @@ const char LIBNOVA_EXPORT *ln_get_humanr_location(double location);
 * \fn double ln_get_rect_distance(struct ln_rect_posn *a, struct ln_rect_posn *b)
 * \ingroup misc
 */
-double LIBNOVA_EXPORT ln_get_rect_distance(struct ln_rect_posn *a,
-	struct ln_rect_posn *b);
+double LIBNOVA_EXPORT ln_get_rect_distance(const struct ln_rect_posn *a,
+	const struct ln_rect_posn *b);
 
 /*! \defgroup conversion General Conversion Functions
 *
@@ -87,7 +87,7 @@ double LIBNOVA_EXPORT ln_deg_to_rad(double degrees);
 * \brief hours to degrees 
 * \ingroup conversion 
 */
-double LIBNOVA_EXPORT ln_hms_to_deg(struct ln_hms *hms);
+double LIBNOVA_EXPORT ln_hms_to_deg(const struct ln_hms *hms);
 
 /*! \fn void ln_deg_to_hms(double degrees, struct ln_hms *hms)
 * \brief degrees to hours 
@@ -99,7 +99,7 @@ void LIBNOVA_EXPORT ln_deg_to_hms(double degrees, struct ln_hms *hms);
 * \brief hours to radians. 
 * \ingroup conversion 
 */
-double LIBNOVA_EXPORT ln_hms_to_rad(struct ln_hms *hms);
+double LIBNOVA_EXPORT ln_hms_to_rad(const struct ln_hms *hms);
 
 /*! \fn void ln_deg_to_hms(double radians, struct ln_hms *hms)
 * \brief radians to hours 
@@ -111,7 +111,7 @@ void LIBNOVA_EXPORT ln_rad_to_hms(double radians, struct ln_hms *hms);
 * \brief dms to degrees 
 * \ingroup conversion 
 */
-double LIBNOVA_EXPORT ln_dms_to_deg(struct ln_dms *dms);
+double LIBNOVA_EXPORT ln_dms_to_deg(const struct ln_dms *dms);
 
 /*! \fn void ln_deg_to_dms(double degrees, struct ln_dms *dms)
 * \brief degrees to dms
@@ -123,7 +123,7 @@ void LIBNOVA_EXPORT ln_deg_to_dms(double degrees, struct ln_dms *dms);
 * \brief dms to radians
 * \ingroup conversion 
 */
-double LIBNOVA_EXPORT ln_dms_to_rad(struct ln_dms *dms);
+double LIBNOVA_EXPORT ln_dms_to_rad(const struct ln_dms *dms);
 
 /*! \fn void ln_rad_to_dms(double radians, struct ln_dms *dms)
 * \brief radians to dms 
@@ -135,48 +135,48 @@ void LIBNOVA_EXPORT ln_rad_to_dms(double radians, struct ln_dms *dms);
 * \brief human readable equatorial position to double equatorial position
 * \ingroup conversion
 */
-void LIBNOVA_EXPORT ln_hequ_to_equ(struct lnh_equ_posn *hpos,
+void LIBNOVA_EXPORT ln_hequ_to_equ(const struct lnh_equ_posn *hpos,
 	struct ln_equ_posn *pos);
 	
 /*! \fn void ln_equ_to_hequ(struct ln_equ_posn *pos, struct lnh_equ_posn *hpos)
 * \brief human double equatorial position to human readable equatorial position
 * \ingroup conversion
 */
-void LIBNOVA_EXPORT ln_equ_to_hequ(struct ln_equ_posn *pos,
+void LIBNOVA_EXPORT ln_equ_to_hequ(const struct ln_equ_posn *pos,
 	struct lnh_equ_posn *hpos);
 	
 /*! \fn void ln_hhrz_to_hrz(struct lnh_hrz_posn *hpos, struct ln_hrz_posn *pos)
 * \brief human readable horizontal position to double horizontal position
 * \ingroup conversion
 */
-void LIBNOVA_EXPORT ln_hhrz_to_hrz(struct lnh_hrz_posn *hpos,
+void LIBNOVA_EXPORT ln_hhrz_to_hrz(const struct lnh_hrz_posn *hpos,
 	struct ln_hrz_posn *pos);
 	
 /*! \fn void ln_hrz_to_hhrz(struct ln_hrz_posn *pos, struct lnh_hrz_posn *hpos)
 * \brief double horizontal position to human readable horizontal position
 * \ingroup conversion
 */
-void LIBNOVA_EXPORT ln_hrz_to_hhrz(struct ln_hrz_posn *pos,
+void LIBNOVA_EXPORT ln_hrz_to_hhrz(const struct ln_hrz_posn *pos,
 	struct lnh_hrz_posn *hpos);
 
 /*! \fn const char * ln_hrz_to_nswe(struct ln_hrz_posn *pos);
  * \brief returns direction of given azimuth - like N,S,W,E,NSW,...
  * \ingroup conversion
  */ 
-const char LIBNOVA_EXPORT * ln_hrz_to_nswe(struct ln_hrz_posn *pos);
+const char LIBNOVA_EXPORT * ln_hrz_to_nswe(const struct ln_hrz_posn *pos);
 	
 /*! \fn void ln_hlnlat_to_lnlat(struct lnh_lnlat_posn *hpos, struct ln_lnlat_posn *pos)
 * \brief human readable long/lat position to double long/lat position
 * \ingroup conversion
 */
-void LIBNOVA_EXPORT ln_hlnlat_to_lnlat(struct lnh_lnlat_posn *hpos,
+void LIBNOVA_EXPORT ln_hlnlat_to_lnlat(const struct lnh_lnlat_posn *hpos,
 	struct ln_lnlat_posn *pos);
 	
 /*! \fn void ln_lnlat_to_hlnlat(struct ln_lnlat_posn *pos, struct lnh_lnlat_posn *hpos)
 * \brief double long/lat position to human readable long/lat position
 * \ingroup conversion
 */
-void LIBNOVA_EXPORT ln_lnlat_to_hlnlat(struct ln_lnlat_posn *pos,
+void LIBNOVA_EXPORT ln_lnlat_to_hlnlat(const struct ln_lnlat_posn *pos,
 	struct lnh_lnlat_posn *hpos);
 
 /*! \fn void ln_add_secs_hms(struct ln_hms *hms, double seconds)
@@ -189,7 +189,7 @@ void LIBNOVA_EXPORT ln_add_secs_hms(struct ln_hms *hms, double seconds);
 * \brief add hms to hms 
 * \ingroup conversion 
 */
-void LIBNOVA_EXPORT ln_add_hms(struct ln_hms *source, struct ln_hms *dest);
+void LIBNOVA_EXPORT ln_add_hms(const struct ln_hms *source, struct ln_hms *dest);
 
 /*! \fn void ln_range_degrees(double angle)
 * \brief puts a large angle in the correct range 0 - 360 degrees 
