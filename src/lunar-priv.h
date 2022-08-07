@@ -1,3 +1,6 @@
+#ifndef	LIBNOVA_LUNARPRIV_H
+#define	LIBNOVA_LUNARPRIV_H
+
 /* used for elp1 - 3 */
 struct main_problem
 {
@@ -26,3 +29,4 @@ struct planet_pert
 };
 
 
+#endif	/* LIBNOVA_LUNARPRIV_H */
