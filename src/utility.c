@@ -57,12 +57,6 @@
 #include <sys/timeb.h>
 #endif
 
-/* Conversion factors between degrees and radians */
-#define D2R  (1.7453292519943295769e-2)  /* deg->radian */
-#define R2D  (5.7295779513082320877e1)   /* radian->deg */
-#define R2S  (2.0626480624709635516e5)   /* arc seconds per radian */
-#define S2R  (4.8481368110953599359e-6)  /* radians per arc second */
-
 /* Golden ratio */
 #define GOLDEN	1.61803398875
 
@@ -81,19 +75,6 @@ const char *ln_get_version(void)
 {
     return ln_version;
 }
-
-
-/* convert radians to degrees */
-double ln_rad_to_deg(double radians)
-{   
-	return (radians * R2D);
-}    
-
-/* convert degrees to radians */
-double ln_deg_to_rad(double degrees)
-{   
-	return (degrees * D2R);
-}    
 
 /* convert hours:mins:secs to degrees */
 double ln_hms_to_deg(const struct ln_hms *hms)
@@ -485,31 +466,31 @@ static void skipwhite(char **s)
 *
 * Obtains Latitude, Longitude, RA or Declination from a string.
 *
-*  If the last char is N/S doesn't accept more than 90 degrees.            
-*  If it is E/W doesn't accept more than 180 degrees.                      
-*  If they are hours don't accept more than 24:00                          
+*  If the last char is N/S doesn't accept more than 90 degrees.  
+*  If it is E/W doesn't accept more than 180 degrees.  
+*  If they are hours don't accept more than 24:00  
 *                                                                          
-*  Any position can be expressed as follows:                               
-*  (please use a 8 bits charset if you want                                
-*  to view the degrees separator char '0xba')                              
+*  Any position can be expressed as follows: 
+*  (please use a 8 bits charset if you want 
+*  to view the degrees separator char '0xba') 
 *
-*  42.30.35,53                                                             
-*  90º0'0,01 W                                                             
-*  42º30'35.53 N                                                           
-*  42º30'35.53S                                                            
-*  42º30'N                                                                 
-*  - 42.30.35.53                                                           
-*   42:30:35.53 S                                                          
-*  + 42.30.35.53                                                           
-*  +42º30 35,53                                                            
-*   23h36'45,0                                                             
-*                                                                          
-*                                                                          
-*  42:30:35.53 S = -42º30'35.53"                                           
-*  + 42 30.35.53 S the same previous position, the plus (+) sign is        
-*  considered like an error, the last 'S' has precedence over the sign     
-*                                                                          
-*  90º0'0,01 N ERROR: +- 90º0'00.00" latitude limit                        
+*  42.30.35,53  
+*  90º0'0,01 W  
+*  42º30'35.53 N  
+*  42º30'35.53S  
+*  42º30'N  
+*  -42.30.35.53  
+*   42:30:35.53 S  
+*  +42.30.35.53  
+*  +42º30 35,53  
+*   23h36'45,0  
+*
+*
+*  42:30:35.53 S = -42º30'35.53"
+*  + 42 30.35.53 S the same previous position, the plus (+) sign is
+*  considered like an error, the last 'S' has precedence over the sign
+*
+*  90º0'0,01 N ERROR: +- 90º0'00.00" latitude limit
 *
 */
 double ln_get_dec_location(const char *s)
@@ -609,16 +590,6 @@ const char *ln_get_humanr_location(double location)
 	return strdup(buf);
 }
 
-/*! \fn double ln_interpolate3 (double n, double y1, double y2, double y3)
-* \return interpolation value
-* \param n Interpolation factor
-* \param y1 Argument 1
-* \param y2 Argument 2
-* \param y3 Argument 3
-*
-* Calculate an intermediate value of the 3 arguments for the given interpolation
-* factor.
-*/
 double ln_interpolate3(double n, double y1, double y2, double y3)
 {
 	double y, a, b, c;
