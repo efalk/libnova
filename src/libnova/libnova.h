@@ -21,6 +21,13 @@
 /*! \mainpage libnova
 * \image html libnova-logo.jpg
 * Celestial Mechanics, Astrometry and Astrodynamics Library
+*
+* \tableofcontents
+*
+* References
+* ========
+*
+* * [Overview of astronomical concepts](@ref Astronomy)
 * 
 * \section intro Introduction
 * libnova is a general purpose, double precision, Celestial Mechanics, Astrometry and Astrodynamics library.

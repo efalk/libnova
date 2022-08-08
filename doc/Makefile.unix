@@ -1,0 +1,21 @@
+# Basic Makefile for Unix, for if you don't like autoconf
+# or can't get it to work.
+
+prefix = /usr/local
+docdir = ${prefix}/share/doc/libnova
+mandir = ${prefix}/share/man
+
+all:	doc
+
+doc:
+	doxygen doxyfile.in
+
+install: doc ${PROTODIR}${docdir} ${PROTODIR}${mandir}
+	cp -r html/* ${PROTODIR}${docdir}/
+	cp -r man/*  ${PROTODIR}${mandir}/
+
+${PROTODIR}${docdir} ${PROTODIR}${mandir}:
+	mkdir -p $@
+
+spotless:
+	rm -rf html man
