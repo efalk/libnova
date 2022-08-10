@@ -141,8 +141,8 @@ extern "C" {
 * \ingroup transform 
 */
 /* Use get_mean_sidereal_time, get_hrz_from_equ_siderealtime */
-void LIBNOVA_EXPORT ln_get_hrz_from_equ(struct ln_equ_posn *object,
-	struct ln_lnlat_posn *observer, double JD, struct ln_hrz_posn *position);
+void LIBNOVA_EXPORT ln_get_hrz_from_equ(const struct ln_equ_posn *object,
+	const struct ln_lnlat_posn *observer, double JD, struct ln_hrz_posn *position);
 
 /*!
 * \brief Calculate horizontal coordinates from equatorial coordinates,
@@ -155,8 +155,8 @@ void LIBNOVA_EXPORT ln_get_hrz_from_equ(struct ln_equ_posn *object,
 * \param position Returned altitude and azimuth
 */
 /* Equ 12.5,12.6 pg 88 */
-void LIBNOVA_EXPORT ln_get_hrz_from_equ_sidereal_time(struct ln_equ_posn *object,
-	struct ln_lnlat_posn *observer, double sidereal,
+void LIBNOVA_EXPORT ln_get_hrz_from_equ_sidereal_time(const struct ln_equ_posn *object,
+	const struct ln_lnlat_posn *observer, double sidereal,
 	struct ln_hrz_posn *position);
 
 /*! \fn void ln_get_equ_from_ecl(struct ln_lnlat_posn *object, double JD, struct ln_equ_posn *position);
@@ -164,7 +164,7 @@ void LIBNOVA_EXPORT ln_get_hrz_from_equ_sidereal_time(struct ln_equ_posn *object
 * \ingroup transform
 */
 /* Equ 12.3, 12.4 pg 89 */
-void LIBNOVA_EXPORT ln_get_equ_from_ecl(struct ln_lnlat_posn *object,
+void LIBNOVA_EXPORT ln_get_equ_from_ecl(const struct ln_lnlat_posn *object,
 	double JD, struct ln_equ_posn *position);
 
 /*! \fn void ln_get_ecl_from_equ(struct ln_equ_posn *object, double JD, struct ln_lnlat_posn *position);
@@ -172,7 +172,7 @@ void LIBNOVA_EXPORT ln_get_equ_from_ecl(struct ln_lnlat_posn *object,
 * \ingroup transform
 */
 /* Equ 12.1, 12.2 Pg 88 */
-void LIBNOVA_EXPORT ln_get_ecl_from_equ(struct ln_equ_posn *object, double JD,
+void LIBNOVA_EXPORT ln_get_ecl_from_equ(const struct ln_equ_posn *object, double JD,
 	struct ln_lnlat_posn *position);
 
 /*! \fn void ln_get_equ_from_hrz(struct ln_hrz_posn *object, struct ln_lnlat_posn *observer, double JD, struct ln_equ_posn *position); 
@@ -180,15 +180,15 @@ void LIBNOVA_EXPORT ln_get_ecl_from_equ(struct ln_equ_posn *object, double JD,
 * \ingroup transform
 */
 /* Pg 89 */
-void LIBNOVA_EXPORT ln_get_equ_from_hrz(struct ln_hrz_posn *object,
-	struct ln_lnlat_posn *observer, double JD, struct ln_equ_posn *position);
+void LIBNOVA_EXPORT ln_get_equ_from_hrz(const struct ln_hrz_posn *object,
+	const struct ln_lnlat_posn *observer, double JD, struct ln_equ_posn *position);
 
 /*! \fn void ln_get_rect_from_helio(struct ln_helio_posn *object, struct ln_rect_posn *position); 
 * \brief Calculate geocentric coordinates from heliocentric coordinates  
 * \ingroup transform
 */
 /* Pg ?? */
-void LIBNOVA_EXPORT ln_get_rect_from_helio(struct ln_helio_posn *object,
+void LIBNOVA_EXPORT ln_get_rect_from_helio(const struct ln_helio_posn *object,
 	struct ln_rect_posn *position);
 
 /*! \fn void ln_get_ecl_from_rect(struct ln_rect_posn *rect, struct ln_lnlat_posn *posn)
@@ -197,7 +197,7 @@ void LIBNOVA_EXPORT ln_get_rect_from_helio(struct ln_helio_posn *object,
 */
 /* Equ 33.2
 */
-void LIBNOVA_EXPORT ln_get_ecl_from_rect(struct ln_rect_posn *rect,
+void LIBNOVA_EXPORT ln_get_ecl_from_rect(const struct ln_rect_posn *rect,
 	struct ln_lnlat_posn *posn);
 
 /*! \fn void ln_get_equ_from_gal(struct ln_gal_posn *gal, struct ln_equ_posn *equ)
@@ -205,14 +205,14 @@ void LIBNOVA_EXPORT ln_get_ecl_from_rect(struct ln_rect_posn *rect,
 * \brief Transform an object galactic coordinates into equatorial coordinates.
 */
 /* Pg 94 */
-void LIBNOVA_EXPORT ln_get_equ_from_gal(struct ln_gal_posn *gal,
+void LIBNOVA_EXPORT ln_get_equ_from_gal(const struct ln_gal_posn *gal,
 	struct ln_equ_posn *equ);
 
 /*! \fn void ln_get_equ2000_from_gal(struct ln_gal_posn *gal, struct ln_equ_posn *equ)
 * \ingroup transform
 * \brief Transform an object galactic coordinate into J2000 equatorial coordinates.
 */
-void LIBNOVA_EXPORT ln_get_equ2000_from_gal(struct ln_gal_posn *gal,
+void LIBNOVA_EXPORT ln_get_equ2000_from_gal(const struct ln_gal_posn *gal,
 	struct ln_equ_posn *equ);
 
 /*! \fn void ln_get_gal_from_equ(struct ln_equ_posn *equ, struct ln_gal_posn *gal)
@@ -220,14 +220,14 @@ void LIBNOVA_EXPORT ln_get_equ2000_from_gal(struct ln_gal_posn *gal,
 * \brief Transform an object equatorial coordinates into galactic coordinates.
 */
 /* Pg 94 */
-void LIBNOVA_EXPORT ln_get_gal_from_equ(struct ln_equ_posn *equ,
+void LIBNOVA_EXPORT ln_get_gal_from_equ(const struct ln_equ_posn *equ,
 	struct ln_gal_posn *gal);
 
 /*! \fn void ln_get_gal_from_equ2000(struct ln_equ_posn *equ, struct ln_gal_posn *gal)
 * \ingroup transform
 * \brief Transform an object J2000 equatorial coordinates into galactic coordinates.
 */
-void LIBNOVA_EXPORT ln_get_gal_from_equ2000(struct ln_equ_posn *equ,
+void LIBNOVA_EXPORT ln_get_gal_from_equ2000(const struct ln_equ_posn *equ,
 	struct ln_gal_posn *gal);
 
 #ifdef __cplusplus

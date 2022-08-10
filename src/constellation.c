@@ -30,7 +30,7 @@
 * Returns name of the constellation based on boundaries found at:
 * http://vizier.u-strasbg.fr/viz-bin/VizieR?-source=6042
 */
-const char* ln_get_constellation(struct ln_equ_posn *position)
+const char* ln_get_constellation(const struct ln_equ_posn *position)
 {
 	static const float	ra_lower[357] =
 	{

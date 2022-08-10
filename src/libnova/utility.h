@@ -97,7 +97,7 @@ double LIBNOVA_EXPORT ln_get_rect_distance(const struct ln_rect_posn *a,
  * \param radians Angle in radians
  * \return Angle in degrees
  */
-inline double ln_rad_to_deg(double radians) { return radians * R2D; }
+static inline double ln_rad_to_deg(double radians) { return radians * R2D; }
 
 /**
  * convert degrees to radians
@@ -105,7 +105,7 @@ inline double ln_rad_to_deg(double radians) { return radians * R2D; }
  * \param degrees Angle in degrees
  * \return Angle in radians
  */
-inline double ln_deg_to_rad(double degrees) { return degrees * D2R; }
+static inline double ln_deg_to_rad(double degrees) { return degrees * D2R; }
 
 /*! \fn double ln_deg_to_rad(double radians)
 * \brief degrees to radians

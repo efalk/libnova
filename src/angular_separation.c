@@ -35,8 +35,8 @@
 *
 * From Meeus, Chap 17 page 115
 */
-double ln_get_angular_separation(struct ln_equ_posn* posn1,
-	struct ln_equ_posn* posn2)
+double ln_get_angular_separation(const struct ln_equ_posn* posn1,
+	const struct ln_equ_posn* posn2)
 {
 	double d;
 	double x,y,z;
@@ -74,8 +74,8 @@ double ln_get_angular_separation(struct ln_equ_posn* posn1,
 *
 * From Meeus, Chap 17, page 116
 */
-double ln_get_rel_posn_angle(struct ln_equ_posn* posn1,
-	struct ln_equ_posn* posn2)
+double ln_get_rel_posn_angle(const struct ln_equ_posn* posn1,
+	const struct ln_equ_posn* posn2)
 {
 	double P;
 	double a1,a2,d1,d2;

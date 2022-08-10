@@ -308,7 +308,7 @@ void ln_get_ell_body_equ_coords(double JD, struct ln_ell_orbit *orbit,
 * - 1% for e = 0.9997
 * - 3% for e = 1
 */
-double ln_get_ell_orbit_len(struct ln_ell_orbit *orbit)
+double ln_get_ell_orbit_len(const struct ln_ell_orbit *orbit)
 {
 	double A,G,H;
 	double b;
@@ -347,7 +347,7 @@ double ln_get_ell_orbit_vel(double JD, struct ln_ell_orbit *orbit)
 *
 * Calculate orbital velocity at perihelion in km/s. 
 */
-double ln_get_ell_orbit_pvel(struct ln_ell_orbit *orbit)
+double ln_get_ell_orbit_pvel(const struct ln_ell_orbit *orbit)
 {
 	double V;
 	
@@ -362,7 +362,7 @@ double ln_get_ell_orbit_pvel(struct ln_ell_orbit *orbit)
 *
 * Calculate the orbital velocity at aphelion in km/s. 
 */
-double ln_get_ell_orbit_avel(struct ln_ell_orbit *orbit)
+double ln_get_ell_orbit_avel(const struct ln_ell_orbit *orbit)
 {
 	double V;
 	
@@ -501,7 +501,7 @@ double ln_get_ell_body_elong(double JD, struct ln_ell_orbit *orbit)
 * Note: this functions returns 1 if the body is circumpolar, that is it remains the whole
 * day above the horizon. Returns -1 when it remains the whole day below the horizon.
 */
-int ln_get_ell_body_rst(double JD, struct ln_lnlat_posn *observer,
+int ln_get_ell_body_rst(double JD, const struct ln_lnlat_posn *observer,
 	struct ln_ell_orbit *orbit, struct ln_rst_time *rst)
 {
 	return ln_get_ell_body_rst_horizon(JD, observer, orbit,
@@ -522,7 +522,7 @@ int ln_get_ell_body_rst(double JD, struct ln_lnlat_posn *observer,
 * Note: this functions returns 1 if the body is circumpolar, that is it remains the whole
 * day above the horizon. Returns -1 when it remains the whole day below the horizon.
 */
-int ln_get_ell_body_rst_horizon(double JD, struct ln_lnlat_posn *observer,
+int ln_get_ell_body_rst_horizon(double JD, const struct ln_lnlat_posn *observer,
 	struct ln_ell_orbit *orbit, double horizon, struct ln_rst_time *rst)
 {
 	return ln_get_motion_body_rst_horizon(JD, observer,
@@ -547,7 +547,7 @@ int ln_get_ell_body_rst_horizon(double JD, struct ln_lnlat_posn *observer,
 * Note: this functions returns 1 if the body is circumpolar, that is it remains the whole
 * day above the horizon. Returns -1 when it remains the whole day below the horizon.
 */
-int ln_get_ell_body_next_rst(double JD, struct ln_lnlat_posn *observer,
+int ln_get_ell_body_next_rst(double JD, const struct ln_lnlat_posn *observer,
 	struct ln_ell_orbit *orbit, struct ln_rst_time *rst)
 {
 	return ln_get_ell_body_next_rst_horizon(JD, observer, orbit,
@@ -570,7 +570,7 @@ int ln_get_ell_body_next_rst(double JD, struct ln_lnlat_posn *observer,
 * Note: this functions returns 1 if the body is circumpolar, that is it remains the whole
 * day above the horizon. Returns -1 when it remains the whole day below the horizon.
 */
-int ln_get_ell_body_next_rst_horizon(double JD, struct ln_lnlat_posn *observer,
+int ln_get_ell_body_next_rst_horizon(double JD, const struct ln_lnlat_posn *observer,
 	struct ln_ell_orbit *orbit, double horizon, struct ln_rst_time *rst)
 {
 	return ln_get_motion_body_next_rst_horizon(JD, observer,
@@ -596,7 +596,7 @@ int ln_get_ell_body_next_rst_horizon(double JD, struct ln_lnlat_posn *observer,
 * day above the horizon. Returns -1 when it remains the whole day below the horizon.
 */
 int ln_get_ell_body_next_rst_horizon_future(double JD,
-	struct ln_lnlat_posn *observer, struct ln_ell_orbit *orbit,
+	const struct ln_lnlat_posn *observer, struct ln_ell_orbit *orbit,
 	double horizon, int day_limit, struct ln_rst_time *rst)
 {
 	return ln_get_motion_body_next_rst_horizon_future(JD, observer,

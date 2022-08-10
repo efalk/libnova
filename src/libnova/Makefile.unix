@@ -1,7 +1,13 @@
 # Basic Makefile for Unix, for if you don't like autoconf
 # or can't get it to work.
+#
+# A couple definitions used in this file for "make install":
+#  prefix   - the eventual final destination of these files
+#  PROTODIR - the location to which prefix is relative. Used
+#		when building packages, otherwise blank.
 
 prefix = /usr/local
+PROTODIR =
 
 includedir = $(prefix)/include/libnova
 

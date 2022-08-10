@@ -44,7 +44,7 @@
 *
 * See [Wikipedia](https://en.wikipedia.org/wiki/Heliocentric_Julian_Day)
 */
-double ln_get_heliocentric_time_diff(double JD, struct ln_equ_posn *object)
+double ln_get_heliocentric_time_diff(double JD, const struct ln_equ_posn *object)
 {
 	double theta, ra, dec, c_dec, obliq;
 	struct ln_nutation nutation;

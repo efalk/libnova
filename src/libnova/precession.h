@@ -51,7 +51,7 @@ extern "C" {
 */
 
 /* Equ 20.2, 20.3, 20.4 pg 126 */
-void LIBNOVA_EXPORT ln_get_equ_prec(struct ln_equ_posn *mean_position,
+void LIBNOVA_EXPORT ln_get_equ_prec(const struct ln_equ_posn *mean_position,
 	double JD, struct ln_equ_posn *position);
 
 /*! \fn void ln_get_equ_prec2(struct ln_equ_posn *mean_position, double fromJD, double toJD, struct ln_equ_posn *position);
@@ -60,7 +60,7 @@ void LIBNOVA_EXPORT ln_get_equ_prec(struct ln_equ_posn *mean_position,
 */
 
 /* Equ 20.2, 20.3, 20.4 pg 126 */
-void LIBNOVA_EXPORT ln_get_equ_prec2(struct ln_equ_posn *mean_position,
+void LIBNOVA_EXPORT ln_get_equ_prec2(const struct ln_equ_posn *mean_position,
 	double fromJD, double toJD, struct ln_equ_posn *position);
 
 /*! \fn void ln_get_ecl_prec(struct ln_lnlat_posn *mean_position, double JD, struct ln_lnlat_posn *position); 
@@ -68,7 +68,7 @@ void LIBNOVA_EXPORT ln_get_equ_prec2(struct ln_equ_posn *mean_position,
 * \ingroup precession
 */
 /* Equ 20.5, 20.6 pg 128 */
-void LIBNOVA_EXPORT ln_get_ecl_prec(struct ln_lnlat_posn *mean_position,
+void LIBNOVA_EXPORT ln_get_ecl_prec(const struct ln_lnlat_posn *mean_position,
 	double JD, struct ln_lnlat_posn *position);
 
 #ifdef __cplusplus

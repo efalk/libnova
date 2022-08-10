@@ -121,7 +121,7 @@ void LIBNOVA_EXPORT ln_get_ell_helio_rect_posn(struct ln_ell_orbit *orbit,
 * \brief Calculate the orbital length in AU.
 * \ingroup elliptic 
 */
-double LIBNOVA_EXPORT ln_get_ell_orbit_len(struct ln_ell_orbit *orbit);
+double LIBNOVA_EXPORT ln_get_ell_orbit_len(const struct ln_ell_orbit *orbit);
 
 /*! \fn double ln_get_ell_orbit_vel(double JD, struct ln_ell_orbit *orbit);
 * \brief Calculate orbital velocity in km/s.
@@ -134,13 +134,13 @@ double LIBNOVA_EXPORT ln_get_ell_orbit_vel(double JD,
 * \brief Calculate orbital velocity at perihelion in km/s.
 * \ingroup elliptic
 */
-double LIBNOVA_EXPORT ln_get_ell_orbit_pvel(struct ln_ell_orbit *orbit);
+double LIBNOVA_EXPORT ln_get_ell_orbit_pvel(const struct ln_ell_orbit *orbit);
 
 /*! \fn double ln_get_ell_orbit_avel(struct ln_ell_orbit *orbit);
 * \ingroup elliptic
 * \brief Calculate the orbital velocity at aphelion in km/s. 
 */
-double LIBNOVA_EXPORT ln_get_ell_orbit_avel(struct ln_ell_orbit *orbit);
+double LIBNOVA_EXPORT ln_get_ell_orbit_avel(const struct ln_ell_orbit *orbit);
 
 /*! \fn double ln_get_ell_body_phase_angle(double JD, struct ln_ell_orbit *orbit);
 * \ingroup elliptic
@@ -185,7 +185,7 @@ void LIBNOVA_EXPORT ln_get_ell_body_equ_coords(double JD,
 * \ingroup elliptic
 */
 int LIBNOVA_EXPORT ln_get_ell_body_rst(double JD,
-	struct ln_lnlat_posn *observer, struct ln_ell_orbit *orbit,
+	const struct ln_lnlat_posn *observer, struct ln_ell_orbit *orbit,
 	struct ln_rst_time *rst);
 
 /*! \fn double ln_get_ell_body_rst_horizon(double JD, struct ln_lnlat_posn *observer, struct ln_ell_orbit *orbit, double horizon, struct ln_rst_time *rst);
@@ -193,7 +193,7 @@ int LIBNOVA_EXPORT ln_get_ell_body_rst(double JD,
 * \ingroup elliptic
 */
 int LIBNOVA_EXPORT ln_get_ell_body_rst_horizon(double JD,
-	struct ln_lnlat_posn *observer, struct ln_ell_orbit *orbit,
+	const struct ln_lnlat_posn *observer, struct ln_ell_orbit *orbit,
 	double horizon, struct ln_rst_time *rst);
 
 /*! \fn double ln_get_ell_body_next_rst(double JD, struct ln_lnlat_posn *observer, struct ln_ell_orbit *orbit, struct ln_rst_time *rst);
@@ -201,7 +201,7 @@ int LIBNOVA_EXPORT ln_get_ell_body_rst_horizon(double JD,
 * \ingroup elliptic
 */
 int LIBNOVA_EXPORT ln_get_ell_body_next_rst(double JD,
-	struct ln_lnlat_posn *observer, struct ln_ell_orbit *orbit,
+	const struct ln_lnlat_posn *observer, struct ln_ell_orbit *orbit,
 	struct ln_rst_time *rst);
 
 /*! \fn double ln_get_ell_body_next_rst_horizon(double JD, struct ln_lnlat_posn *observer, struct ln_ell_orbit *orbit, double horizon, struct ln_rst_time *rst);
@@ -209,7 +209,7 @@ int LIBNOVA_EXPORT ln_get_ell_body_next_rst(double JD,
 * \ingroup elliptic
 */
 int LIBNOVA_EXPORT ln_get_ell_body_next_rst_horizon(double JD,
-	struct ln_lnlat_posn *observer, struct ln_ell_orbit *orbit,
+	const struct ln_lnlat_posn *observer, struct ln_ell_orbit *orbit,
 	double horizon, struct ln_rst_time *rst);
 
 /*! \fn double ln_get_ell_body_next_rst_horizon_future(double JD, struct ln_lnlat_posn *observer, struct ln_ell_orbit *orbit, double horizon, int day_limit, struct ln_rst_time *rst);
@@ -217,7 +217,7 @@ int LIBNOVA_EXPORT ln_get_ell_body_next_rst_horizon(double JD,
 * \ingroup elliptic
 */
 int LIBNOVA_EXPORT ln_get_ell_body_next_rst_horizon_future(double JD,
-		struct ln_lnlat_posn *observer, struct ln_ell_orbit *orbit,
+		const struct ln_lnlat_posn *observer, struct ln_ell_orbit *orbit,
 		double horizon, int day_limit, struct ln_rst_time *rst);
 
 /*!\fn double ln_get_ell_last_perihelion(double epoch_JD, double M, double n);

@@ -63,7 +63,7 @@
 */
 /* Equ 20.3, 20.4 pg 126 
 */
-void ln_get_equ_prec(struct ln_equ_posn *mean_position, double JD,
+void ln_get_equ_prec(const struct ln_equ_posn *mean_position, double JD,
 	struct ln_equ_posn *position)
 {
 	long double t, t2, t3, A, B, C, zeta, eta, theta,
@@ -122,7 +122,7 @@ void ln_get_equ_prec(struct ln_equ_posn *mean_position, double JD,
 */
 
 /* Equ 20.2, 20.4 pg 126 */
-void ln_get_equ_prec2(struct ln_equ_posn *mean_position, double fromJD,
+void ln_get_equ_prec2(const struct ln_equ_posn *mean_position, double fromJD,
 	double toJD, struct ln_equ_posn *position)
 {
 	long double t, t2, t3, A, B, C, zeta, eta, theta, ra, dec, mean_ra,
@@ -187,7 +187,7 @@ void ln_get_equ_prec2(struct ln_equ_posn *mean_position, double fromJD,
 */
 /* Equ 20.5, 20.6 pg 128
 */
-void ln_get_ecl_prec(struct ln_lnlat_posn *mean_position, double JD,
+void ln_get_ecl_prec(const struct ln_lnlat_posn *mean_position, double JD,
 		struct ln_lnlat_posn *position)
 {
 

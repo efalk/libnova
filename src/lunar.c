@@ -1284,7 +1284,7 @@ double ln_get_lunar_bright_limb(double JD)
 * Note: this functions returns 1 if the Moon is circumpolar, that is it remains the whole
 * day either above or below the horizon.
 */
-int ln_get_lunar_rst(double JD, struct ln_lnlat_posn *observer,
+int ln_get_lunar_rst(double JD, const struct ln_lnlat_posn *observer,
 	struct ln_rst_time *rst)
 {
 	return ln_get_body_rst_horizon(JD, observer, ln_get_lunar_equ_coords,

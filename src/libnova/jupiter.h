@@ -49,7 +49,7 @@ double LIBNOVA_EXPORT ln_get_jupiter_pol_sdiam(double JD);
 * \ingroup jupiter
 */
 int LIBNOVA_EXPORT ln_get_jupiter_rst(double JD,
-	struct ln_lnlat_posn *observer, struct ln_rst_time *rst);
+	const struct ln_lnlat_posn *observer, struct ln_rst_time *rst);
 
 /*! \fn void ln_get_jupiter_helio_coords(double JD, struct ln_helio_posn *position);
 * \brief Calculate Jupiter's heliocentric coordinates

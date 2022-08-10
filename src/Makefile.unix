@@ -80,10 +80,13 @@ install: libnova.a ${PROTODIR}${libdir}
 ${PROTODIR}${libdir}:
 	mkdir -p $@
 
+tags:
+	ctags *.[ch] libnova/*.[ch]
+
 clean:
 	cd elp; make -f Makefile.unix clean
 	rm -f *.o elp/libelp.a
 
 spotless: clean
 	cd elp; make -f Makefile.unix spotless
-	rm -f *.a ../config.h
+	rm -f *.a ../config.h tags

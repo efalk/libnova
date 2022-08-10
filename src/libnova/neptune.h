@@ -43,7 +43,7 @@ double LIBNOVA_EXPORT ln_get_neptune_sdiam(double JD);
 * \ingroup neptune
 */
 int LIBNOVA_EXPORT ln_get_neptune_rst(double JD,
-	struct ln_lnlat_posn *observer, struct ln_rst_time *rst);
+	const struct ln_lnlat_posn *observer, struct ln_rst_time *rst);
 
 /*! \fn void ln_get_neptune_helio_coords(double JD, struct ln_helio_posn *position);
 * \brief Calculate Neptune's heliocentric coordinates.

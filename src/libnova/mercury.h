@@ -43,7 +43,7 @@ double LIBNOVA_EXPORT ln_get_mercury_sdiam(double JD);
 * \ingroup mercury
 */
 int LIBNOVA_EXPORT ln_get_mercury_rst(double JD,
-	struct ln_lnlat_posn *observer, struct ln_rst_time *rst);
+	const struct ln_lnlat_posn *observer, struct ln_rst_time *rst);
 
 /*! \fn void ln_get_mercury_helio_coords(double JD, struct ln_helio_posn *position);
 * \brief Calculate Mercury's heliocentric coordinates

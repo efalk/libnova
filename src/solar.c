@@ -126,7 +126,7 @@ void ln_get_solar_geo_coords(double JD, struct ln_rect_posn *position)
 	position->Z *=-1.0;
 }
 
-int ln_get_solar_rst_horizon(double JD, struct ln_lnlat_posn *observer,
+int ln_get_solar_rst_horizon(double JD, const struct ln_lnlat_posn *observer,
 	double horizon, struct ln_rst_time *rst)
 {
 	return ln_get_body_rst_horizon(JD, observer, ln_get_solar_equ_coords,
@@ -138,7 +138,7 @@ int ln_get_solar_rst_horizon(double JD, struct ln_lnlat_posn *observer,
  * Calls get_solar_rst_horizon with horizon set to LN_SOLAR_STANDART_HORIZON.
  */
 
-int ln_get_solar_rst(double JD, struct ln_lnlat_posn *observer,
+int ln_get_solar_rst(double JD, const struct ln_lnlat_posn *observer,
 	struct ln_rst_time *rst)
 {
 	return ln_get_solar_rst_horizon(JD, observer,

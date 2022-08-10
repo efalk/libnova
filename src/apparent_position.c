@@ -41,8 +41,8 @@
 * This function assumes that the star's mean position is given as of J2000.
 * At present, libnova does not support other epochs.
 */
-void ln_get_apparent_posn(struct ln_equ_posn *mean_position,
-	struct ln_equ_posn *proper_motion, double JD, struct ln_equ_posn *position)
+void ln_get_apparent_posn(const struct ln_equ_posn *mean_position,
+	const struct ln_equ_posn *proper_motion, double JD, struct ln_equ_posn *position)
 {
 	struct ln_equ_posn proper_position;
 	struct ln_equ_posn aberration_position;

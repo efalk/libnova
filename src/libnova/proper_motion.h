@@ -39,8 +39,8 @@ extern "C" {
 * \ingroup motion
 */
 /* Equ 20.2, 20.3, 20.4 pg 126 */
-void LIBNOVA_EXPORT ln_get_equ_pm(struct ln_equ_posn *mean_position,
-	struct ln_equ_posn *proper_motion, double JD,
+void LIBNOVA_EXPORT ln_get_equ_pm(const struct ln_equ_posn *mean_position,
+	const struct ln_equ_posn *proper_motion, double JD,
 	struct ln_equ_posn *position);
 
 /*!
@@ -49,8 +49,8 @@ void LIBNOVA_EXPORT ln_get_equ_pm(struct ln_equ_posn *mean_position,
 */
 /* Equ 20.2, 20.3, 20.4 pg 126 
 */
-void LIBNOVA_EXPORT ln_get_equ_pm_epoch(struct ln_equ_posn *mean_position,
-	struct ln_equ_posn *proper_motion, double JD, double epoch_JD,
+void LIBNOVA_EXPORT ln_get_equ_pm_epoch(const struct ln_equ_posn *mean_position,
+	const struct ln_equ_posn *proper_motion, double JD, double epoch_JD,
 	struct ln_equ_posn *position);
 
 #ifdef __cplusplus

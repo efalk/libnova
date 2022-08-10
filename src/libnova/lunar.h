@@ -45,7 +45,7 @@ double LIBNOVA_EXPORT ln_get_lunar_sdiam(double JD);
 * \ingroup lunar
 */
 
-int LIBNOVA_EXPORT ln_get_lunar_rst(double JD, struct ln_lnlat_posn *observer,
+int LIBNOVA_EXPORT ln_get_lunar_rst(double JD, const struct ln_lnlat_posn *observer,
 	struct ln_rst_time *rst);
 
 /*! \fn void ln_get_lunar_geo_posn(double JD, struct ln_rect_posn *moon, double precision);

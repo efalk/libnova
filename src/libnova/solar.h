@@ -51,13 +51,13 @@ extern "C" {
 *
 */
 int LIBNOVA_EXPORT ln_get_solar_rst_horizon(double JD,
-	struct ln_lnlat_posn *observer, double horizon, struct ln_rst_time *rst);
+	const struct ln_lnlat_posn *observer, double horizon, struct ln_rst_time *rst);
 
 /*! \fn int ln_get_solar_rst(double JD, struct ln_lnlat_posn *observer, struct ln_rst_time *rst);
 * \brief Calculate the time of rise, set and transit for the Sun.
 * \ingroup solar
 */
-int LIBNOVA_EXPORT ln_get_solar_rst(double JD, struct ln_lnlat_posn *observer,
+int LIBNOVA_EXPORT ln_get_solar_rst(double JD, const struct ln_lnlat_posn *observer,
 	struct ln_rst_time *rst);
 	
 /*! \fn void ln_get_solar_geom_coords(double JD, struct ln_helio_posn *position);

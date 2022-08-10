@@ -30,6 +30,8 @@
 * \return The visual magnitude. 
 *
 * Calculate the visual magnitude of a comet in an elliptical orbit.
+*
+* Note: modifies orbit->n if it's zero
 */
 double ln_get_ell_comet_mag(double JD, struct ln_ell_orbit *orbit, double g,
 	double k)
@@ -61,6 +63,8 @@ double ln_get_ell_comet_mag(double JD, struct ln_ell_orbit *orbit, double g,
 * \return The visual magnitude. 
 *
 * Calculate the visual magnitude of a comet in a parabolic orbit.
+*
+* Note: modifies orbit->n if it's zero
 */
 double ln_get_par_comet_mag(double JD, struct ln_par_orbit *orbit, double g,
 	double k)

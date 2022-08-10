@@ -24,8 +24,8 @@
 #include <libnova/transform.h>
 
 // helper function to check if object can be visible
-static int check_coords(struct ln_lnlat_posn *observer, double H1,
-	double horizon, struct ln_equ_posn *object)
+static int check_coords(const struct ln_lnlat_posn *observer, double H1,
+	double horizon, const struct ln_equ_posn *object)
 {
 	double h;
 
@@ -60,8 +60,8 @@ static int check_coords(struct ln_lnlat_posn *observer, double H1,
 * Note: this functions returns 1 if the object is circumpolar, that is it remains the whole
 * day above the horizon. Returns -1 when it remains the whole day bellow the horizon.
 */
-int ln_get_object_rst(double JD, struct ln_lnlat_posn *observer,
-	struct ln_equ_posn *object, struct ln_rst_time *rst)
+int ln_get_object_rst(double JD, const struct ln_lnlat_posn *observer,
+	const struct ln_equ_posn *object, struct ln_rst_time *rst)
 {
 	return ln_get_object_rst_horizon(JD, observer, object,
 		LN_STAR_STANDART_HORIZON, rst);	/* standard altitude of stars */
@@ -81,15 +81,15 @@ int ln_get_object_rst(double JD, struct ln_lnlat_posn *observer,
 * Note: this functions returns 1 if the object is circumpolar, that is it remains the whole
 * day above the horizon. Returns -1 when it remains whole day bellow the horizon.
 */
-int ln_get_object_rst_horizon(double JD, struct ln_lnlat_posn *observer,
-	struct ln_equ_posn *object, long double horizon, struct ln_rst_time *rst)
+int ln_get_object_rst_horizon(double JD, const struct ln_lnlat_posn *observer,
+	const struct ln_equ_posn *object, long double horizon, struct ln_rst_time *rst)
 {
 	return ln_get_object_rst_horizon_offset(JD, observer, object, horizon,
 			rst, 0.5);
 }
 
-int ln_get_object_rst_horizon_offset(double JD, struct ln_lnlat_posn *observer,
-	struct ln_equ_posn *object, long double horizon, struct ln_rst_time *rst,
+int ln_get_object_rst_horizon_offset(double JD, const struct ln_lnlat_posn *observer,
+	const struct ln_equ_posn *object, long double horizon, struct ln_rst_time *rst,
 	double ut_offset)
 {
 	int jd;
@@ -216,8 +216,8 @@ int ln_get_object_rst_horizon_offset(double JD, struct ln_lnlat_posn *observer,
 * Note: this functions returns 1 if the object is circumpolar, that is it remains the whole
 * day above the horizon. Returns -1 when it remains whole day bellow the horizon.
 */
-int ln_get_object_next_rst(double JD, struct ln_lnlat_posn *observer,
-	struct ln_equ_posn *object, struct ln_rst_time *rst)
+int ln_get_object_next_rst(double JD, const struct ln_lnlat_posn *observer,
+	const struct ln_equ_posn *object, struct ln_rst_time *rst)
 {
 	return ln_get_object_next_rst_horizon(JD, observer, object,
 		LN_STAR_STANDART_HORIZON, rst);
@@ -262,8 +262,8 @@ static inline double find_next(double JD, double jd1, double jd2, double jd3)
 * Note: this functions returns 1 if the object is circumpolar, that is it remains the whole
 * day above the horizon. Returns -1 when it remains whole day bellow the horizon.
 */
-int ln_get_object_next_rst_horizon(double JD, struct ln_lnlat_posn *observer,
-	struct ln_equ_posn *object, double horizon, struct ln_rst_time *rst)
+int ln_get_object_next_rst_horizon(double JD, const struct ln_lnlat_posn *observer,
+	const struct ln_equ_posn *object, double horizon, struct ln_rst_time *rst)
 {
 	int ret;
 	struct ln_rst_time rst_1, rst_2;
@@ -317,7 +317,7 @@ int ln_get_object_next_rst_horizon(double JD, struct ln_lnlat_posn *observer,
 * you should't use that function for any body which moves to fast..use
 * some special function for such things.
 */
-int ln_get_body_rst_horizon(double JD, struct ln_lnlat_posn *observer,
+int ln_get_body_rst_horizon(double JD, const struct ln_lnlat_posn *observer,
 	void (*get_equ_body_coords) (double,struct ln_equ_posn *), double horizon,
 	struct ln_rst_time *rst)
 {
@@ -325,7 +325,7 @@ int ln_get_body_rst_horizon(double JD, struct ln_lnlat_posn *observer,
 		horizon, rst, 0.5);
 }
 
-int ln_get_body_rst_horizon_offset(double JD, struct ln_lnlat_posn *observer,
+int ln_get_body_rst_horizon_offset(double JD, const struct ln_lnlat_posn *observer,
 	void (*get_equ_body_coords) (double,struct ln_equ_posn *), double horizon,
 	struct ln_rst_time *rst, double ut_offset)
 {
@@ -494,7 +494,7 @@ int ln_get_body_rst_horizon_offset(double JD, struct ln_lnlat_posn *observer,
 * you should't use that function for any body which moves to fast..use
 * some special function for such things.
 */
-int ln_get_body_next_rst_horizon(double JD, struct ln_lnlat_posn *observer,
+int ln_get_body_next_rst_horizon(double JD, const struct ln_lnlat_posn *observer,
 	void (*get_equ_body_coords) (double,struct ln_equ_posn *), double horizon,
 	struct ln_rst_time *rst)
 {
@@ -526,7 +526,7 @@ int ln_get_body_next_rst_horizon(double JD, struct ln_lnlat_posn *observer,
 * some special function for such things.
 */
 int ln_get_body_next_rst_horizon_future(double JD,
-	struct ln_lnlat_posn *observer,
+	const struct ln_lnlat_posn *observer,
 	void (*get_equ_body_coords) (double,struct ln_equ_posn *),
 	double horizon, int day_limit, struct ln_rst_time *rst)
 {
@@ -600,7 +600,7 @@ int ln_get_body_next_rst_horizon_future(double JD,
 * Note 1: this functions returns 1 if the body is circumpolar, that is it remains
 * the whole day either above or below the horizon.
 */
-int ln_get_motion_body_rst_horizon(double JD, struct ln_lnlat_posn *observer,
+int ln_get_motion_body_rst_horizon(double JD, const struct ln_lnlat_posn *observer,
 	get_motion_body_coords_t get_motion_body_coords,
 	void * orbit, double horizon, struct ln_rst_time *rst)
 {
@@ -609,7 +609,7 @@ int ln_get_motion_body_rst_horizon(double JD, struct ln_lnlat_posn *observer,
 }
 
 int ln_get_motion_body_rst_horizon_offset(double JD,
-	struct ln_lnlat_posn *observer,
+	const struct ln_lnlat_posn *observer,
 	get_motion_body_coords_t get_motion_body_coords, void *orbit,
 	double horizon, struct ln_rst_time *rst, double ut_offset)
 {
@@ -762,7 +762,7 @@ int ln_get_motion_body_rst_horizon_offset(double JD,
 * the whole day either above or below the horizon.
 */
 int ln_get_motion_body_next_rst_horizon(double JD,
-	struct ln_lnlat_posn *observer,
+	const struct ln_lnlat_posn *observer,
 	get_motion_body_coords_t get_motion_body_coords, void *orbit,
 	double horizon, struct ln_rst_time *rst)
 {
@@ -789,7 +789,7 @@ int ln_get_motion_body_next_rst_horizon(double JD,
 * the whole day either above or below the horizon.
 */
 int ln_get_motion_body_next_rst_horizon_future(double JD,
-	struct ln_lnlat_posn *observer,
+	const struct ln_lnlat_posn *observer,
 	get_motion_body_coords_t get_motion_body_coords, void *orbit,
 	double horizon, int day_limit, struct ln_rst_time *rst)
 {

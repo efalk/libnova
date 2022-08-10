@@ -216,7 +216,7 @@ const static struct XYZ z_coefficients[TERMS] = {
 */
 /* Equ 22.3, 22.4
 */
-void ln_get_equ_aber(struct ln_equ_posn *mean_position, double JD,
+void ln_get_equ_aber(const struct ln_equ_posn *mean_position, double JD,
 	struct ln_equ_posn *position)
 {
 	long double mean_ra, mean_dec, delta_ra, delta_dec;
@@ -320,7 +320,7 @@ void ln_get_equ_aber(struct ln_equ_posn *mean_position, double JD,
 */
 /* Equ 22.2 pg 139
 */
-void ln_get_ecl_aber(struct ln_lnlat_posn *mean_position, double JD,
+void ln_get_ecl_aber(const struct ln_lnlat_posn *mean_position, double JD,
 	struct ln_lnlat_posn *position)
 	
 {

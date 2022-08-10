@@ -42,7 +42,7 @@ double LIBNOVA_EXPORT ln_get_venus_sdiam(double JD);
 * \brief Calculate the time of rise, set and transit for Venus.
 * \ingroup venus
 */
-int LIBNOVA_EXPORT ln_get_venus_rst(double JD, struct ln_lnlat_posn *observer,
+int LIBNOVA_EXPORT ln_get_venus_rst(double JD, const struct ln_lnlat_posn *observer,
 	struct ln_rst_time *rst);
 
 /*! \fn void ln_get_venus_helio_coords(double JD, struct ln_helio_posn *position);

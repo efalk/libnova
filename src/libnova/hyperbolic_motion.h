@@ -112,7 +112,7 @@ double LIBNOVA_EXPORT ln_get_hyp_body_elong(double JD,
 * \ingroup hyperbolic
 */
 int LIBNOVA_EXPORT ln_get_hyp_body_rst(double JD,
-	struct ln_lnlat_posn *observer, struct ln_hyp_orbit *orbit,
+	const struct ln_lnlat_posn *observer, struct ln_hyp_orbit *orbit,
 	struct ln_rst_time *rst);
 
 /*! \fn double ln_get_hyp_body_rst_horizon(double JD, struct ln_lnlat_posn *observer, struct ln_hyp_orbit *orbit, double horizon, struct ln_rst_time *rst);
@@ -120,7 +120,7 @@ int LIBNOVA_EXPORT ln_get_hyp_body_rst(double JD,
 * \ingroup hyperbolic
 */
 int LIBNOVA_EXPORT ln_get_hyp_body_rst_horizon(double JD,
-	struct ln_lnlat_posn *observer, struct ln_hyp_orbit *orbit,
+	const struct ln_lnlat_posn *observer, struct ln_hyp_orbit *orbit,
 	double horizon, struct ln_rst_time *rst);
 
 /*! \fn double ln_get_hyp_body_next_rst(double JD, struct ln_lnlat_posn *observer, struct ln_hyp_orbit *orbit, struct ln_rst_time *rst);
@@ -128,7 +128,7 @@ int LIBNOVA_EXPORT ln_get_hyp_body_rst_horizon(double JD,
 * \ingroup hyperbolic
 */
 int LIBNOVA_EXPORT ln_get_hyp_body_next_rst(double JD,
-	struct ln_lnlat_posn *observer, struct ln_hyp_orbit *orbit,
+	const struct ln_lnlat_posn *observer, struct ln_hyp_orbit *orbit,
 	struct ln_rst_time *rst);
 
 /*! \fn double ln_get_hyp_body_next_rst_horizon(double JD, struct ln_lnlat_posn *observer, struct ln_hyp_orbit *orbit, double horizon, struct ln_rst_time *rst);
@@ -136,7 +136,7 @@ int LIBNOVA_EXPORT ln_get_hyp_body_next_rst(double JD,
 * \ingroup hyperbolic
 */
 int LIBNOVA_EXPORT ln_get_hyp_body_next_rst_horizon(double JD,
-	struct ln_lnlat_posn *observer, struct ln_hyp_orbit *orbit,
+	const struct ln_lnlat_posn *observer, struct ln_hyp_orbit *orbit,
 	double horizon, struct ln_rst_time *rst);
 
 /*! \fn double ln_get_hyp_body_next_rst_horizon_future(double JD, struct ln_lnlat_posn *observer, struct ln_hyp_orbit *orbit, double horizon, int day_limit, struct ln_rst_time *rst);
@@ -144,7 +144,7 @@ int LIBNOVA_EXPORT ln_get_hyp_body_next_rst_horizon(double JD,
 * \ingroup hyperbolic
 */
 int LIBNOVA_EXPORT ln_get_hyp_body_next_rst_horizon_future(double JD,
-	struct ln_lnlat_posn *observer, struct ln_hyp_orbit *orbit,
+	const struct ln_lnlat_posn *observer, struct ln_hyp_orbit *orbit,
 	double horizon, int day_limit, struct ln_rst_time *rst);
 
 #ifdef __cplusplus

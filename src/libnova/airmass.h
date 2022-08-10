@@ -26,6 +26,9 @@
 extern "C" {
 #endif
 
+/*! \defgroup airmass Air mass calculations
+*/
+
 /*! \fn double ln_get_airmass(double alt, double airmass_scale);
  * \brief Calculate air mass in given altitude.
  * \ingroup airmass

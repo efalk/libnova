@@ -33,7 +33,7 @@
 /* Equ 37.1 Pg 264
 */
 void ln_get_rect_from_helio 
-	(struct ln_helio_posn *object,  
+	(const struct ln_helio_posn *object,
 	struct ln_rect_posn *position)
 {
 	double sin_e, cos_e;
@@ -72,8 +72,8 @@ void ln_get_rect_from_helio
 * Transform horizontal coordinates to galactic coordinates.
 */
 
-void ln_get_hrz_from_equ(struct ln_equ_posn *object,
-	struct ln_lnlat_posn *observer, double JD, struct ln_hrz_posn *position)
+void ln_get_hrz_from_equ(const struct ln_equ_posn *object,
+	const struct ln_lnlat_posn *observer, double JD, struct ln_hrz_posn *position)
 {
 	double sidereal;
 	
@@ -83,8 +83,8 @@ void ln_get_hrz_from_equ(struct ln_equ_posn *object,
 }
 
 
-void ln_get_hrz_from_equ_sidereal_time(struct ln_equ_posn *object,
-	struct ln_lnlat_posn *observer, double sidereal,
+void ln_get_hrz_from_equ_sidereal_time(const struct ln_equ_posn *object,
+	const struct ln_lnlat_posn *observer, double sidereal,
 	struct ln_hrz_posn *position)
 {
 	long double H, ra, latitude, declination, A, Ac, As, h, Z, Zs;
@@ -157,8 +157,8 @@ void ln_get_hrz_from_equ_sidereal_time(struct ln_equ_posn *object,
 * Transform an objects horizontal coordinates into equatorial coordinates
 * for the given julian day and observers position.
 */
-void ln_get_equ_from_hrz(struct ln_hrz_posn *object,
-	struct ln_lnlat_posn *observer, double JD, struct ln_equ_posn *position)
+void ln_get_equ_from_hrz(const struct ln_hrz_posn *object,
+	const struct ln_lnlat_posn *observer, double JD, struct ln_equ_posn *position)
 {
 	long double H, longitude, declination, latitude, A, h, sidereal;
 
@@ -195,7 +195,7 @@ void ln_get_equ_from_hrz(struct ln_hrz_posn *object,
 */
 /* Equ 12.3, 12.4 pg 89 
 */
-void ln_get_equ_from_ecl(struct ln_lnlat_posn *object, double JD,
+void ln_get_equ_from_ecl(const struct ln_lnlat_posn *object, double JD,
 	struct ln_equ_posn *position)
 {
 	double ra, declination, longitude, latitude;
@@ -233,7 +233,7 @@ void ln_get_equ_from_ecl(struct ln_lnlat_posn *object, double JD,
 */
 /* Equ 12.1, 12.2 Pg 88 
 */
-void ln_get_ecl_from_equ(struct ln_equ_posn *object, double JD,
+void ln_get_ecl_from_equ(const struct ln_equ_posn *object, double JD,
 	struct ln_lnlat_posn *position)
 {
 	double ra, declination, latitude, longitude;
@@ -265,7 +265,7 @@ void ln_get_ecl_from_equ(struct ln_equ_posn *object, double JD,
 */
 /* Equ 33.2
 */
-void ln_get_ecl_from_rect(struct ln_rect_posn *rect, struct ln_lnlat_posn *posn)
+void ln_get_ecl_from_rect(const struct ln_rect_posn *rect, struct ln_lnlat_posn *posn)
 {
 	double t;
 	
@@ -281,7 +281,7 @@ void ln_get_ecl_from_rect(struct ln_rect_posn *rect, struct ln_lnlat_posn *posn)
 * Transform an object galactic coordinates into B1950 equatorial coordinate.
 */
 /* Pg 94 */
-void ln_get_equ_from_gal(struct ln_gal_posn *gal, struct ln_equ_posn *equ)
+void ln_get_equ_from_gal(const struct ln_gal_posn *gal, struct ln_equ_posn *equ)
 {
 	double RAD_27_4, SIN_27_4, COS_27_4;
 	double l_123, cos_l_123;
@@ -312,7 +312,7 @@ void ln_get_equ_from_gal(struct ln_gal_posn *gal, struct ln_equ_posn *equ)
 * 
 * Transform an object galactic coordinates into equatorial coordinate.
 */
-void ln_get_equ2000_from_gal(struct ln_gal_posn *gal, struct ln_equ_posn *equ)
+void ln_get_equ2000_from_gal(const struct ln_gal_posn *gal, struct ln_equ_posn *equ)
 {
 	ln_get_equ_from_gal(gal, equ);
 	ln_get_equ_prec2(equ, B1950, JD2000, equ);
@@ -325,7 +325,7 @@ void ln_get_equ2000_from_gal(struct ln_gal_posn *gal, struct ln_equ_posn *equ)
 * Transform an object B1950 equatorial coordinate into galactic coordinates.
 */
 /* Pg 94 */
-void ln_get_gal_from_equ(struct ln_equ_posn *equ, struct ln_gal_posn *gal)
+void ln_get_gal_from_equ(const struct ln_equ_posn *equ, struct ln_gal_posn *gal)
 {
 	double RAD_27_4, SIN_27_4, COS_27_4;
 	double ra_192_25, cos_ra_192_25;
@@ -358,7 +358,7 @@ void ln_get_gal_from_equ(struct ln_equ_posn *equ, struct ln_gal_posn *gal)
 * 
 * Transform an object J2000 equatorial coordinate into galactic coordinates.
 */
-void ln_get_gal_from_equ2000(struct ln_equ_posn *equ, struct ln_gal_posn *gal)
+void ln_get_gal_from_equ2000(const struct ln_equ_posn *equ, struct ln_gal_posn *gal)
 {
 	struct ln_equ_posn equ_1950;
 	ln_get_equ_prec2(equ, JD2000, B1950, &equ_1950);

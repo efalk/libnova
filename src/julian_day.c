@@ -42,7 +42,7 @@
 */
 /* Formula 7.1 on pg 61 
 */
-double ln_get_julian_day(struct ln_date *date)
+double ln_get_julian_day(const struct ln_date *date)
 {
     double JD;
     double days;
@@ -92,7 +92,7 @@ double ln_get_julian_day(struct ln_date *date)
 * Calculate the day of the week. 
 * Returns 0 = Sunday .. 6 = Saturday
 */
-unsigned int ln_get_day_of_week(struct ln_date *date)
+unsigned int ln_get_day_of_week(const struct ln_date *date)
 {
     unsigned int day;
     double JD;
@@ -271,7 +271,7 @@ double ln_get_julian_from_sys()
 *
 * Calculate Julian day (UT) from zone date
 */
-double ln_get_julian_local_date(struct ln_zonedate* zonedate)
+double ln_get_julian_local_date(const struct ln_zonedate* zonedate)
 {
 	struct ln_date date;
 	
@@ -320,7 +320,7 @@ void ln_get_local_date(double JD, struct ln_zonedate *zonedate)
 * Calculate the local date from the a MPC packed date.
 * See https://mpcweb1.cfa.harvard.edu/iau/info/PackedDates.html for info.
 */
-int ln_get_date_from_mpc(struct ln_date *date, char *mpc_date)
+int ln_get_date_from_mpc(struct ln_date *date, const char *mpc_date)
 {
 	char year[3];
 	char month[2];
@@ -419,7 +419,7 @@ void ln_date_to_zonedate(struct ln_date *date,
 *
 * Converts a ln_zonedate (local time) to a ln_date (UT). 
 */
-void ln_zonedate_to_date(struct ln_zonedate *zonedate, struct ln_date *date)
+void ln_zonedate_to_date(const struct ln_zonedate *zonedate, struct ln_date *date)
 {
 	double jd;
 	struct ln_date dat;

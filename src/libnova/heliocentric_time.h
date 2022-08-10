@@ -36,7 +36,7 @@ extern "C" {
 *
 */
 double LIBNOVA_EXPORT ln_get_heliocentric_time_diff(double JD,
-	struct ln_equ_posn *object);
+	const struct ln_equ_posn *object);
 
 #ifdef __cplusplus
 };

@@ -34,8 +34,8 @@
 */
 /* Equ 39.1, 39.2, 39.3 Pg 263 and 264
 */
-void ln_get_parallax(struct ln_equ_posn *object, double au_distance,
-	 struct ln_lnlat_posn *observer, double height, double JD,
+void ln_get_parallax(const struct ln_equ_posn *object, double au_distance,
+	 const struct ln_lnlat_posn *observer, double height, double JD,
 	 struct ln_equ_posn *parallax)
 {
   	double H;
@@ -59,8 +59,8 @@ void ln_get_parallax(struct ln_equ_posn *object, double au_distance,
 */
 /* Equ 39.1, 39.2, 39.3 Pg 263 and 264
 */
-void ln_get_parallax_ha(struct ln_equ_posn *object, double au_distance,
-	 struct ln_lnlat_posn *observer, double height, double H,
+void ln_get_parallax_ha(const struct ln_equ_posn *object, double au_distance,
+	 const struct ln_lnlat_posn *observer, double height, double H,
 	 struct ln_equ_posn *parallax)
 {
 	double sin_pi, ro_sin, ro_cos, sin_H, cos_H, dec_rad, cos_dec;
