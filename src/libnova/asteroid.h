@@ -26,6 +26,7 @@ extern "C" {
 #endif
 
 /*! \defgroup asteroid Asteroids
+* \brief functions to compute magnitude and size of an asteroid
 *
 * Functions relating to Asteroids.
 *
@@ -34,17 +35,20 @@ extern "C" {
 	
 /*!
 * \fn double ln_get_asteroid_mag(double JD, struct ln_ell_orbit *orbit, double H, double G)
+* \ingroup asteroid
 * \brief Calculate the visual magnitude of an asteroid.
 */
 double LIBNOVA_EXPORT ln_get_asteroid_mag(double JD, struct ln_ell_orbit *orbit,
 	double H, double G);
 	
 /*! \fn double ln_get_asteroid_sdiam_km(double H, double A)
+* \ingroup asteroid
 * \brief Calculate the semi-diameter of an asteroid in km.
 */
 double LIBNOVA_EXPORT ln_get_asteroid_sdiam_km(double H, double A);
 	
 /*! \fn double ln_get_asteroid_sdiam_arc(double JD, struct ln_ell_orbit *orbit, double H, double A)
+* \ingroup asteroid
 * \brief Calculate the semi-diameter of an asteroid in arc seconds.
 */
 double LIBNOVA_EXPORT ln_get_asteroid_sdiam_arc(double JD,

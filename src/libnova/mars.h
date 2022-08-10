@@ -27,7 +27,7 @@ extern "C" {
 
 /*! \defgroup mars Mars
 *
-* Functions relating to the planet Mars.
+* \brief Functions relating to the planet Mars.
 *
 * All angles are expressed in degrees.
 */

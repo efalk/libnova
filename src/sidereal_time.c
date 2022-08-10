@@ -23,7 +23,7 @@
 
 /*! \fn double ln_get_mean_sidereal_time(double JD)
 * \param JD Julian Day
-* \return Mean sidereal time.
+* \return Mean sidereal time (hours).
 *
 * Calculate the mean sidereal time at the meridian of Greenwich of a given date.
 */
@@ -54,7 +54,8 @@ double ln_get_mean_sidereal_time(double JD)
 * \param JD Julian Day
 * /return Apparent sidereal time (hours).
 *
-* Calculate the apparent sidereal time at the meridian of Greenwich of a given date. 
+* Calculate the apparent sidereal time at the meridian of Greenwich of a given date,
+* corrected for nutation.
 */
 /* Formula 11.1, 11.4 pg 83 
 */
@@ -77,4 +78,4 @@ double ln_get_apparent_sidereal_time(double JD)
 	sidereal += correction;
 
 	return sidereal;
-	}
+}

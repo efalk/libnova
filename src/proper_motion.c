@@ -40,11 +40,11 @@ void ln_get_equ_pm(struct ln_equ_posn *mean_position,
 	ln_get_equ_pm_epoch (mean_position, proper_motion, JD, JD2000, position);
 }
 
-/*! \fn void ln_get_equ_pm_epoch(struct ln_equ_posn *mean_position, struct ln_equ_posn *proper_motion, double JD, double epoch_JD, struct ln_equ_posn *position)
+/*!
 * \param mean_position Mean position of object.
 * \param proper_motion Annual Proper motion of object.
 * \param JD Julian Day.
-* \param JD_epoch Mean position epoch in JD
+* \param epoch_JD Mean position epoch in JD
 * \param position Pointer to store new object position.
 *
 * Calculate a stars equatorial coordinates from it's mean coordinates and epoch

@@ -27,8 +27,19 @@ extern "C" {
 #endif
 
 /*! \defgroup aberration Aberration
+* \brief Correct a star's apparent position for the motion of the
+* Earth
 *
-* Aberration: need a description.
+* Aberration is caused by the Earth's motion relative to the
+* star being observed. It causes a slight change in the
+* apparent position of the star relative to its true position.
+* For a more detailed explanation, see
+* [Wikipedia](https://en.wikipedia.org/wiki/Aberration_(astronomy\)).
+*
+* The functions here take the true position of the star, and the
+* date, and return the apparent position of the star after applying
+* aberration. There are functions for both equatorial coordinates
+* and ecliptical coordinates.
 *
 * All angles are expressed in degrees.
 */

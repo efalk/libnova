@@ -12,10 +12,10 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
- *  
+ *
  *  Copyright (C) 2000 - 2005 Liam Girdwood  <lgirdwood@gmail.com>
  */
- 
+
 #include <math.h>
 #include <libnova/angular_separation.h>
 #include <libnova/utility.h>
@@ -28,8 +28,13 @@
 * Calculates the angular separation of 2 bodies.
 * This method was devised by Mr Thierry Pauwels of the
 * Royal Observatory Belgium.
-*/	
-/* Chap 17 page 115 */
+*
+* Note that this function can be used with ecliptic coordinates
+* as well, by replacing right ascension and declination with
+* longitude and latitude respectively.
+*
+* From Meeus, Chap 17 page 115
+*/
 double ln_get_angular_separation(struct ln_equ_posn* posn1,
 	struct ln_equ_posn* posn2)
 {
@@ -43,7 +48,7 @@ double ln_get_angular_separation(struct ln_equ_posn* posn1,
 	a2 = ln_deg_to_rad(posn2->ra);
 	d2 = ln_deg_to_rad(posn2->dec);
 	
-	x = (cos(d1) * sin(d2)) 
+	x = (cos(d1) * sin(d2))
 		- (sin(d1) * cos(d2) * cos(a2 - a1));
 	y = cos(d2) * sin(a2 - a1);
 	z = (sin(d1) * sin(d2)) + (cos(d1) * cos(d2) * cos(a2 - a1));
@@ -60,9 +65,15 @@ double ln_get_angular_separation(struct ln_equ_posn* posn1,
 * \param posn2 Equatorial position of body 2
 * \return Position angle in degrees
 *
-* Calculates the position angle of a body with respect to another body.
-*/	
-/* Chapt 17, page 116 */
+* Calculates the relative position angle of a body with respect to another body.
+*
+* Relative position angle is where body 2 appears relative to body 1.
+* That is, having found body 1 in the sky, your eyes track at the
+* relative position angle to find body 2. North is 0° and the angle
+* increases clockwise from north.
+*
+* From Meeus, Chap 17, page 116
+*/
 double ln_get_rel_posn_angle(struct ln_equ_posn* posn1,
 	struct ln_equ_posn* posn2)
 {

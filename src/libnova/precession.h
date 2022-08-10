@@ -26,15 +26,27 @@ extern "C" {
 #endif
 
 /*! \defgroup precession Precession
+* \brief functions related to the precession of the Earth's rotational axis
 *
 * Precession is the changing direction of the Earth's rotational axis over time and
 * is due to the gravitational influence of the Sun and the Moon.
+*
+* Many measurements are made relative to the vernal equinox, AKA The
+* First Point of Aries, which is the point where the ecliptic intersects
+* the equator.  This point drifts constantly east due to precession.
+* A full circle takes approximately 26,000 years.  The North pole is
+* currently moving towards Polaris, and should be within 28 minutes
+* about the year 2102.  Vega should become the pole star around the
+* year 14000.
+*
+* The First Point of Aries was once in the constellation Aries, but
+* hasn't been there in a very long time.
 *
 * All angles are expressed in degrees.
 */
 
 /*! \fn void ln_get_equ_prec(struct ln_equ_posn *mean_position, double JD, struct ln_equ_posn *position);
-* \brief Calculate the effects of precession on equatorial coordinates, convert current to J2000.
+* \brief Calculate the effects of precession on equatorial coordinates, convert J2000 to current.
 * \ingroup precession
 */
 

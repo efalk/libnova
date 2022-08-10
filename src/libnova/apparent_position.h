@@ -26,6 +26,9 @@ extern "C" {
 #endif
 
 /*! \defgroup apparent Apparent position of a Star
+* \brief Take a star's mean position. Apply
+* proper motion, aberration,
+* precession, and nutation to return the star's apparent position.
 *
 * The apparent position of a star is it's position as seen from
 * the centre of the Earth.

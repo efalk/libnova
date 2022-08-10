@@ -27,7 +27,7 @@ extern "C" {
 
 /*! \defgroup pluto Pluto
 *
-* Functions relating to the planet Pluto.
+* \brief Functions relating to the planet Pluto.
 *
 * All angles are expressed in degrees.
 */

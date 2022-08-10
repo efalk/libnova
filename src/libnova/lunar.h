@@ -29,7 +29,7 @@ extern "C" {
 
 /*! \defgroup lunar Lunar
 *
-* Functions relating to the Moon.
+* \brief Functions relating to the Moon.
 *
 * All angles are expressed in degrees.
 */
@@ -57,21 +57,21 @@ void LIBNOVA_EXPORT ln_get_lunar_geo_posn(double JD, struct ln_rect_posn *moon,
 	double precision);
 
 /*! \fn void ln_get_lunar_equ_coords_prec(double JD, struct ln_equ_posn *position, double precision);
-* \brief Calculate lunar equatorial coordinates.
+* \brief Calculate lunar equatorial coordinates with specified precision.
 * \ingroup lunar
 */ 
 void LIBNOVA_EXPORT ln_get_lunar_equ_coords_prec(double JD,
 	struct ln_equ_posn *position, double precision);
 
 /*! \fn void ln_get_lunar_equ_coords(double JD, struct ln_equ_posn *position);
-* \brief Calculate lunar equatorial coordinates.
+* \brief Calculate lunar equatorial coordinates with specified precision.
 * \ingroup lunar
 */ 
 void LIBNOVA_EXPORT ln_get_lunar_equ_coords(double JD,
 	struct ln_equ_posn *position);
 
 /*! \fn void ln_get_lunar_ecl_coords(double JD, struct ln_lnlat_posn *position, double precision);
-* \brief Calculate lunar ecliptical coordinates.
+* \brief Calculate lunar ecliptical coordinates at highest precision.
 * \ingroup lunar
 */ 
 void LIBNOVA_EXPORT ln_get_lunar_ecl_coords(double JD,

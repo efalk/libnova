@@ -219,7 +219,7 @@ struct ln_lnlat_posn {
 struct ln_helio_posn {
 	double L;	/*!< Heliocentric longitude */
 	double B;	/*!< Heliocentric latitude */
-	double R;	/*!< Heliocentric radius vector */
+	double R;	/*!< Heliocentric radius vector, AU */
 };
 
 /*! \struct ln_rect_posn
@@ -233,13 +233,17 @@ struct ln_helio_posn {
 * A geocentric position is an objects position relative to the centre
 * of the Earth.
 *
+* * X is toward the vernal equinox
+* * Y is at 90° longitude on the ecliptic plane
+* * Z is perpinducular to the ecliptic plane, in the northern direction
+*
 * Position is in units of AU for planets and in units of km
 * for the Moon.
 */
 struct ln_rect_posn {
-	double X;	/*!< Rectangular X coordinate */
-	double Y;	/*!< Rectangular Y coordinate */
-	double Z;	/*!< Rectangular Z coordinate */
+	double X;	/*!< Rectangular X coordinate, toward vernal equinox */
+	double Y;	/*!< Rectangular Y coordinate, 90 degrees Longitude */
+	double Z;	/*!< Rectangular Z coordinate, north */
 };
 
 /*!

@@ -27,8 +27,12 @@ extern "C" {
 
 
 /*! \defgroup sidereal Sidereal Time 
+* \brief Functions related to Sidereal Time
 *
-* TODO
+* Sidereal time is time measured by the Earth's rotation relative
+* to the stars instead of the Sun. A sidereal day is roughly
+* 23:56:04.099. 00:00:00 is defined as the moment that the
+* First Point of Aries passes the meridian at Greenwich.
 */
 
 /*! \fn ln_double ln_get_mean_sidereal_time(double JD)

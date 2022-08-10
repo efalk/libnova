@@ -27,7 +27,7 @@ extern "C" {
 
 /*! \defgroup mercury Mercury
 *
-* Functions relating to the planet Mercury.
+* \brief Functions relating to the planet Mercury.
 *
 * All angles are expressed in degrees.
 */

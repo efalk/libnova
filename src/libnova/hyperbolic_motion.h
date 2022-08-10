@@ -27,7 +27,11 @@ extern "C" {
 
 /*! \defgroup hyperbolic  Hyperbolic Motion
 *
-* Functions relating to the Hyperbolic motion of bodies.
+* \brief Functions relating to the Hyperbolic motion of bodies.
+*
+* Objects which are not confined to the solar system pass through on
+* hyperbolic trajectories. The equations used for objects in elliptical
+* orbits do not apply to such objects. This module handles these.
 *
 * All angles are expressed in degrees.
 */

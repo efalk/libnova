@@ -266,7 +266,7 @@ void ln_get_ell_geo_rect_posn(struct ln_ell_orbit *orbit, double JD,
 * \param orbit Orbital parameters.
 * \param posn Pointer to hold asteroid position.
 *
-* Calculate a bodies equatorial coordinates for the given julian day.
+* Calculate a body's equatorial coordinates for the given julian day.
 */
 void ln_get_ell_body_equ_coords(double JD, struct ln_ell_orbit *orbit,
 	struct ln_equ_posn *posn)
@@ -455,7 +455,7 @@ double ln_get_ell_body_phase_angle(double JD, struct ln_ell_orbit *orbit)
 * \param orbit Orbital parameters
 * \return Elongation to the Sun.
 *
-* Calculate the bodies elongation to the Sun.. 
+* Calculate the body's elongation to the Sun.
 */
 double ln_get_ell_body_elong(double JD, struct ln_ell_orbit *orbit)
 {
@@ -491,10 +491,12 @@ double ln_get_ell_body_elong(double JD, struct ln_ell_orbit *orbit)
 * \param observer Observers position
 * \param orbit Orbital parameters
 * \param rst Pointer to store Rise, Set and Transit time in JD
-* \return 0 for success, else 1 for circumpolar (above the horizon), -1 for circumpolar (bellow the horizon)
+* \return 0 for success, else 1 for circumpolar (above the horizon), -1 for circumpolar (below the horizon)
 *
 * Calculate the time the rise, set and transit (crosses the local meridian at upper culmination)
 * time of a body with an elliptic orbit for the given Julian day.
+*
+* Assumes a "standard" horizon.
 *
 * Note: this functions returns 1 if the body is circumpolar, that is it remains the whole
 * day above the horizon. Returns -1 when it remains the whole day below the horizon.
@@ -512,7 +514,7 @@ int ln_get_ell_body_rst(double JD, struct ln_lnlat_posn *observer,
 * \param orbit Orbital parameters
 * \param horizon Horizon height
 * \param rst Pointer to store Rise, Set and Transit time in JD
-* \return 0 for success, else 1 for circumpolar (above the horizon), -1 for circumpolar (bellow the horizon)
+* \return 0 for success, else 1 for circumpolar (above the horizon), -1 for circumpolar (below the horizon)
 *
 * Calculate the time the rise, set and transit (crosses the local meridian at upper culmination)
 * time of a body with an elliptic orbit for the given Julian day.
@@ -533,12 +535,14 @@ int ln_get_ell_body_rst_horizon(double JD, struct ln_lnlat_posn *observer,
 * \param observer Observers position
 * \param orbit Orbital parameters
 * \param rst Pointer to store Rise, Set and Transit time in JD
-* \return 0 for success, else 1 for circumpolar (above the horizon), -1 for circumpolar (bellow the horizon)
+* \return 0 for success, else 1 for circumpolar (above the horizon), -1 for circumpolar (below the horizon)
 *
 * Calculate the time of next rise, set and transit (crosses the local meridian at upper culmination)
 * time of a body with an elliptic orbit for the given Julian day.
 *
 * This function guarantee, that rise, set and transit will be in <JD, JD+1> range.
+*
+* Assumes a "standard" horizon.
 *
 * Note: this functions returns 1 if the body is circumpolar, that is it remains the whole
 * day above the horizon. Returns -1 when it remains the whole day below the horizon.
@@ -556,7 +560,7 @@ int ln_get_ell_body_next_rst(double JD, struct ln_lnlat_posn *observer,
 * \param orbit Orbital parameters
 * \param horizon Horizon height
 * \param rst Pointer to store Rise, Set and Transit time in JD
-* \return 0 for success, else 1 for circumpolar (above the horizon), -1 for circumpolar (bellow the horizon)
+* \return 0 for success, else 1 for circumpolar (above the horizon), -1 for circumpolar (below the horizon)
 *
 * Calculate the time of next rise, set and transit (crosses the local meridian at upper culmination)
 * time of a body with an elliptic orbit for the given Julian day.
@@ -581,7 +585,7 @@ int ln_get_ell_body_next_rst_horizon(double JD, struct ln_lnlat_posn *observer,
 * \param horizon Horizon height
 * \param day_limit Maximal number of days that will be searched for next rise and set
 * \param rst Pointer to store Rise, Set and Transit time in JD
-* \return 0 for success, else 1 for circumpolar (above the horizon), -1 for circumpolar (bellow the horizon)
+* \return 0 for success, else 1 for circumpolar (above the horizon), -1 for circumpolar (below the horizon)
 *
 * Calculate the time of next rise, set and transit (crosses the local meridian at upper culmination)
 * time of a body with an elliptic orbit for the given Julian day.

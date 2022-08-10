@@ -27,7 +27,7 @@ extern "C" {
 
 /*! \defgroup venus Venus
 *
-* Functions relating to the planet Venus.
+* \brief Functions relating to the planet Venus.
 *
 * All angles are expressed in degrees.
 */

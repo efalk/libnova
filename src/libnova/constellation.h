@@ -25,6 +25,7 @@ extern "C" {
 
 /*!
 * \defgroup constellations Celestial constellations
+* \brief Return the name of a constellation at a given position
 */
 
 /*! \fn const char* ln_get_constellation(struct ln_equ_posn *position)

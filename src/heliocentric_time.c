@@ -31,6 +31,18 @@
 *
 * Calculate heliocentric corection for object at given coordinates and on given
 * date.
+*
+* Due to the finite speed of light, events outside of the solar system are seen
+* at different times within the solar system depending on the observer's position.
+* This function corrects for that, converting a time at the Earth to the time
+* at the center of the solar system.
+*
+* For example, an event happening overhead at midnight is seen at the Earth
+* roughly eight minutes before it's seen at the Sun. Given the date, and
+* the equatorial position of the object, this function returns the difference
+* expressed in Julian days.
+*
+* See [Wikipedia](https://en.wikipedia.org/wiki/Heliocentric_Julian_Day)
 */
 double ln_get_heliocentric_time_diff(double JD, struct ln_equ_posn *object)
 {

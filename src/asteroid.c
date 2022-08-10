@@ -22,7 +22,7 @@
 #include <libnova/utility.h>
 
 /*!
-* \fn double ln_get_asteroid_mag(double JD, struct ln_ell_orbit *orbit, double H, double G)
+* \brief Calculate the visual magnitude of an asteroid
 * \param JD Julian day.
 * \param orbit Orbital parameters
 * \param H Mean absolute visual magnitude

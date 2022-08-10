@@ -27,7 +27,7 @@
 */
 
 /*! \fn void ln_get_apparent_posn(struct ln_equ_posn *mean_position, struct ln_equ_posn *proper_motion, double JD, struct ln_equ_posn *position)
-* \param mean_position Mean position of object
+* \param mean_position Mean position of object, epoch J2000
 * \param proper_motion Proper motion of object
 * \param JD Julian Day
 * \param position Pointer to store new object position
@@ -37,6 +37,9 @@
 * annual aberration when calculating the stars apparent position. The effects of annual 
 * parallax and the gravitational deflection of light (Einstein effect) are NOT used
 * in this calculation. 
+*
+* This function assumes that the star's mean position is given as of J2000.
+* At present, libnova does not support other epochs.
 */
 void ln_get_apparent_posn(struct ln_equ_posn *mean_position,
 	struct ln_equ_posn *proper_motion, double JD, struct ln_equ_posn *position)

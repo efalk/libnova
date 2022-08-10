@@ -27,7 +27,7 @@ extern "C" {
 
 /*! \defgroup saturn Saturn
 *
-* Functions relating to the planet Saturn.
+* \brief Functions relating to the planet Saturn.
 *
 * All angles are expressed in degrees.
 */

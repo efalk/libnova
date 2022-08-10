@@ -26,6 +26,8 @@ extern "C" {
 #endif
 
 /*! \defgroup comet Comets
+* \brief Functions for computing the magnitude
+* of a comet in elliptical or parabolic orbit
 *
 * Functions relating to Comets.
 *

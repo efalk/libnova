@@ -31,6 +31,7 @@ extern "C" {
 #endif
 
 /*! \defgroup solar Solar
+* \brief Functions related to the Sun's position.
 *
 * Calculate solar ecliptical/equatorial coordinates for a given julian date.  
 * Accuracy 0.01 arc second error - uses VSOP87 solution. 
@@ -38,9 +39,16 @@ extern "C" {
 * All angles are expressed in degrees.
 */
 
-/*! \fn int ln_get_solar_rst_horizon(double JD, struct ln_lnlat_posn *observer, double horizon, struct ln_rst_time *rst);
+/*!
 * \brief Return solar rise/set time over local horizon (specified in degrees).
-*  \ingroup solar
+* \ingroup solar
+*
+* \param JD Julian date
+* \param observer Observer's location on the Earth
+* \param horizon Horizon, see LN_XXX_HORIZON constants
+* \param returned rise, set, and transit times
+* \return 0 for success, 1 for circumpolar (above the horizon), -1 for circumpolar (bellow the horizon)
+*
 */
 int LIBNOVA_EXPORT ln_get_solar_rst_horizon(double JD,
 	struct ln_lnlat_posn *observer, double horizon, struct ln_rst_time *rst);

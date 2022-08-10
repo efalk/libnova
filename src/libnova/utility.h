@@ -57,7 +57,7 @@ const char LIBNOVA_EXPORT *ln_get_version(void);
 
 /*! \defgroup misc Misc. Functions
 *
-* Misc functions.
+* \brief Miscelaneous functions.
 */
 
 /*! \fn double ln_get_dec_location(char * s)
@@ -251,7 +251,7 @@ void LIBNOVA_EXPORT ln_lnlat_to_hlnlat(const struct ln_lnlat_posn *pos,
 * \brief add seconds to hms 
 * \ingroup conversion 
 * \param hms longitude, latitude in deegres (read/write)
-* \param hpos returned longitude, latitude in dms
+* \param seconds to add to hms
 *
 * This function modifies hms in place
 */

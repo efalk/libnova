@@ -27,6 +27,7 @@ extern "C" {
 
 /*!
 * \defgroup heliocentric Heliocentric time
+* \brief Calculate approximate heliocentric (barycentric) time correction for given date and object
 */
 
 /*! \fn double ln_get_heliocentric_time_diff(double JD, struct ln_equ_posn *object)

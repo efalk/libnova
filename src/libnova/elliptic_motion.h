@@ -26,10 +26,39 @@ extern "C" {
 #endif
 
 /*! \defgroup elliptic  Elliptic Motion
+* \brief Functions relating to the elliptic motion of bodies.
 *
-* Functions relating to the elliptic motion of bodies.
+* See [Orbits](@ref Astronomy) for more information.
 *
 * All angles are expressed in degrees.
+*
+* Function | Summary
+* ------------- | -------------
+* ln_get_ell_mean_anomaly() | Obtain mean anomoly from orbital rate and time
+* ln_solve_kepler() | Convert mean anomoly to true anomoly
+* ln_get_ell_true_anomaly() | Convert true anomaly to mean anomaly
+* ln_get_ell_radius_vector() | Compute radius from semi-major axis, eccentricity, and true anomoly
+* ln_get_ell_smajor_diam() | Compute semi-major axis from eccentricity and perihelion
+* ln_get_ell_sminor_diam() | Compute semi-minor axis from eccentricity and semi-major axis
+* ln_get_ell_mean_motion() | Compute mean daily motion from semi-major axis
+* ln_get_ell_geo_rect_posn() | Compute geocentric rectangular coordinates from orbital parameeters and Julian date
+* ln_get_ell_helio_rect_posn() | Compute heliocentric rectangular coordinates from orbital parameeters and Julian date
+* ln_get_ell_orbit_len() | Compute orbital length from orbital parameeters
+* ln_get_ell_orbit_vel() | Compute orbital velocity from orbital parameeters and date
+* ln_get_ell_orbit_pvel() | Compute orbital velocity at perihelion from orbital parameeters
+* ln_get_ell_orbit_avel() | Compute orbital velocity at aphelion from orbital parameeters
+* ln_get_ell_body_phase_angle() | Compute phase of body as seen from Earth
+* ln_get_ell_body_elong() | Calculate the body's elongation to the Sun
+* ln_get_ell_body_solar_dist() | Calculate the distance between a body and the Sun for the given dater
+* ln_get_ell_body_earth_dist() | Calculate the distance between an body and the Earth for the given date
+* ln_get_ell_body_equ_coords() | Calculate a body's equatorial coordinates for the given julian day
+* ln_get_ell_body_rst() | Calculate the time the rise, set and transit times (if any) of a body
+* ln_get_ell_body_rst_horizon() | Same, but arbitrary horizon
+* ln_get_ell_body_next_rst() | Calculate next rise, set, and transit times within the next day.
+* ln_get_ell_body_next_rst_horizon() | Same, but arbitrary horizon
+* ln_get_ell_body_next_rst_horizon_future() | Calculate next rise, set, and transit times
+* ln_get_ell_last_perihelion() | Calculate the julian day of the last perihelion
+*
 */
 	
 /*! \fn double ln_solve_kepler(double E, double M);

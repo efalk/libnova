@@ -28,7 +28,7 @@ extern "C" {
 
 /*! \defgroup uranus Uranus
 *
-* Functions relating to the planet Uranus.
+* \brief Functions relating to the planet Uranus.
 *
 * All angles are expressed in degrees.
 */

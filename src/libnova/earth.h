@@ -27,6 +27,7 @@ extern "C" {
 
 
 /*! \defgroup earth Earth
+* \brief Functions to return the position of the Earth
 *
 * Functions relating to the planet Earth.
 *

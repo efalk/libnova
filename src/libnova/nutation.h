@@ -28,9 +28,11 @@ extern "C" {
 #endif
 
 /*! \defgroup nutation Nutation
+* \brief Functions related to nutation
 *
-* Nutation is a period oscillation of the Earths rotational axis around it's
-* mean position.
+* Nutation is a periodic oscillation of the Earths rotational axis around its
+* mean position. Nutation is primarily caused by the Moon, and
+* has an 18.6 year period.
 *
 * All angles are expressed in degrees.
 */

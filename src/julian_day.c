@@ -318,7 +318,7 @@ void ln_get_local_date(double JD, struct ln_zonedate *zonedate)
 * \return 0 for valid date
 *
 * Calculate the local date from the a MPC packed date.
-* See http://cfa-www.harvard.edu/iau/info/PackedDates.html for info.
+* See https://mpcweb1.cfa.harvard.edu/iau/info/PackedDates.html for info.
 */
 int ln_get_date_from_mpc(struct ln_date *date, char *mpc_date)
 {

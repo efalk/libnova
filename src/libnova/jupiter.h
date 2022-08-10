@@ -27,8 +27,7 @@ extern "C" {
 
 
 /*! \defgroup jupiter Jupiter
-*
-* Functions relating to the planet Jupiter.
+* \brief Functions relating to the planet Jupiter.
 *
 * All angles are expressed in degrees.
 */

@@ -1,4 +1,4 @@
-\defgroup Astronomy Overview of astronomical concepts
+\page Astronomy Overview of astronomical concepts
 
 \tableofcontents
 
@@ -14,90 +14,13 @@ There are several different coordinate systems used in astronomy, all
 different and all relatively unstable, because of precession, perturbation
 and so on.
 
-## Ecliptic Coordinates ##
+These are: Ecliptic Coordinates, Celestial Coordinates, Geographic Coordinates,
+Rectangular Coordinates, and Galactic Coordinates.
 
-This is a spherical coordinate system either centered at the Earth
-("geocentric") or centered at the Sun ("heliocentric").  The
-equator of this system is the plane of the Earth's orbit, with
-"north" perpindicular to Earth's orbit and
-23.5 degrees off of the Earth's north.
-
-Angles north and south are called **latitude**, and are measured in
-degrees, +north/-south.
-
-Angles about the center are called **longitude**, and are measured in
-degrees.  Zero degrees longitude is at the first point in Aries,
-meaning the point where the Earth's equator crosses the ecliptic at
-the vernal equinox.  (This point was once in the constellation
-Aires, but is no longer actually in Aries due
-to precession of Earth's rotation, which causes this point to
-continuously drift east about one degree/century.)  Ecliptic
-longitudes increase to the east.
-
-The name "ecliptic" comes from the fact that eclipses of the Moon
-or Sun can only happen when the moon is on the ecliptic.  By
-definition, the Sun is always on the ecliptic.
-
-## Celestial Coordinates ##
-
-This is a spherical coordinate system centered at the Earth.  The
-equator of this system is the Earth's equator and the north pole
-of this system is the Earth's north pole.  Angle north and south
-are called **declination**, and are measured in degrees, +north/-south.
-
-Angles about the equator are called **right ascension**, and are
-measured in hours, minutes and seconds.  0h right ascension is the
-first point in Aries, as described above.  Right ascension
-increases to the east.
-
-Right ascension is measured in hours instead of degrees. This is an archaic
-convention that originated with ancient astronomers who measured an
-object's "longitudinal" position by counting the time between when
-Aries passed overhead, and when the object passed overhead.
-
-Right ascension and declination are often referenced to
-particular epochs, such as 1950 or 2000 to avoid having to
-compensate for precesion. E.g. the Yale Bright Star Catalog
-lists Rigel with these coordinatees:
-
-         1900:  05h09'43.9" -08°19'01"
-         2000:  05h14'32.3" -08°12'06"
-
-These are the positions in 1900 and 2000 respectively for Rigel. These
-values incorporate both precession and the star's proper motion.
-To obtain the RA and decl for a given date, you must account for both
-precession and proper motion for the target date relative to the epoch.
-
-As you can see, Rigel's RA changed by more than a degree over the
-last century, so don't skip this step.
-
-## Geographic Coordinates ##
-
-Locations on Earth are measured in latitude and longitude, in
-degrees. North latitude is positive, south is negative. Longitude
-is based at the observatory in Grenwich, England, and increases
-going west (in contrast to the IAU which switched in 1982).
-
-## Rectangular Coordinates ##
-
-Normally, coordinates are given in terms of lattitude, longitude
-(or declination and right ascension) and distance.  Occasionally
-rectangular coordinates are used.  In such cases, the axes are:
-
-* X - towards vernal equinox = 0 degrees longitude
-* Y - 90 degrees longitude
-* Z - North
-
-## Galactic Coordinates ##
-
-This is a spherical coordinate system centered at the center of the
-galaxy.  The equator of this system is the mean galactic equator,
-and galactic "north" is in approximately the same direction as
-terrestrial north.  This coordinate system is not used here.
+See [Transformation of Coordinates](@ref transform) for a detailed discussion.
 
 
 # Common terminology #
-
 
 * **Meridian**: line in the sky, directly over the observer's head,
 running north & south.
@@ -106,11 +29,23 @@ running north & south.
 
 * **Nadir**: point directly down
 
-* **Altitude**: angle above the horizon
+* **RA/Right Ascension**: "longitude" of a body in Celestial Coordinates.
+See @ref transform.
 
-* **Azimuth**: angle along the horizon, measured to the right of North
-(sometimes South, depending on author.)  0° = North, 90° = East,
-etc.
+* **Declination**: "latitude" of a body in Celestial Coordinates.
+See @ref transform.
+
+* **Altitude**: angle above the horizon. See @ref transform.
+
+* **Azimuth**: angle along the horizon, measured clockwise from south.
+(sometimes north, depending on author.)  0° = South, 90° = West,
+etc.. See @ref transform.
+
+* **Celestial Coordinates**: see @ref transform
+* **Ecliptic Coordinates**: see @ref transform
+* **Geographic Coordinates**: see @ref transform
+* **Rectangular Coordinates**: see @ref transform
+* **Horizontal Coordinates**: see @ref transform
 
 * **Hour Angle**: an object's angle west of the meridian, measured in h:m:s.
 (= difference between object's RA and current sidereal time.)
@@ -133,13 +68,66 @@ the mean equator of the date
 the true (instantaneous) equator of the date. That is, the
 mean equinox corrected for nutation.
 
+* **Elongation**: The angular distance from the Sun to a body. See
+[Cosmos](https://astronomy.swin.edu.au/cosmos/e/elongation)
+
 * **Place of a star**: The star's location on the celestial sphere
 as seen from the center of the solar system, and referred to the
-mean equator, cliptic, and equinox of the date.
+mean equator, ecliptic, and equinox of the date.
 
 * **Apparent place of a star**: the star's location on the celestial sphere
 as seen from the Earth, and referred to the
 instantaneous equator, ecliptic, and equinox
+
+* **Aberration**: Change in the apparent position of a star caused
+by the relative motion of the observer (typically on Earth). See
+Wikipedia: [Aberration](https://en.wikipedia.org/wiki/Aberration_(astronomy\))
+
+* **Ephemeris time**: Time defined by the motions of the planets. This
+is a more precise and more consistent time than time measured by the
+rotation of the Earth, as the Earth's rate of rotation is actually
+somewhat variable, and is slowing down over the years. Ephemeris
+time was abandoned in 1983 in favor of dynamical time.
+
+* **Dynamical time**: The time defined by atomic clocks. This
+replaces ephemeris time.
+
+* **Barycentric dynamical time**: the dynamical time at the barycenter of the
+solar system.
+
+* **Terrestrial dynamical time**: the dynamical time at the Earth.
+This can vary from barycentric dynamical time by as much as 0.0017
+second due to relatavistic effects of the Earth's orbit.
+
+* **Anomoly**: The angle of an orbiting object around its primary,
+relative to perihelion.
+
+* **Mean Anomoly**: The anomoly assuming a circular orbit (i.e.
+taking the mean rate at which the object orbits). For example, 
+if the "zero" of the Earth's orbit is its perihelion, and today is two
+months after perihelion, then the anomoly of the Earth's orbit is
+somewhere around 60°.
+In short, it's the time passed multiplied by the rate of revolution.
+See [Wikipedia article](https://en.wikipedia.org/wiki/Mean_anomaly)
+
+* **True Anomoly**: The actual angle of a body around its primary. This
+is the mean anomoly corrected for an elliptical orbit.
+See [Wikipedia article](https://en.wikipedia.org/wiki/True_anomaly).
+Also known as **Eccentric Anomoly**.
+
+* **Barycenter**: The intertial center of a system, aka the center of gravity.
+The barycenter is the common point about which all the bodies in a system
+orbit. Usually refers to the barycenter of the solar system which is near
+the Sun. The barycenter of the Earth-Moon system is about 3000 miles (4800
+km) from the Earth's center, so actually within the Earth itself.
+See Nasa.gov [What is a Barycenter?](https://spaceplace.nasa.gov/barycenter/en/).
+
+* **Ascending Node**:  The point in a planet's orbit where it crosses the
+plane of Earth's orbit (the ecliptic) from south to north. For something
+orbiting the Earth, the Earth's equator is used instead of the ecliptic.
+
+* **Descending Node**:  The point where a planet passes the ecliptic
+from north to south.
 
 # Symbols used in Meeus #
 
@@ -216,11 +204,11 @@ year.  This mistake caused the loss of at least one ship.
 Call it a Y1800 problem.)
 
 ## Month ##
-The Moon revolves around the Earth every 27 days (TODO: exact).
+The Moon revolves around the Earth every 27 days, 7 hours and 43 minutes.
 This is a "sidereal month".
 
 A solar month is the time from new moon to new moon.  Approximately
-29 days.
+29.53 days.
 
 ## Day ##
 The Earth rotates around its axis in approximately 23:56:04.
@@ -265,16 +253,10 @@ The total difference between apparent solar time and mean solar time
 can be from zero to sixteen minutes.  The difference is computed
 with the "equation of time"
 
-* **Ascending Node**:  The point in a planet's orbit where it crosses the
-plane of Earth's orbit (the ecliptic) from south to north. For something
-orbiting the Earth, the Earth's equator is used instead of the ecliptic.
-
-* **Descending Node**:  The point where a planet passes the ecliptic
-from north to south.
 
 
 
-
+\anchor Orbits
 # Orbits #
 
 Planets orbit around the sun; moons orbit around their planets.
@@ -333,6 +315,8 @@ the size, **e** defines the shape, **w** sets the angle of the major axis.
 
 When describing satellite orbits, longitude of ascending node is
 replaced by Right Ascension of Ascending Node ("RAAN")
+
+Wikipedia article: https://en.wikipedia.org/wiki/Orbital_elements
 
 Excellent tutorial: https://www.amsat.org/keplerian-elements-tutorial/
 

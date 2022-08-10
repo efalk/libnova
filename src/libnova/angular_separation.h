@@ -26,6 +26,8 @@ extern "C" {
 #endif
 
 /*! \defgroup angular Angular Separation
+* \brief Compute the angle between two sets of coordinates
+* or compute the angle of one object relative to another.
 *
 * Functions relating to an the angular separation and position
 * angle between 2 bodies.

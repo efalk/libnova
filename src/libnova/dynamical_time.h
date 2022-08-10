@@ -27,8 +27,26 @@ extern "C" {
 
 /*!
 * \defgroup dynamical Dynamical Time
+* \brief Conversions related to dynamical time
 *
-* TODO
+* **Dynamical time** is the time defined by atomic clocks. It differs from
+* universal time, which is defined by the mean rotation of the Earth, which
+* can vary. Dynamical time is very steady.
+*
+* **Barycentric dynamical time**: the dynamnical time at the barycenter of the
+* solar system.
+*
+* **Terrestrial dynamical time**: the dynamical time at the Earth.
+* This can vary from barycentric dynamical time by as much as 0.0017
+* second due to relatavistic effects of the Earth's orbit.
+*
+* The difference between these two dynamical times is so small that libnova
+* does not distinguish them.
+*
+* `ln_get_dynamical_time_diff()` returns the difference between Universal
+* Time and Dynamical Time for a given date.
+*
+* `ln_get_jde()` returns the dynamical time for a given date.
 */
 
 /*! \fn double ln_get_dynamical_time_diff(double JD)

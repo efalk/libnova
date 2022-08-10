@@ -27,6 +27,7 @@ extern "C" {
 #endif
 
 /*! \defgroup calendar General Calendar Functions 
+* \brief Functions to convert between civil calendars and Julian dates
 */
  
 /*! \fn double ln_get_julian_day(struct ln_date *date)
@@ -42,7 +43,7 @@ double LIBNOVA_EXPORT ln_get_julian_day(struct ln_date *date);
 void LIBNOVA_EXPORT ln_get_date(double JD, struct ln_date *date);
 
 /*! \fn void ln_get_date_from_timet (time_t *t, struct ln_date *date)
-* \\ingroup calendar
+* \ingroup calendar
 * \brief Set date from system time
 */
 void LIBNOVA_EXPORT ln_get_date_from_timet (time_t *t, struct ln_date *date);

@@ -30,7 +30,7 @@ extern "C" {
 
 /*! \defgroup rst Rise, Set, Transit
 *
-* Functions relating to an objects rise, set and transit
+* \brief Functions relating to an object's rise, set and transit
 *
 * All angles are expressed in degrees.
 */

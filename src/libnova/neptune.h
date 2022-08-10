@@ -27,7 +27,7 @@ extern "C" {
 
 /*! \defgroup neptune Neptune
 *
-* Functions relating to the planet Neptune.
+* \brief Functions relating to the planet Neptune.
 *
 * All angles are expressed in degrees.
 */

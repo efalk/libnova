@@ -26,8 +26,7 @@ extern "C" {
 #endif
 
 /*! \defgroup refraction Atmospheric Refraction
-*
-* Functions relating to Atmospheric Refraction
+* \brief Functions relating to Atmospheric Refraction
 *
 * All angles are expressed in degrees.
 */

@@ -1135,7 +1135,7 @@ void ln_get_lunar_equ_coords_prec(double JD, struct ln_equ_posn *position,
 * \param position Pointer to a struct ln_lnlat_posn to store result.
 * \ingroup lunar
 *
-* Calculate the lunar RA and DEC for Julian day JD.
+* Calculate the lunar RA and DEC for Julian day JD at the highest precision.
 * Accuracy is better than 10 arcsecs in right ascension and 4 arcsecs in declination.
 */
 void ln_get_lunar_equ_coords(double JD, struct ln_equ_posn *position)
@@ -1152,6 +1152,9 @@ void ln_get_lunar_equ_coords(double JD, struct ln_equ_posn *position)
 *
 * Calculate the lunar longitude and latitude for Julian day JD.
 * Accuracy is better than 10 arcsecs in longitude and 4 arcsecs in latitude.
+*
+* Per Meeus, chapter 47, if you need higher precision than this, see
+* Chaperont's _Lunar Tables and Programs_.
 */
 void ln_get_lunar_ecl_coords(double JD, struct ln_lnlat_posn *position,
 	double precision)
@@ -1309,7 +1312,7 @@ double ln_get_lunar_sdiam(double JD)
 * \param JD Julian Day.
 * \return Longitude of ascending node in degrees.
 *
-* Calculate the mean longitude of the Moons ascening node
+* Calculate the mean longitude of the Moons ascending node
 * for the given Julian day.
 */
 double ln_get_lunar_long_asc_node(double JD)
@@ -1448,6 +1451,7 @@ void ln_get_lunar_subsolar_coords(double JD, struct ln_lnlat_posn *position)
 /*! \fn double ln_lunar_next_phase(double jd, double phase)
 * \param jd Julian Day
 * \param phase 0 for new moon, 0.25 for first quarter, 0.5 for full moon, 0.75 for last quarter
+* \return Julian day when the moon will next be at the specified phase.
 *
 * Find next moon phase relative to given time expressed as Julian Day.
 *
@@ -1473,6 +1477,7 @@ double ln_lunar_next_phase(double jd, double phase)
 /*! \fn double ln_lunar_previous_phase(double jd, double phase)
 * \param jd Julian Day
 * \param phase 0 for new moon, 0.25 for first quarter, 0.5 for full moon, 0.75 for last quarter
+* \return Julian day when the moon was last at the specified phase
 *
 * Find previous moon phase relative to given time expressed as Julian Day.
 *
@@ -1554,6 +1559,7 @@ double ln_lunar_previous_apsis(double jd, int apogee)
 /*! \fn double ln_lunar_next_node(double jd, int mode)
 * \param jd Julian Day
 * \param mode 0 for ascending, 1 for descending
+* \return Julian day when the moon will next be at the specified node.
 *
 * Find next moon node relative to given time expressed as Julian Day.
 *
@@ -1577,6 +1583,7 @@ double ln_lunar_next_node(double jd, int mode)
 /*! \fn double ln_lunar_previous_node(double jd, int mode)
 * \param jd Julian Day
 * \param mode 0 for ascending, 1 for descending
+* \return Julian day when the moon was last at the specified node.
 *
 * Find previous lunar node relative to given time expressed as Julian Day.
 *
