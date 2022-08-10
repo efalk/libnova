@@ -1,0 +1,42 @@
+
+
+PROGRAMS = \
+	lunar \
+	mars \
+	comet \
+	sun \
+	asteroid \
+	transforms
+
+lunar_SOURCES = \
+	lunar.c
+
+mars_SOURCES = \
+	mars.c
+
+comet_SOURCES = \
+	comet.c
+
+sun_SOURCES = \
+	sun.c
+
+asteroid_SOURCES = \
+	asteroid.c
+
+transforms_SOURCES = \
+	transforms.c
+
+CFLAGS = -Wall -I../src
+
+LIB = ../src/libnova.a
+
+all: ${PROGRAMS}
+
+${PROGRAMS}: %: %.o
+	${CC} -o $@ $@.o ${LIB}
+
+clean:
+	rm -f *.o
+
+spotless: clean
+	rm -f ${PROGRAMS}

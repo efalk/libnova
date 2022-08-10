@@ -1,0 +1,16 @@
+
+
+noinst_PROGRAMS = \
+	lntest
+
+lntest_SOURCES = \
+	test.c
+
+CFLAGS = \
+	 -Wall -I../src
+
+lntest_LDADD = \
+	../src/libnova.a
+
+lntest: test.o
+	${CC} -o $@ test.o ${lntest_LDADD}
